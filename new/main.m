@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <FacebookSDK/FacebookSDK.h>
 #import "WIPAppDelegate.h"
 
 int main(int argc, char *argv[])

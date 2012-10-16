@@ -1,23 +1,338 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2519" systemVersion="12A206j" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1856"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
-        <!--class Prefix:identifier View Controller-->
+        <!--View Controller-->
         <scene sceneID="4">
             <objects>
-                <viewController id="2" customClass="WIPViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WIPViewController" wantsFullScreenLayout="YES" modalTransitionStyle="flipHorizontal" hidesBottomBarWhenPushed="YES" id="2" customClass="WIPViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="wooden_top.jpeg" id="3QD-0p-p1P">
+                                <rect key="frame" x="0.0" y="-14" width="768" height="1045"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView autoresizesSubviews="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" image="compass_background.png" id="ztA-Yk-7td">
+                                <rect key="frame" x="0.0" y="99" width="768" height="768"/>
+                            </imageView>
+                            <view alpha="0.10000000000000001" contentMode="scaleToFill" id="r7L-ne-IWt">
+                                <rect key="frame" x="81" y="474" width="606" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleToFill" id="m0Z-BV-D4a">
+                                        <rect key="frame" x="574" y="0.0" width="32" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <view alpha="0.10000000149011612" contentMode="scaleToFill" id="QmA-ev-dIa">
+                                                <rect key="frame" x="-574" y="0.0" width="606" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <view userInteractionEnabled="NO" alpha="0.80000001192092896" contentMode="scaleToFill" id="1aZ-o2-Ucy">
+                                                        <rect key="frame" x="574" y="0.0" width="32" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label LabelLabel LabelLabel LabelLabelabel LabelLabel Label" textAlignment="center" lineBreakMode="clip" numberOfLines="4" minimumScaleFactor="0.30000000000000016" id="tZF-V0-dEH">
+                                <rect key="frame" x="143" y="843" width="470" height="152"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Italic" family="Baskerville" pointSize="35"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" alpha="0.30000000000000016" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0jj-Xt-vy0">
+                                <rect key="frame" x="326" y="43" width="117" height="49"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="18"/>
+                                <state key="normal" title="Neues Spiel">
+                                    <color key="titleColor" red="0.60784316059999999" green="0.40784317260000003" blue="0.2470588386" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToMenu:" destination="2" eventType="touchUpInside" id="Iva-Dk-k5d"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" image="Unbenannt-1.png" id="qcz-aJ-Nkw" userLabel="1">
+                                <rect key="frame" x="227" y="399" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" image="Unbenannt-1.png" id="VQy-52-bqG" userLabel="2">
+                                <rect key="frame" x="394" y="563" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" image="Unbenannt-1.png" id="qxq-Zu-xWj" userLabel="3">
+                                <rect key="frame" x="227" y="563" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" image="Unbenannt-1.png" id="BPr-Du-elm" userLabel="4">
+                                <rect key="frame" x="394" y="399" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text=" Mitspieler?" textAlignment="center" lineBreakMode="clip" numberOfLines="2" adjustsFontSizeToFit="NO" id="uVn-5e-Fjc">
+                                <rect key="frame" x="149" y="230" width="471" height="194"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="77"/>
+                                <color key="textColor" red="0.60784316059999999" green="0.40784317260000003" blue="0.2470588386" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Spielername" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" id="mYK-aR-0Wj">
+                                <rect key="frame" x="255" y="470" width="247" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="textColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                <fontDescription key="fontDescription" name="Baskerville" family="Baskerville" pointSize="24"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" keyboardType="alphabet" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="spielerNameEntered:" destination="2" eventType="editingDidEndOnExit" id="RZ1-mi-LM7"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dxm-qM-5AO" userLabel="Spieler 1">
+                                <rect key="frame" x="21" y="23" width="149" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ntc-hn-jVu" userLabel="Spieler 2">
+                                <rect key="frame" x="598" y="854" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p2p-a1-1GV" userLabel="Spieler 3">
+                                <rect key="frame" x="20" y="854" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="POD-Nh-eIM" userLabel="Spieler 4">
+                                <rect key="frame" x="598" y="20" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" none="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" alpha="0.10000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jUz-yH-Z7d">
+                                <rect key="frame" x="335" y="0.0" width="99" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Gastgeber">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="gastgeberTapped:" destination="2" eventType="touchUpInside" id="OGR-Nf-qTL"/>
+                                </connections>
+                            </button>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="1" textAlignment="center" lineBreakMode="characterWrap" minimumScaleFactor="0.10100000000000001" adjustsLetterSpacingToFitWidth="YES" id="qIT-0p-LTy" userLabel="1">
+                                <rect key="frame" x="20" y="23" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="102"/>
+                                <color key="textColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="2" textAlignment="center" lineBreakMode="characterWrap" minimumScaleFactor="0.10100000000000001" adjustsLetterSpacingToFitWidth="YES" id="eIA-DC-iXV" userLabel="2">
+                                <rect key="frame" x="598" y="854" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="102"/>
+                                <color key="textColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="3" textAlignment="center" lineBreakMode="characterWrap" minimumScaleFactor="0.10100000000000001" adjustsLetterSpacingToFitWidth="YES" id="Fzq-KI-Rlf" userLabel="3">
+                                <rect key="frame" x="20" y="854" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="102"/>
+                                <color key="textColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="4" textAlignment="center" lineBreakMode="characterWrap" minimumScaleFactor="0.10100000000000001" adjustsLetterSpacingToFitWidth="YES" id="Vv3-zb-8uX" userLabel="4">
+                                <rect key="frame" x="598" y="20" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="102"/>
+                                <color key="textColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="M96-2x-k9v">
+                                <rect key="frame" x="227" y="563" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="102"/>
+                                <state key="normal" title="3">
+                                    <color key="titleColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPlayerSetup:" destination="2" eventType="touchUpInside" id="aRd-gh-sHb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cvU-CN-CYX">
+                                <rect key="frame" x="394" y="399" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="102"/>
+                                <state key="normal" title="4">
+                                    <color key="titleColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPlayerSetup:" destination="2" eventType="touchUpInside" id="39a-M3-uIg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ndi-Sc-eNP" userLabel="Button - 1">
+                                <rect key="frame" x="227" y="399" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="102"/>
+                                <state key="normal" title="1">
+                                    <color key="titleColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPlayerSetup:" destination="2" eventType="touchUpInside" id="9JG-Je-5sE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OAE-7C-du6">
+                                <rect key="frame" x="394" y="563" width="150" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Baskerville-Bold" family="Baskerville" pointSize="102"/>
+                                <state key="normal" title="2">
+                                    <color key="titleColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectPlayerSetup:" destination="2" eventType="touchUpInside" id="mel-rv-J9d"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.59215688705444336" green="0.23921570181846619" blue="0.08235294371843338" alpha="1" colorSpace="deviceRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="glass1" destination="qcz-aJ-Nkw" id="02O-iI-TLM"/>
+                        <outlet property="glass2" destination="VQy-52-bqG" id="Vq1-Ko-V1B"/>
+                        <outlet property="glass3" destination="qxq-Zu-xWj" id="2kx-3d-d1M"/>
+                        <outlet property="glass4" destination="BPr-Du-elm" id="vTe-Eh-cVb"/>
+                        <outlet property="kompassScheibe" destination="ztA-Yk-7td" id="Es1-kD-XbF"/>
+                        <outlet property="locationLabel" destination="tZF-V0-dEH" id="4Bu-4S-44k"/>
+                        <outlet property="menuLabel" destination="uVn-5e-Fjc" id="VCr-tt-Amv"/>
+                        <outlet property="spieler1" destination="dxm-qM-5AO" id="Y9f-Te-zuw"/>
+                        <outlet property="spieler1Btn" destination="ndi-Sc-eNP" id="4IM-9y-k43"/>
+                        <outlet property="spieler1Lbl" destination="qIT-0p-LTy" id="VZx-EO-vAy"/>
+                        <outlet property="spieler2" destination="Ntc-hn-jVu" id="IaP-KX-K61"/>
+                        <outlet property="spieler2Btn" destination="OAE-7C-du6" id="Vny-qO-DgT"/>
+                        <outlet property="spieler2Lbl" destination="eIA-DC-iXV" id="OaW-d8-DEG"/>
+                        <outlet property="spieler3" destination="p2p-a1-1GV" id="DQF-d6-dzO"/>
+                        <outlet property="spieler3Btn" destination="M96-2x-k9v" id="fHv-uW-9Jh"/>
+                        <outlet property="spieler3Lbl" destination="Fzq-KI-Rlf" id="2On-ZW-s45"/>
+                        <outlet property="spieler4" destination="POD-Nh-eIM" id="cQB-X7-y3Y"/>
+                        <outlet property="spieler4Btn" destination="cvU-CN-CYX" id="X1D-1r-sAN"/>
+                        <outlet property="spieler4Lbl" destination="Vv3-zb-8uX" id="Kzm-AD-RrI"/>
+                        <outlet property="spielerName" destination="mYK-aR-0Wj" id="lmu-Po-34e"/>
+                        <outlet property="zeiger" destination="r7L-ne-IWt" id="bD0-tP-wF0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="aeQ-vP-bu8">
+                    <connections>
+                        <action selector="singleBottleTap:" destination="2" id="OIq-7a-T6v"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="111" y="-57"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="2Fv-Fl-PXw">
+            <objects>
+                <viewController id="FMk-ia-POi" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4yW-jp-8lT">
+                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="blu-hY-832">
+                                <rect key="frame" x="20" y="70" width="728" height="141"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w3U-QW-bw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="923" y="-57"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Unbenannt-1.png" width="333" height="333"/>
+        <image name="compass_background.png" width="768" height="768"/>
+        <image name="wooden_top.jpeg" width="1440" height="900"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

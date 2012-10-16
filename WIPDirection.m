@@ -14,40 +14,29 @@
 @synthesize LocationLatt = mLocationLatt;
 @synthesize LocationName = mLocationName;
 
+#define degreesToRadians(x) (M_PI * x / 180.0)
+#define radiandsToDegrees(x) (x * 180.0 / M_PI)
 
-- (NSString*) performDirectionCalculation: (NSString*) pLocationName withLocationLong: (double) pLocationLong withLocationLatt: (double) pLocationLatt{
+- (double) performDirectionCalculation: (Location*) pLocation withMyPosition:(CLLocationCoordinate2D)pMyPosition{
     
+    NSLog(@"PERFORM DIRECTION CALCULATION FOR: %@ %@ %@", pLocation.name, pLocation.latti, pLocation.longi);
+    NSLog(@"IN REGARDS TO MY POSITION: %f %f",  pMyPosition.latitude,  pMyPosition.longitude);
+   
+    float fLat = degreesToRadians(pMyPosition.latitude);
+    float fLng = degreesToRadians(pMyPosition.longitude);
+    float tLat = degreesToRadians([pLocation.latti doubleValue]);
+    float tLng = degreesToRadians([pLocation.longi doubleValue]);
     
-
-   // CLLocationCoordinate2D here =  location.coordinate;
+    float degree = radiandsToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
     
-    //float userAngle = [self calculateUserAngle:here];
-    
-    NSLog(@"pLocationName: %@ pLocationName: %g pLocationName: %g", pLocationName, pLocationLong, pLocationLatt);
-    
-    return @"0";
+    if (degree >= 0) {
+        return degree;
+    } else {
+        return 360+degree;
+    }
     
 }
 
-
--(float) calculateUserAngle:(double) lat1 withLong1: (double) long1 withLat2: (double) lat2 withLong2: (double) long2 {
-
-
-    float dy = lat2 - lat1;
-    
-    NSLog(@"RICHTUNG INTERN %f",dy);
-    float dx = cosf(M_PI/180*lat1)*(long2 - long1);
-    
-     NSLog(@"RICHTUNG INTERN %f",dx);
-    float angle = atan2f(dy, dx);
-    
-    
-    NSLog(@"RICHTUNG INTERN %f",angle);
-    
-    NSLog(@"RICHTUNG INTERN %f",(angle*180/M_PI));
-    
-    return angle;
-}
 
 @end
 
