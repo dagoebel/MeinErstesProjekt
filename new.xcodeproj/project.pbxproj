@@ -25,8 +25,8 @@
 		AA4250451627F05D00152714 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8B1541161315A700752349 /* Foundation.framework */; };
 		AA4250461627F05D00152714 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8B153F161315A700752349 /* UIKit.framework */; };
 		AA4250481627F26D00152714 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4250471627F26D00152714 /* QuartzCore.framework */; };
-		AA42505316280E9800152714 /* WIPAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = AA42505216280E9800152714 /* WIPAnimations.m */; };
 		AA64E6D916293CE800E4C515 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AA64E6D816293CE800E4C515 /* Player.m */; };
+		AA7396BA162D9D9600A8C3C1 /* WIPAnimations.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7396B9162D9D9600A8C3C1 /* WIPAnimations.m */; };
 		AA824AEF162AC0A300522ACB /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA824AEE162AC0A300522ACB /* FacebookSDK.framework */; };
 		AA824AF1162AC3F900522ACB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA824AF0162AC3F900522ACB /* Social.framework */; };
 		AA824AF3162AC40000522ACB /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA824AF2162AC40000522ACB /* Accounts.framework */; };
@@ -56,7 +56,6 @@
 		AAA117B31623121300A3A3A6 /* bottle.png in Resources */ = {isa = PBXBuildFile; fileRef = AAA117B21623121300A3A3A6 /* bottle.png */; };
 		AAAB8D9F162AE07A006AD9AA /* WIPFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB8D9E162AE07A006AD9AA /* WIPFacebook.m */; };
 		AAAB8DA3162AE1E3006AD9AA /* FPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB8DA2162AE1E3006AD9AA /* FPViewController.m */; };
-		AAAC8122162B30B70084B18C /* kompassnadel.png in Resources */ = {isa = PBXBuildFile; fileRef = AAAC8121162B30B70084B18C /* kompassnadel.png */; };
 		AAB84FC81626F99B0025FDFD /* WIPGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB84FC71626F99B0025FDFD /* WIPGameController.m */; };
 		AAF320981615E63A00D7E0BD /* wooden_top.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AAF320971615E63A00D7E0BD /* wooden_top.jpeg */; };
 		AAF320A41618AEEB00D7E0BD /* WIPDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF320A31618AEEB00D7E0BD /* WIPDirection.m */; };
@@ -90,10 +89,10 @@
 		AA42503A1627EEC800152714 /* ANImageWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANImageWheel.h; sourceTree = "<group>"; };
 		AA42503B1627EEC900152714 /* ANImageWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ANImageWheel.m; sourceTree = "<group>"; };
 		AA4250471627F26D00152714 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		AA42505116280E9800152714 /* WIPAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WIPAnimations.h; path = "../../../../Desktop/UIAnimationSamples-1/UIAnimationSamples/WIPAnimations.h"; sourceTree = "<group>"; };
-		AA42505216280E9800152714 /* WIPAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WIPAnimations.m; path = "../../../../Desktop/UIAnimationSamples-1/UIAnimationSamples/WIPAnimations.m"; sourceTree = "<group>"; };
 		AA64E6D716293CE800E4C515 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		AA64E6D816293CE800E4C515 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		AA7396B8162D9D9600A8C3C1 /* WIPAnimations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIPAnimations.h; sourceTree = "<group>"; };
+		AA7396B9162D9D9600A8C3C1 /* WIPAnimations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIPAnimations.m; sourceTree = "<group>"; };
 		AA824AEE162AC0A300522ACB /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../FacebookSDK/build/FacebookSDK.framework; sourceTree = "<group>"; };
 		AA824AF0162AC3F900522ACB /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		AA824AF2162AC40000522ACB /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
@@ -138,7 +137,6 @@
 		AAAB8D9E162AE07A006AD9AA /* WIPFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIPFacebook.m; sourceTree = "<group>"; };
 		AAAB8DA1162AE1E3006AD9AA /* FPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPViewController.h; sourceTree = "<group>"; };
 		AAAB8DA2162AE1E3006AD9AA /* FPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPViewController.m; sourceTree = "<group>"; };
-		AAAC8121162B30B70084B18C /* kompassnadel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = kompassnadel.png; path = ../../../Desktop/kompassnadel.png; sourceTree = "<group>"; };
 		AAB84FC61626F99B0025FDFD /* WIPGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIPGameController.h; sourceTree = "<group>"; };
 		AAB84FC71626F99B0025FDFD /* WIPGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIPGameController.m; sourceTree = "<group>"; };
 		AAF320971615E63A00D7E0BD /* wooden_top.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = wooden_top.jpeg; path = new/wooden_top.jpeg; sourceTree = "<group>"; };
@@ -250,8 +248,8 @@
 				AA4250391627EEC800152714 /* ANSpinWheel.m */,
 				AA42503A1627EEC800152714 /* ANImageWheel.h */,
 				AA42503B1627EEC900152714 /* ANImageWheel.m */,
-				AA42505116280E9800152714 /* WIPAnimations.h */,
-				AA42505216280E9800152714 /* WIPAnimations.m */,
+				AA7396B8162D9D9600A8C3C1 /* WIPAnimations.h */,
+				AA7396B9162D9D9600A8C3C1 /* WIPAnimations.m */,
 				AAAB8D9D162AE07A006AD9AA /* WIPFacebook.h */,
 				AAAB8D9E162AE07A006AD9AA /* WIPFacebook.m */,
 				AAAB8DA1162AE1E3006AD9AA /* FPViewController.h */,
@@ -306,7 +304,6 @@
 				AA8B1557161315A700752349 /* MainStoryboard_iPhone.storyboard */,
 				AA8B155A161315A700752349 /* MainStoryboard_iPad.storyboard */,
 				AAF320B01619B90100D7E0BD /* compass.png */,
-				AAAC8121162B30B70084B18C /* kompassnadel.png */,
 				AA33F138162986B40045FC78 /* jaeger.png */,
 				AAF320B41619BAF700D7E0BD /* Unbenannt-1.png */,
 				AAF320971615E63A00D7E0BD /* wooden_top.jpeg */,
@@ -421,7 +418,6 @@
 				AA33F13C162987030045FC78 /* jaeger1.png in Resources */,
 				AA33F13E1629873C0045FC78 /* jj1.png in Resources */,
 				AA824AF7162AC4F900522ACB /* FacebookSDKResources.bundle in Resources */,
-				AAAC8122162B30B70084B18C /* kompassnadel.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,8 +483,8 @@
 				AAF320AE1618DB6200D7E0BD /* WIPLocationController.m in Sources */,
 				AA42503C1627EEC900152714 /* ANSpinWheel.m in Sources */,
 				AA42503D1627EEC900152714 /* ANImageWheel.m in Sources */,
-				AA42505316280E9800152714 /* WIPAnimations.m in Sources */,
 				AAAB8DA3162AE1E3006AD9AA /* FPViewController.m in Sources */,
+				AA7396BA162D9D9600A8C3C1 /* WIPAnimations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

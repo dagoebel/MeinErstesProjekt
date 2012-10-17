@@ -66,33 +66,6 @@ static int curveValues[] = {
 	[CLController.locMgr startUpdatingLocation];
     [CLController.locMgr startUpdatingHeading];
     
-
-    
-    // FBSample logic
-    // if the session is open, then load the data for our view controller
-    if (!FBSession.activeSession.isOpen) {
-        // if the session is closed, then we open it here, and establish a handler for state changes
-        [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
-                                                             FBSessionState state,
-                                                             NSError *error) {
-            switch (state) {
-                case FBSessionStateClosedLoginFailed:
-                {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                        message:error.localizedDescription
-                                                                       delegate:nil
-                                                              cancelButtonTitle:@"OK"
-                                                              otherButtonTitles:nil];
-                    [alertView show];
-                }
-                    break;
-                default:
-                    break;
-            }
-        }];
-    }
-    
- 
 }
 
 
@@ -398,6 +371,7 @@ static int curveValues[] = {
     [mWIPGameController deletePlayer];
   
     currentPlayer = 1;
+    [spielerName becomeFirstResponder];
         
         }
 }
@@ -428,12 +402,14 @@ static int curveValues[] = {
         [self stopPulsateUIImageView:self.glass2];
          spieler2Lbl.text = spielerNameValue;
         [self pulsateUIImageView:self.glass3];
+        [spielerName becomeFirstResponder];
     }
     
     if (currentPlayer==4) {
         [self stopPulsateUIImageView:self.glass3];
          spieler3Lbl.text = spielerNameValue;
         [self pulsateUIImageView:self.glass4];
+        [spielerName becomeFirstResponder];
     }
     
     
@@ -446,6 +422,15 @@ static int curveValues[] = {
     if (currentPlayer==anzahlPlayer+1) {
         [self startGame];
     }
+    else{
+        
+         [spielerNameField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1f];
+
+    }
+    
+    
+    
+ 
     
    
 }
@@ -629,8 +614,9 @@ static int curveValues[] = {
     
     mWIPFacebook = [[WIPFacebook alloc] init];
     
-    [self presentViewController:[mWIPFacebook pickFriendsButtonClick] animated:YES completion:nil ];
-
+   // [self presentViewController:[mWIPFacebook pickFriendsButtonClick] animated:YES completion:nil ];
+    
+    [mWIPFacebook sendRequestToFacebook:@"2"];
 
 }
 @end

@@ -14,6 +14,10 @@
 
 - (void) checkSession;
 - (UIViewController *) pickFriendsButtonClick;
+- (NSDictionary *)sendRequestToFacebook:(NSString*) request;
+
+
+- (void)buttonRequestClickHandler;
 
 @end
 
