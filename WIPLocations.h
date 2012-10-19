@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Location.h"
+#import "Question.h"
 
 @interface WIPLocations : NSObject;
 
@@ -19,7 +19,7 @@
 - (NSURL *)applicationDocumentsDirectory;
 
 
-- (Location*) selectLocation;
+- (Question*) selectLocation;
 - (void) createLocations;
 
 

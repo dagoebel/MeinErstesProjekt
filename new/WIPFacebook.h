@@ -8,13 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "Question.h"
 
 
 @interface WIPFacebook : NSObject <FBFriendPickerDelegate>
 
-- (void) checkSession;
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+- (BOOL) checkFBSession;
 - (UIViewController *) pickFriendsButtonClick;
-- (NSDictionary *)sendRequestToFacebook:(NSString*) request;
+- (void)sendRequestToFacebook:(NSString*) request;
 
 
 - (void)buttonRequestClickHandler;

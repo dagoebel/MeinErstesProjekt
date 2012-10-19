@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA0EBFAB162984F70058ED8D /* jaegermeister.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0EBFAA162984F70058ED8D /* jaegermeister.png */; };
+		AA32074E16319F26003688B3 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32074D16319F26003688B3 /* Question.m */; };
 		AA33F139162986B40045FC78 /* jaeger.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F138162986B40045FC78 /* jaeger.png */; };
 		AA33F13C162987030045FC78 /* jaeger1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13B162987030045FC78 /* jaeger1.png */; };
 		AA33F13E1629873C0045FC78 /* jj1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13D1629873C0045FC78 /* jj1.png */; };
@@ -79,6 +80,8 @@
 
 /* Begin PBXFileReference section */
 		AA0EBFAA162984F70058ED8D /* jaegermeister.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaegermeister.png; sourceTree = "<group>"; };
+		AA32074C16319F26003688B3 /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
+		AA32074D16319F26003688B3 /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
 		AA33F138162986B40045FC78 /* jaeger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaeger.png; sourceTree = "<group>"; };
 		AA33F13B162987030045FC78 /* jaeger1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaeger1.png; sourceTree = "<group>"; };
 		AA33F13D1629873C0045FC78 /* jj1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jj1.png; sourceTree = "<group>"; };
@@ -324,6 +327,8 @@
 				AAA117AA161EF91000A3A3A6 /* CoreDataHelper.m */,
 				AA64E6D716293CE800E4C515 /* Player.h */,
 				AA64E6D816293CE800E4C515 /* Player.m */,
+				AA32074C16319F26003688B3 /* Question.h */,
+				AA32074D16319F26003688B3 /* Question.m */,
 			);
 			name = "Core Date";
 			sourceTree = "<group>";
@@ -472,6 +477,7 @@
 				AAB84FC81626F99B0025FDFD /* WIPGameController.m in Sources */,
 				AA64E6D916293CE800E4C515 /* Player.m in Sources */,
 				AAAB8D9F162AE07A006AD9AA /* WIPFacebook.m in Sources */,
+				AA32074E16319F26003688B3 /* Question.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

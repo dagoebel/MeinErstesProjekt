@@ -8,6 +8,9 @@
 
 #import "WIPAppDelegate.h"
 #import "WIPFacebook.h"
+#import "CoreDataHelper.h"
+#import "Question.h"
+#import "WIPViewController.h"
 
 // FBSample logic
 // We need to handle some of the UX events related to friend selection, and so we declare
@@ -38,131 +41,279 @@
 @synthesize friendPickerController = _friendPickerController;
 @synthesize requestConnection = _requestConnection;
 
-#pragma mark View lifecycle
-
-- (void)checkSession {
+- (void)sendRequestToFacebook:(NSString*) query{
     
-    // FBSample logic
-    // if the session is open, then load the data for our view controller
+   if([self checkFBSession])
+   {
+       [self queryFacebook:query];
+   }
+}
+
+- (BOOL)checkFBSession {
+    
+    static bool conectionEnabled = nil;
+    
+    NSArray *permissions = [[NSArray alloc] initWithObjects:
+                            @"user_location",
+                            @"user_birthday",
+                            @"user_likes",
+                            @"friends_location",
+                            @"friends_hometown",
+                            @"friends_checkins",
+                            nil];
+    
     if (!FBSession.activeSession.isOpen) {
-        // if the session is closed, then we open it here, and establish a handler for state changes
-        [FBSession.activeSession openWithCompletionHandler:^(FBSession *session,
-                                                             FBSessionState state,
-                                                             NSError *error) {
-            switch (state) {
-                case FBSessionStateClosedLoginFailed:
-                {
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                        message:error.localizedDescription
-                                                                       delegate:nil
-                                                              cancelButtonTitle:@"OK"
-                                                              otherButtonTitles:nil];
-                    [alertView show];
-                }
-                    break;
-                default:
-                    break;
-            }
-        }];
+        [FBSession openActiveSessionWithReadPermissions:permissions allowLoginUI:YES completionHandler:^(FBSession *session, FBSessionState status, NSError *error)
+         {
+             if (error) {
+                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                 [alert show];
+                 conectionEnabled = false;
+             } else if (FB_ISSESSIONOPENWITHSTATE(status))
+             {
+                 conectionEnabled = true;
+             }
+         }];
     }
+    return conectionEnabled;
+}
+
+- (void)queryFacebook: (NSString*) query {
+    
+    FBRequestConnection *newConnection = [[FBRequestConnection alloc] init];
+
+    FBRequestHandler handler =
+    ^(FBRequestConnection *connection, id result, NSError *error) {
+        [self processLocations:connection result:result error:error];
+    };
+    
+    FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession graphPath:query];
+    
+    [newConnection addRequest:request completionHandler:handler];    
+    [self.requestConnection cancel];    
+    self.requestConnection = newConnection;
+    [newConnection start];
 }
 
 
-#pragma mark UI handlers
+- (void)processLocations:(FBRequestConnection *)connection result:(id)result error:(NSError *)error {
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    [CoreDataHelper deleteAllObjectsForEntity:@"Question" andContext:mainDelegate.managedObjectContext];
 
-- (UIViewController *)pickFriendsButtonClick {
-    if (self.friendPickerController == nil) {
-        // Create friend picker, and get data loaded into it.
-        self.friendPickerController = [[FBFriendPickerViewController alloc] init];
-        
-        self.friendPickerController.title = @"Pick Friends";
-        self.friendPickerController.delegate = self;
+
+    if (self.requestConnection &&
+        connection != self.requestConnection) {
+        return;
     }
+    self.requestConnection = nil;
     
-    [self.friendPickerController loadData];
+    NSString *text;
     
-    
-    
-    
-    
-    FBRequest* friendsRequest = [FBRequest requestForMyFriends];
-    [friendsRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
-                                                  NSDictionary* result,
-                                                  NSError *error) {
-        NSArray* friends = [result objectForKey:@"data"];
-        NSLog(@"Found: %i friends", friends.count);
-        for (NSDictionary<FBGraphUser>* friend in friends) {
-            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.id);
-        }
-    }];
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    [self.friendPickerController clearSelection];
-    
-    // iOS 5.0+ apps should use [UIViewController presentViewController:animated:completion:]
-    // rather than this deprecated method, but we want our samples to run on iOS 4.x as well.
-    //[self presentModalViewController:self.friendPickerController animated:YES];
-    return self.friendPickerController;
-    
-}
+    if (error) {
+        text = error.localizedDescription;
+    } else {
+        NSDictionary *dictionary = (NSDictionary *)result;
+        text = (NSString *)[dictionary objectForKey:@"data"];
+    }
 
-
-
-
-
-#pragma mark UI handlers
-
-- (NSDictionary *)sendRequestToFacebook:(NSString*) request {
-   
-
-    
-    FBRequest* newRequest = [FBRequest requestForGraphPath:@"me/friends?fields=location,name"];
-    [newRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
-                                                  NSDictionary* result,
-                                                  NSError *error) {
-        NSArray* friends = [result objectForKey:@"data"];
-        
-          
-        
-     
-        
-        for (NSDictionary<FBGraphUser>* friend in friends) {
-            NSLog(@"!!I have a friend named %@ with id %@", friend.name, friend.location);
-            
-
-        
-            
-        }
-        
-        [self buttonRequestClickHandler];
-        
-        
-        
-    
-        
-        
-        
-        
-        
-        
-      
-        
-        
-    }];
+   //NSLog(@"%@",result);
+    NSArray* friends = [result objectForKey:@"data"];
     
     
-    
-    
+    [self processParsedObject:friends];
   
 }
+
+- (void)saveQuestion:(NSDictionary*) newQuestion {
+             
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    Question *question = [NSEntityDescription insertNewObjectForEntityForName:@"Question" inManagedObjectContext:mainDelegate.managedObjectContext];
+    
+    question.person_name=[newQuestion valueForKey:@"person_name"];
+    question.person_id=[newQuestion valueForKey:@"person_id"];
+    question.place_name=[newQuestion valueForKey:@"place_name"];
+    question.place_id=[newQuestion valueForKey:@"place_id"];
+    question.tags_name=[newQuestion valueForKey:@"tags_name"];
+    question.tags_id=[newQuestion valueForKey:@"tags_id"];
+    question.place_location_city=[newQuestion valueForKey:@"place_location_city"];
+    question.place_location_latitude=[newQuestion valueForKey:@"place_location_latitude"];
+    question.place_location_longitude=[newQuestion valueForKey:@"place_location_longitude"];
+    question.place_location_street=[newQuestion valueForKey:@"place_location_street"];
+    question.place_location_zip=[newQuestion valueForKey:@"place_location_zip"];
+    question.created_time=[newQuestion valueForKey:@"created_time"];
+    question.from_id=[newQuestion valueForKey:@"from_id"];
+    question.from_name=[newQuestion valueForKey:@"from_name"];
+    
+     NSLog(@"%@",question);
+    
+    [mainDelegate.managedObjectContext save:nil];
+    
+}
+
+-(void)processParsedObject:(id)object{
+    [self processParsedObject:object depth:0 parent:nil];
+}
+
+-(void)processParsedObject:(id)object depth:(int)depth parent:(id)parent{
+    
+   if([object isKindOfClass:[NSArray class]]){
+        
+        for(id child in object){
+            
+            NSString *person_name= nil;
+            NSString *person_id= nil;
+            
+            person_name = [child valueForKey:@"name"];
+            person_id = [child valueForKey:@"id"];
+            
+            if([child objectForKey:@"locations"] !=nil)
+            {
+                
+                NSString *place_name= nil;
+                NSString *place_id= nil;
+                NSString *tags_name= nil;
+                NSString *tags_id= nil;
+                NSString *place_location_city= nil;
+                NSNumber *place_location_latitude= nil;
+                NSNumber *place_location_longitude= nil;
+                NSString *place_location_street= nil;
+                NSString *place_location_zip= nil;
+                NSString *created_time= nil;
+                NSString *from_id= nil;
+                NSString *from_name= nil;
+               
+                id locations = [child objectForKey:@"locations"];
+                
+                NSArray* data = [locations objectForKey:@"data"];
+            
+                for (id checkin in data) {
+              
+                    ////////// LOCATION NAME //////////////
+                    NSDictionary<FBGraphPlace> *place = [checkin objectForKey:@"place"];
+                    
+                    
+                    place_name = place.name;
+                    place_id = place.id;
+                    created_time = [checkin valueForKey:@"created_time"];
+                    
+               
+                    ///// LOCATION city property, country property, latitude property, longitude property,  state property, street property, zip proper                    
+                    id placeRaw = [checkin objectForKey:@"place"];
+                    NSDictionary<FBGraphLocation> *location = [placeRaw objectForKey:@"location"];
+                    if(![location isKindOfClass:[NSString class]]){
+                        
+                        place_id = [placeRaw valueForKey:@"id"];
+                        place_location_city = location.city;
+                        place_location_latitude = location.latitude;
+                        place_location_longitude = location.longitude;
+                        place_location_street = location.street;
+                        place_location_zip = location.zip;
+                    }
+                
+                
+                    id tagsData = [checkin objectForKey:@"tags"];
+                    NSArray* tags  = [tagsData objectForKey:@"data"];
+                
+                    for (id tag in tags) {
+                        ////////// MIT LEUTEN //////////////
+                        tags_id = [tag valueForKey:@"id"];
+                        tags_name = [tag valueForKey:@"name"];
+                    }
+                    
+                    NSDictionary *newQuestion = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                 person_name, @"person_name",
+                                                 person_id, @"person_id",
+                                                 place_name, @"place_name",
+                                                 place_id, @"place_id",
+                                                 tags_name, @"tags_name",
+                                                 tags_id, @"tags_id",
+                                                 place_location_city, @"place_location_city",
+                                                 place_location_latitude, @"place_location_latitude",
+                                                 place_location_longitude, @"place_location_longitude",
+                                                 place_location_street, @"place_location_street",
+                                                 place_location_zip, @"place_location_zip",
+                                                 created_time, @"created_time",
+                                                 from_id, @"from_id",
+                                                 from_name, @"from_name", nil];
+                    
+                    
+                    if (place_location_latitude!=nil&&place_location_longitude!=nil&&place_name!=nil) {
+                        [self saveQuestion: newQuestion];
+                    }
+                
+
+                }
+                
+                             
+                // [self processParsedObject:child depth:depth+1 parent:object];
+                
+                
+                
+                
+                
+            }
+            
+            
+            
+        }
+        
+    }
+    else{
+        //This object is not a container you might be interested in it's value
+        //NSLog(@"OBJECT: %@  depth: %d",object,depth);
+    }
+    
+    
+}
+
+
+- (void)showQuestion{
+
+    
+        WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+        Question *question = [CoreDataHelper getRandomObjectsForEntity:@"Question" withSortKey:@"place_id" andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    
+        NSLog(@"question.locationname %@",question );
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
@@ -178,16 +329,10 @@
         NSLog(@"ads %@",user.name);
         [text appendString:user.name];
         
-        
-        
-       
-        
-        
         self.friendPickerController = [[FBRequest alloc] init];
-
+        
         // Do not set current API as this is commonly called by other methods
         WIPFacebook *delegate = (WIPFacebook *)[[UIApplication sharedApplication] delegate];
-                
         
     }
     
@@ -206,155 +351,35 @@
 
 
 
-
-
-
-
-// When the button is clicked, make sure we have a valid session and
-// call sendRequests.
-//
-- (void)buttonRequestClickHandler{
-    
-    
-    NSArray *permissions = [[NSArray alloc] initWithObjects:
-                            @"user_location",
-                            @"user_birthday",
-                            @"user_likes",
-                            @"friends_location",
-                            @"friends_hometown",
-                            @"friends_checkins",
-                            nil];
-
-    NSLog(@"Session is open %@", FBSession.activeSession);
-    
-   
-        [FBSession openActiveSessionWithReadPermissions:permissions
-                                           allowLoginUI:YES
-                                      completionHandler:^(FBSession *session,
-                                                          FBSessionState status,
-                                                          NSError *error) {
-                                          // if login fails for any reason, we alert
-                                          if (error) {
-                                              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                                              message:error.localizedDescription
-                                                                                             delegate:nil
-                                                                                    cancelButtonTitle:@"OK"
-                                                                                    otherButtonTitles:nil];
-                                              [alert show];
-                                              // if otherwise we check to see if the session is open, an alternative to
-                                              // to the FB_ISSESSIONOPENWITHSTATE helper-macro would be to check the isOpen
-                                              // property of the session object; the macros are useful, however, for more
-                                              // detailed state checking for FBSession objects
-                                          } else if (FB_ISSESSIONOPENWITHSTATE(status)) {
-                                              // send our requests if we successfully logged in
-                                              [self sendRequests];
-                                          }
-                                      }];
-    }
-
-
-// FBSample logic
-// Read the ids to request from textObjectID and generate a FBRequest
-// object for each one.  Add these to the FBRequestConnection and
-// then connect to Facebook to get results.  Store the FBRequestConnection
-// in case we need to cancel it before it returns.
-//
-// When a request returns results, call requestComplete:result:error.
-//
-- (void)sendRequests {
-    
-    
-    // extract the id's for which we will request the profile
-    NSString *fbid = @"me/friends?fields=name,location";
-    
-    // create the connection object
-    FBRequestConnection *newConnection = [[FBRequestConnection alloc] init];
-    
-
+- (UIViewController *)pickFriendsButtonClick {
+    if (self.friendPickerController == nil) {
+        // Create friend picker, and get data loaded into it.
+        self.friendPickerController = [[FBFriendPickerViewController alloc] init];
         
-        // create a handler block to handle the results of the request for fbid's profile
-        FBRequestHandler handler =
-        ^(FBRequestConnection *connection, id result, NSError *error) {
-            // output the results of the request
-            [self requestCompleted:connection forFbID:fbid result:result error:error];
-        };
-        
-        // create the request object, using the fbid as the graph path
-        // as an alternative the request* static methods of the FBRequest class could
-        // be used to fetch common requests, such as /me and /me/friends
-        FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
-                                                      graphPath:fbid];
-        
-        // add the request to the connection object, if more than one request is added
-        // the connection object will compose the requests as a batch request; whether or
-        // not the request is a batch or a singleton, the handler behavior is the same,
-        // allowing the application to be dynamic in regards to whether a single or multiple
-        // requests are occuring
-        [newConnection addRequest:request completionHandler:handler];
-    
-    
-    // if there's an outstanding connection, just cancel
-    [self.requestConnection cancel];
-    
-    // keep track of our connection, and start it
-    self.requestConnection = newConnection;
-    [newConnection start];
-}
-
-// FBSample logic
-// Report any results.  Invoked once for each request we make.
-- (void)requestCompleted:(FBRequestConnection *)connection
-                 forFbID:fbID
-                  result:(id)result
-                   error:(NSError *)error {
-    // not the completion we were looking for...
-    if (self.requestConnection &&
-        connection != self.requestConnection) {
-        return;
+        self.friendPickerController.title = @"Pick Friends";
+        self.friendPickerController.delegate = self;
     }
     
-    // clean this up, for posterity
-    self.requestConnection = nil;
+    [self.friendPickerController loadData];
     
-    NSString *text;
-    if (error) {
-        // error contains details about why the request failed
-        text = error.localizedDescription;
-    } else {
-        // result is the json response from a successful request
-        NSDictionary *dictionary = (NSDictionary *)result;
-        // we pull the name property out, if there is one, and display it
-        text = (NSString *)[dictionary objectForKey:@"data"];
-    }
+    FBRequest* friendsRequest = [FBRequest requestForMyFriends];
+    [friendsRequest startWithCompletionHandler: ^(FBRequestConnection *connection,
+                                                  NSDictionary* result,
+                                                  NSError *error) {
+        NSArray* friends = [result objectForKey:@"data"];
+        NSLog(@"Found: %i friends", friends.count);
+        for (NSDictionary<FBGraphUser>* friend in friends) {
+            NSLog(@"I have a friend named %@ with id %@", friend.name, friend.id);
+        }
+    }];
     
-    NSString *resultsss = nil;
-
+    [self.friendPickerController clearSelection];
     
-    NSLog(@"Result: %@", text);
-    NSLog(@"Result: %@", result);
+    // iOS 5.0+ apps should use [UIViewController presentViewController:animated:completion:]
+    // rather than this deprecated method, but we want our samples to run on iOS 4.x as well.
+    //[self presentModalViewController:self.friendPickerController animated:YES];
+    return self.friendPickerController;
     
-    
-    NSArray* friends = [result objectForKey:@"data"];
-    
-
-    for (NSDictionary<FBGraphUser>* friend in friends) {
-        NSLog(@"!!I have a friend named %@ with id %@", friend.name, friend.location.name);
-        
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-        
-        
 }
 
 

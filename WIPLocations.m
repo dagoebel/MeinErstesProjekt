@@ -8,7 +8,7 @@
 
 #import "WIPLocations.h"
 #import "CoreDataHelper.h"
-#import "Location.h"
+#import "Question.h"
 #import "WIPAppDelegate.h"
 #import "WIPViewController.h"
 
@@ -34,14 +34,14 @@
 
 }
 
-- (Location*) selectLocation
+- (Question*) selectLocation
 {
     
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
 
-    Location *location = [CoreDataHelper getRandomObjectsForEntity:@"Location" withSortKey:@"name" andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    Question *question = [CoreDataHelper getRandomObjectsForEntity:@"Question" withSortKey:@"place_id" andSortAscending:false andContext:mainDelegate.managedObjectContext];
     
-    return location;
+    return question;
        
 }
 

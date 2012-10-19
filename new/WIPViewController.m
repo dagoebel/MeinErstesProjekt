@@ -20,7 +20,7 @@ static double globalHeading;
 static double anzahlPlayer, currentPlayer;
 static bool spielAktiv;
 static double spielerAktiv;
-static Location *locationAktiv;
+static Question *locationAktiv;
 static CLLocationCoordinate2D globalPosition;
 static double globalLocationHeading;
 
@@ -441,11 +441,56 @@ static int curveValues[] = {
 
     mWIPDirection  = [[WIPDirection alloc]init];
     mWIPLocations  = [[WIPLocations alloc]init];
-    [mWIPLocations createLocations];
+    //mWIPFacebook  = [[WIPFacebook alloc]init];
+    //[mWIPLocations createLocations];
+    
+    
     locationAktiv = [mWIPLocations selectLocation];
     
+    
+    NSString * frageString = @"";
+    
+    frageString = [frageString stringByAppendingString:locationAktiv.person_name];
+    
+    if (locationAktiv.place_name!=nil) {
+        frageString = [frageString stringByAppendingString:@" war bei "];
+        frageString = [frageString stringByAppendingString:locationAktiv.place_name];
+
+    }
+    
+    if (locationAktiv.place_location_city!=nil) {
+        frageString = [frageString stringByAppendingString:@" in "];
+        frageString = [frageString stringByAppendingString:locationAktiv.place_location_city];
+        
+    }
+    
+    if (locationAktiv.place_location_street!=nil) {
+        frageString = [frageString stringByAppendingString:@" ("];
+        frageString = [frageString stringByAppendingString:locationAktiv.place_location_street];
+         frageString = [frageString stringByAppendingString:@")"];
+        
+    }
+    
+    if (locationAktiv.created_time!=nil) {
+        frageString = [frageString stringByAppendingString:@" am "];
+        frageString = [frageString stringByAppendingString:locationAktiv.created_time];
+        
+    }
+    
+    if (locationAktiv.tags_name!=nil) {
+        frageString = [frageString stringByAppendingString:@" mit "];
+        frageString = [frageString stringByAppendingString:locationAktiv.tags_name];
+    }
+          
+         
+    
     locationLabel.hidden = FALSE;
-    locationLabel.text = locationAktiv.name;
+    locationLabel.text = frageString;
+    
+    
+
+    
+
     
     float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:globalPosition];
     globalLocationHeading = angle;
@@ -616,7 +661,8 @@ static int curveValues[] = {
     
    // [self presentViewController:[mWIPFacebook pickFriendsButtonClick] animated:YES completion:nil ];
     
-    [mWIPFacebook sendRequestToFacebook:@"2"];
+    [mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
+    
 
 }
 @end

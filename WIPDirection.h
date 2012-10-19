@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h> 
-#import "Location.h"
+#import "Question.h"
 
 @interface WIPDirection : NSObject{
-    Location *mLocation;
+    Question *mLocation;
 }
 
 @property double LocationLong;
@@ -19,7 +19,7 @@
 @property (nonatomic,retain) NSString *LocationName;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 
-- (double) performDirectionCalculation: (Location*) location withMyPosition:(CLLocationCoordinate2D) myPosition;
+- (double) performDirectionCalculation: (Question*) location withMyPosition:(CLLocationCoordinate2D) myPosition;
 
 @end
 

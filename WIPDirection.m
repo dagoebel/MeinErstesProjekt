@@ -17,15 +17,15 @@
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiandsToDegrees(x) (x * 180.0 / M_PI)
 
-- (double) performDirectionCalculation: (Location*) pLocation withMyPosition:(CLLocationCoordinate2D)pMyPosition{
+- (double) performDirectionCalculation: (Question*) pLocation withMyPosition:(CLLocationCoordinate2D)pMyPosition{
     
-    NSLog(@"PERFORM DIRECTION CALCULATION FOR: %@ %@ %@", pLocation.name, pLocation.latti, pLocation.longi);
+    NSLog(@"PERFORM DIRECTION CALCULATION FOR: %@ %@ %@", pLocation.place_name, pLocation.place_location_latitude, pLocation.place_location_latitude);
     NSLog(@"IN REGARDS TO MY POSITION: %f %f",  pMyPosition.latitude,  pMyPosition.longitude);
    
     float fLat = degreesToRadians(pMyPosition.latitude);
     float fLng = degreesToRadians(pMyPosition.longitude);
-    float tLat = degreesToRadians([pLocation.latti doubleValue]);
-    float tLng = degreesToRadians([pLocation.longi doubleValue]);
+    float tLat = degreesToRadians([pLocation.place_location_latitude doubleValue]);
+    float tLng = degreesToRadians([pLocation.place_location_longitude doubleValue]);
     
     float degree = radiandsToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
     
