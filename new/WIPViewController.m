@@ -8,6 +8,8 @@
 
 #import "WIPViewController.h"
 #import "WIPAppDelegate.h"
+#import "Friends.h"
+#import "CoreDataHelper.h"
 
 @interface WIPViewController ()
 
@@ -24,7 +26,10 @@ static Question *locationAktiv;
 static CLLocationCoordinate2D globalPosition;
 static double globalLocationHeading;
 
-@implementation WIPViewController
+@implementation WIPViewController{
+    
+    NSArray *tableData;
+}
 
 @synthesize glass1, glass2, glass3, glass4, glassOutlet2;
 @synthesize spieler1, spieler2, spieler3, spieler4;
@@ -33,6 +38,11 @@ static double globalLocationHeading;
 
 @synthesize spieler1Lbl,  spieler2Lbl, spieler3Lbl, spieler4Lbl;
 @synthesize menuLabel;
+@synthesize tableView;
+
+@synthesize people, filteredPeople;
+@synthesize searchDisplayController;
+
 
 static int curveValues[] = {
     UIViewAnimationOptionCurveEaseInOut,
@@ -52,6 +62,7 @@ static int curveValues[] = {
     spielAktiv = false;
     spielerAktiv = 0;
     locationAktiv = nil;
+
     
     kompassScheibeHeight = kompassScheibe.frame.size.height;
     kompassScheibeWidth = kompassScheibe.frame.size.width;
@@ -66,6 +77,16 @@ static int curveValues[] = {
 	[CLController.locMgr startUpdatingLocation];
     [CLController.locMgr startUpdatingHeading];
     
+    
+    mWIPFacebook = [[WIPFacebook alloc] init];
+    
+    //[mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
+    
+    [mWIPFacebook getFacebookFriends:tableView];
+      
+   // [mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
+    
+        
 }
 
 
@@ -212,7 +233,7 @@ static int curveValues[] = {
     
     else{
     
-        anzahlPlayer = button.tag;
+    anzahlPlayer = button.tag;
         
     spieler1Lbl.transform = CGAffineTransformRotate(spieler1Lbl.transform,  M_PI *.75);
     spieler2Lbl.transform = CGAffineTransformRotate(spieler2Lbl.transform,  -M_PI *.25);
@@ -371,12 +392,18 @@ static int curveValues[] = {
     [mWIPGameController deletePlayer];
   
     currentPlayer = 1;
-    [spielerName becomeFirstResponder];
+    //[spielerName becomeFirstResponder];
+    tableView.hidden = false;
         
         }
 }
 
 - (IBAction)spielerNameEntered:(id)sender {
+    
+    mWIPFacebook = [[WIPFacebook alloc] init];
+    
+    [mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
+
     
     UITextField *spielerNameField = (UITextField*) sender;
     NSString *spielerNameValue = spielerNameField.text;
@@ -385,11 +412,20 @@ static int curveValues[] = {
         spielerNameValue = spielerNameField.placeholder;
     }
     
-    [mWIPGameController insertPlayer:spielerName.text withId:[NSNumber numberWithDouble:currentPlayer]];
+    [self spielerNameSelected:spielerNameValue];
+   
     
-    menuLabel.text = [NSString stringWithFormat:@"Spieler %.0f", currentPlayer+1];
+}
+
+- (void)spielerNameSelected:(NSString*)spielerNameValue {
+    
+    [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer]];
+    
     spielerName.placeholder = [NSString stringWithFormat:@"Spieler %.0f", currentPlayer+1];
     spielerName.text = @"";
+    
+    menuLabel.text = [NSString stringWithFormat:@"Spieler %.0f", currentPlayer+1];
+
     currentPlayer = currentPlayer+1;
 
     if (currentPlayer==2) {
@@ -400,39 +436,36 @@ static int curveValues[] = {
     
     if (currentPlayer==3) {
         [self stopPulsateUIImageView:self.glass2];
-         spieler2Lbl.text = spielerNameValue;
+        spieler2Lbl.text = spielerNameValue;
         [self pulsateUIImageView:self.glass3];
-        [spielerName becomeFirstResponder];
+       //  [spielerName becomeFirstResponder];
     }
     
     if (currentPlayer==4) {
         [self stopPulsateUIImageView:self.glass3];
-         spieler3Lbl.text = spielerNameValue;
+        spieler3Lbl.text = spielerNameValue;
         [self pulsateUIImageView:self.glass4];
-        [spielerName becomeFirstResponder];
+      //  [spielerName becomeFirstResponder];
     }
     
     
     if (currentPlayer==5) {
         [self stopPulsateUIImageView:self.glass4];
-         spieler4Lbl.text = spielerNameValue;
+        spieler4Lbl.text = spielerNameValue;
     }
     
     
     if (currentPlayer==anzahlPlayer+1) {
         [self startGame];
+        tableView.hidden = true;
     }
     else{
         
-         [spielerNameField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1f];
+        // [spielerNameField performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0.1f];
 
     }
     
-    
-    
- 
-    
-   
+
 }
 
 - (void)startGame {
@@ -441,9 +474,7 @@ static int curveValues[] = {
 
     mWIPDirection  = [[WIPDirection alloc]init];
     mWIPLocations  = [[WIPLocations alloc]init];
-    //mWIPFacebook  = [[WIPFacebook alloc]init];
-    //[mWIPLocations createLocations];
-    
+
     
     locationAktiv = [mWIPLocations selectLocation];
     
@@ -655,14 +686,99 @@ static int curveValues[] = {
 
 
 - (IBAction)gastgeberTapped:(id)sender {
-    
-    
+
     mWIPFacebook = [[WIPFacebook alloc] init];
-    
-   // [self presentViewController:[mWIPFacebook pickFriendsButtonClick] animated:YES completion:nil ];
     
     [mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
     
 
 }
+- (IBAction)showFriendPicker:(id)sender {
+    
+     mWIPFacebook = [[WIPFacebook alloc] init];
+    
+    [mWIPFacebook getFacebookFriends:tableView];
+
+
+
+    
+}
+
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+
+    return [CoreDataHelper countForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
+    
+    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSString *cellText = cell.textLabel.text;
+    
+    cell.userInteractionEnabled = FALSE;
+    cell.backgroundColor = [UIColor whiteColor];
+    NSLog(@"tap ");
+
+    
+    [self spielerNameSelected:cellText];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+
+{
+    
+      static NSString *simpleTableIdentifier = @"SimpleTableItem";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+
+    NSMutableArray *friends = [CoreDataHelper getObjectsForEntity:@"Friends" withSortKey:@"name" andSortAscending:true andContext:mainDelegate.managedObjectContext];
+    double count = [CoreDataHelper countForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
+        
+
+    if (count!=0) {
+    
+        cell.textLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"name"];
+   
+        
+        NSURL *imageURL = [NSURL URLWithString: [[friends objectAtIndex:indexPath.row] valueForKey:@"picture"]];
+
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Update the UI
+               cell.imageView.image = [UIImage imageWithData:imageData];
+            });
+        });
+        
+      // cell.tag = [[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"];
+        
+    }
+    
+    return cell;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+
+    
+   }
+
+
+
+
+
+
 @end

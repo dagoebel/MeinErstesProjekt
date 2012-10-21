@@ -74,7 +74,7 @@
 
 #pragma mark UI handlers
 
-- (IBAction)pickFriendsButtonClick:(id)sender {
+- (IBAction)pickFriendsButtonClick {
     if (self.friendPickerController == nil) {
         // Create friend picker, and get data loaded into it.
         self.friendPickerController = [[FBFriendPickerViewController alloc] init];

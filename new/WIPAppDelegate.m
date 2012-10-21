@@ -17,7 +17,7 @@
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-
+@synthesize testString = _testString;
 @synthesize window;
 
 
@@ -36,12 +36,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // BUG:
-    // Nib files require the type to have been loaded before they can do the
-    // wireup successfully.
-    // http://stackoverflow.com/questions/1725881/unknown-class-myclass-in-interface-builder-file-error-at-runtime
-    [FBFriendPickerViewController class];
 
+    
     
     return YES;
 }

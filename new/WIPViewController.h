@@ -17,9 +17,10 @@
 #import "WIPAppDelegate.h"
 #import "WIPFacebook.h"
 
+
 @protocol WIPViewControllerDelegate;
 
-@interface WIPViewController : UIViewController <WIPLocationControllerDelegate>{
+@interface WIPViewController : UIViewController <WIPLocationControllerDelegate, UITableViewDelegate, UITableViewDataSource>{
     WIPGameController *mWIPGameController;
     WIPBottle *mWIPBottle;
     WIPDirection *mWIPDirection;
@@ -28,9 +29,15 @@
     IBOutlet UILabel *locLabel;
     ANImageWheel * imageWheel;
     WIPFacebook *mWIPFacebook;
+
+    NSArray *people;
+	NSArray *filteredPeople;
     
+	UISearchDisplayController *searchDisplayController;
 }
 @property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
+
+
 
 @property (weak, nonatomic) IBOutlet UIImageView *bottle;
 @property (weak, nonatomic) IBOutlet UIImageView *container;
@@ -54,6 +61,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *spieler2Lbl;
 @property (weak, nonatomic) IBOutlet UILabel *spieler3Lbl;
 @property (weak, nonatomic) IBOutlet UILabel *spieler4Lbl;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *menuLabel;
@@ -71,9 +79,14 @@
 
 @property (nonatomic, retain) WIPLocationController *CLController;
 
+@property (nonatomic, retain) NSArray *people;
+@property (nonatomic, retain) NSArray *filteredPeople;
+
+@property (nonatomic, retain) UISearchDisplayController *searchDisplayController;
+
 - (IBAction)fakeDegree:(id)sender;
 - (IBAction)gastgeberTapped:(id)sender;
-
+- (IBAction)showFriendPicker:(id)sender;
 - (IBAction)singleBottleTap:(id)sender;
 -(IBAction)handleCloseButton:(id)sender;
 -(IBAction)rotateTheFUCKINGBottle:(id)sender;
@@ -89,6 +102,7 @@
 
 - (void)pulsateUIImageView:(UIImageView*) view;
 
+@property (weak, nonatomic) IBOutlet UITableView *TableViewFriends;
 
 @end
 

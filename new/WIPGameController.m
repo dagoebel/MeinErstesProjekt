@@ -15,6 +15,8 @@
 
 static double playerCount;
 
+
+
 - (void) newGame: (double) anzahlSpieler{
     
     playerCount = anzahlSpieler;

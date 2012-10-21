@@ -18,6 +18,6 @@
 
 @interface FPViewController : UIViewController<FBFriendPickerDelegate>
 
-- (IBAction)pickFriendsButtonClick:(id)sender;
+- (IBAction)pickFriendsButtonClick;
 
 @end

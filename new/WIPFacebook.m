@@ -10,7 +10,9 @@
 #import "WIPFacebook.h"
 #import "CoreDataHelper.h"
 #import "Question.h"
-#import "WIPViewController.h"
+#import "Friends.h"
+#import "WIPGameController.h"
+
 
 // FBSample logic
 // We need to handle some of the UX events related to friend selection, and so we declare
@@ -41,11 +43,14 @@
 @synthesize friendPickerController = _friendPickerController;
 @synthesize requestConnection = _requestConnection;
 
-- (void)sendRequestToFacebook:(NSString*) query{
+
+- (void)sendRequestToFacebook:(NSString*) query {
     
    if([self checkFBSession])
    {
+
        [self queryFacebook:query];
+     
    }
 }
 
@@ -78,13 +83,13 @@
     return conectionEnabled;
 }
 
-- (void)queryFacebook: (NSString*) query {
+- (void)queryFacebook: (NSString*) query{
     
     FBRequestConnection *newConnection = [[FBRequestConnection alloc] init];
 
     FBRequestHandler handler =
     ^(FBRequestConnection *connection, id result, NSError *error) {
-        [self processLocations:connection result:result error:error];
+        [self processResponse:connection result:result error:error];
     };
     
     FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession graphPath:query];
@@ -96,13 +101,8 @@
 }
 
 
-- (void)processLocations:(FBRequestConnection *)connection result:(id)result error:(NSError *)error {
+- (void)processResponse:(FBRequestConnection *)connection result:(id)result error:(NSError *)error{
     
-    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
-    
-    [CoreDataHelper deleteAllObjectsForEntity:@"Question" andContext:mainDelegate.managedObjectContext];
-
-
     if (self.requestConnection &&
         connection != self.requestConnection) {
         return;
@@ -118,12 +118,12 @@
         text = (NSString *)[dictionary objectForKey:@"data"];
     }
 
-   //NSLog(@"%@",result);
-    NSArray* friends = [result objectForKey:@"data"];
+   NSLog(@"%@",result);
     
+   NSArray* friends = [result objectForKey:@"data"];
+   
+   [self processParsedLocations:friends];
     
-    [self processParsedObject:friends];
-  
 }
 
 - (void)saveQuestion:(NSDictionary*) newQuestion {
@@ -153,13 +153,17 @@
     
 }
 
--(void)processParsedObject:(id)object{
-    [self processParsedObject:object depth:0 parent:nil];
+-(void)processParsedLocations:(id)object{
+    [self processParsedLocations:object depth:0 parent:nil];
 }
 
--(void)processParsedObject:(id)object depth:(int)depth parent:(id)parent{
+-(void)processParsedLocations:(id)object depth:(int)depth parent:(id)parent{
     
    if([object isKindOfClass:[NSArray class]]){
+       
+       WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+       
+       [CoreDataHelper deleteAllObjectsForEntity:@"Question" andContext:mainDelegate.managedObjectContext];
         
         for(id child in object){
             
@@ -270,16 +274,165 @@
 }
 
 
-- (void)showQuestion{
 
-    
-        WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
-    
-        Question *question = [CoreDataHelper getRandomObjectsForEntity:@"Question" withSortKey:@"place_id" andSortAscending:false andContext:mainDelegate.managedObjectContext];
-    
-        NSLog(@"question.locationname %@",question );
 
+
+
+
+
+
+
+-(void)processParsedFriends:(id)object andTableView: (NSArray*) tableView{
+    [self processParsedFriends:object depth:0 parent:nil andTableView: tableView];
+}
+
+-(void)processParsedFriends:(id)object depth:(int)depth parent:(id)parent andTableView: (NSArray*) tableView{
     
+    if([object isKindOfClass:[NSArray class]]){
+        
+  
+        
+        for(id friend in object){
+            
+            NSString *person_name= nil;
+            NSString *person_id= nil;
+            
+            person_name = [friend valueForKey:@"name"];
+            person_id = [friend valueForKey:@"id"];
+            
+             NSLog(@"%@",person_name);
+            
+            
+             
+        }
+
+    }
+    
+   
+    
+    
+}
+
+
+
+- (void)saveFriends:(NSDictionary*) newFriend {
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    Friends *friends= [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:mainDelegate.managedObjectContext];
+    
+    friends.name=[newFriend valueForKey:@"name"];
+    friends.friend_id=[newFriend valueForKey:@"friend_id"];
+    friends.picture=[newFriend valueForKey:@"picture"];
+
+    //NSLog(@"%@", friends);
+    [mainDelegate.managedObjectContext save:nil];
+    
+}
+
+
+
+
+
+
+- (void)getFacebookFriends:(UITableView*) tableView {
+         
+    if([self checkFBSession])
+    {
+        FBRequestConnection *newConnection = [[FBRequestConnection alloc] init];
+        
+        FBRequestHandler handler =
+        ^(FBRequestConnection *connection, id result, NSError *error) {
+           
+            if (self.requestConnection &&
+                connection != self.requestConnection) {
+                return;
+            }
+            self.requestConnection = nil;
+            
+            NSString *text;
+            
+            if (error) {
+                text = error.localizedDescription;
+            } else {
+                NSDictionary *dictionary = (NSDictionary *)result;
+                text = (NSString *)[dictionary objectForKey:@"data"];
+            }
+            
+            NSLog(@"%@",result);
+            id friendsObj = [result objectForKey:@"friends"];
+
+            NSArray* friends = [friendsObj objectForKey:@"data"];
+
+         
+            
+            
+            if([friends isKindOfClass:[NSArray class]]){
+                
+                WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+
+                
+                 [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
+                
+                NSString *person_name= [result valueForKey:@"name"];
+                NSString *person_id= [result objectForKey:@"friends"];
+                id picObj = [result objectForKey:@"picture"];
+                id dataObj = [picObj objectForKey:@"data"];
+                NSString *person_picture = [dataObj valueForKey:@"url"];
+                NSDictionary *newFriend = [NSDictionary dictionaryWithObjectsAndKeys:
+                                           person_name, @"name",
+                                           person_id, @"id",
+                                           person_picture, @"picture",
+                                           nil];
+                
+                
+                [self saveFriends:newFriend];
+
+                
+            
+                for(id friend in friends){
+                    
+                    person_name= nil;
+                    person_id= nil;
+                    person_picture= nil;
+                    
+                    person_name = [friend valueForKey:@"name"];
+                    person_id = [friend valueForKey:@"id"];
+                                       
+                    id picObj = [friend objectForKey:@"picture"];
+                    id dataObj = [picObj objectForKey:@"data"];
+                    person_picture = [dataObj valueForKey:@"url"];
+                    
+                    
+                    NSDictionary *newFriend = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               person_name, @"name",
+                                               person_id, @"id",
+                                               person_picture, @"picture",
+                                               nil];
+                    
+                    
+                    [self saveFriends:newFriend];
+                                        
+                }
+                
+                 [tableView reloadData];
+                
+            }
+
+           
+        };
+        
+        FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession graphPath:@"me?fields=id,friends.fields(picture,name),name,picture"];
+        
+        [newConnection addRequest:request completionHandler:handler];
+        [self.requestConnection cancel];
+        self.requestConnection = newConnection;
+        [newConnection start];
+        
+      
+
+    };
+
 }
 
 
@@ -316,7 +469,12 @@
 
 
 
+
+
+
+
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
+    
     NSMutableString *text = [[NSMutableString alloc] init];
     
     // we pick up the users from the selection, and create a string that we use to update the text view
