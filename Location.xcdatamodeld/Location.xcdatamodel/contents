@@ -11,6 +11,8 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Player" representedClassName="Player" syncable="YES">
+        <attribute name="fb_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fb_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -27,13 +29,18 @@
         <attribute name="place_location_street" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="place_location_zip" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="place_name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="tags_id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="tags_name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tags" inverseName="question" inverseEntity="Tags" syncable="YES"/>
+    </entity>
+    <entity name="Tags" representedClassName="Tags" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="question" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Question" inverseName="tags" inverseEntity="Question" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Location" positionX="160" positionY="192" width="128" height="90"/>
-        <element name="Player" positionX="160" positionY="192" width="128" height="75"/>
-        <element name="Question" positionX="160" positionY="192" width="128" height="255"/>
-        <element name="Friends" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="Friends" positionX="160" positionY="192" width="128" height="88"/>
+        <element name="Location" positionX="-11" positionY="531" width="128" height="90"/>
+        <element name="Player" positionX="135" positionY="321" width="128" height="103"/>
+        <element name="Question" positionX="-630" positionY="269" width="128" height="238"/>
+        <element name="Tags" positionX="-153" positionY="287" width="128" height="88"/>
     </elements>
 </model>

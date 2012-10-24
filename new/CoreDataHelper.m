@@ -117,9 +117,9 @@
 #pragma mark - Random Retrieve objects
 
 // Fetch objects without a predicate
-+(Location *)getRandomObjectsForEntity:(NSString*)entityName withSortKey:(NSString*)sortKey andSortAscending:(BOOL)sortAscending andContext:(NSManagedObjectContext *)managedObjectContext
++(Question *)getRandomObjectsForEntity:(NSString*)entityName withSortKey:(NSString*)sortKey andSortAscending:(BOOL)sortAscending andContext:(NSManagedObjectContext *)managedObjectContext
 {
-    Location *randomMutableFetchResults = nil;
+    Question *randomMutableFetchResults = nil;
 	NSMutableArray *mutableFetchResults =  [self searchObjectsForEntity:entityName withPredicate:nil andSortKey:sortKey andSortAscending:sortAscending andContext:managedObjectContext];
     NSInteger count = [mutableFetchResults count];
     if ([self countForEntity:entityName andContext:managedObjectContext]>0) {
@@ -129,11 +129,48 @@
     else{
         return Nil;
     }
+
+}
+
+
+// Fetch objects with a predicate
++(Question *)searchRandomObjectsForEntity:(NSString*)entityName withPredicate:(NSPredicate *)predicate andSortKey:(NSString*)sortKey andSortAscending:(BOOL)sortAscending andContext:(NSManagedObjectContext *)managedObjectContext
+{
+	// Create fetch request
+	NSFetchRequest *request = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:managedObjectContext];
+	[request setEntity:entity];
     
+	// If a predicate was specified then use it in the request
+	if (predicate != nil)
+		[request setPredicate:predicate];
     
+	// If a sort key was passed then use it in the request
+	if (sortKey != nil) {
+		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:sortAscending];
+		NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+		[request setSortDescriptors:sortDescriptors];
+        [request setReturnsObjectsAsFaults:NO];
+	}
     
-       
-   
+	// Execute the fetch request
+	NSError *error = nil;
+    Question *randomMutableFetchResults = nil;
+	NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+    
+	// If the returned array was nil then there was an error
+	if (mutableFetchResults == nil)
+		NSLog(@"Couldn't get objects for entity %@", entityName);
+    
+	NSInteger count = [mutableFetchResults count];
+    if (count>0) {
+        randomMutableFetchResults = [mutableFetchResults objectAtIndex: arc4random() % count];
+        return randomMutableFetchResults;
+    }
+    else{
+        return Nil;
+    }
+
 }
 
 

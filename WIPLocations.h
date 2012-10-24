@@ -19,7 +19,7 @@
 - (NSURL *)applicationDocumentsDirectory;
 
 
-- (Question*) selectLocation;
+- (Question*) selectLocation:(NSInteger)aktiverSpieler;
 - (void) createLocations;
 
 

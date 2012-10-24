@@ -10,6 +10,7 @@
 #import "WIPFacebook.h"
 #import "CoreDataHelper.h"
 #import "Question.h"
+#import "Tags.h"
 #import "Friends.h"
 #import "WIPGameController.h"
 
@@ -118,7 +119,7 @@
         text = (NSString *)[dictionary objectForKey:@"data"];
     }
 
-   NSLog(@"%@",result);
+   //NSLog(@"%@",result);
     
    NSArray* friends = [result objectForKey:@"data"];
    
@@ -126,18 +127,16 @@
     
 }
 
-- (void)saveQuestion:(NSDictionary*) newQuestion {
+- (void)saveQuestion:(NSMutableDictionary*) newQuestion {
              
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
     
     Question *question = [NSEntityDescription insertNewObjectForEntityForName:@"Question" inManagedObjectContext:mainDelegate.managedObjectContext];
-    
+ 
     question.person_name=[newQuestion valueForKey:@"person_name"];
     question.person_id=[newQuestion valueForKey:@"person_id"];
     question.place_name=[newQuestion valueForKey:@"place_name"];
     question.place_id=[newQuestion valueForKey:@"place_id"];
-    question.tags_name=[newQuestion valueForKey:@"tags_name"];
-    question.tags_id=[newQuestion valueForKey:@"tags_id"];
     question.place_location_city=[newQuestion valueForKey:@"place_location_city"];
     question.place_location_latitude=[newQuestion valueForKey:@"place_location_latitude"];
     question.place_location_longitude=[newQuestion valueForKey:@"place_location_longitude"];
@@ -147,7 +146,27 @@
     question.from_id=[newQuestion valueForKey:@"from_id"];
     question.from_name=[newQuestion valueForKey:@"from_name"];
     
-     NSLog(@"%@",question);
+    
+    NSMutableSet *mySet = [[NSMutableSet alloc] init];
+    
+    NSLog(@"[newQuestion valueForKey:tags_id%@",[newQuestion valueForKey:@"tags_id"]);
+    
+    for (id tag_id in [newQuestion valueForKey:@"tags_id"]){
+        
+        Tags *tag = [NSEntityDescription insertNewObjectForEntityForName:@"Tags" inManagedObjectContext:mainDelegate.managedObjectContext];
+        
+        tag.id = tag_id;
+        //tag.name = [newQuestion valueForKey:@"tags_name"];
+        
+        [mySet addObject:tag];
+        
+    }
+       
+   
+    [question setTags:mySet];
+ 
+    //NSLog(@"TAGS: %@",tags);
+    NSLog(@"%@",question);
     
     [mainDelegate.managedObjectContext save:nil];
     
@@ -220,20 +239,24 @@
                 
                     id tagsData = [checkin objectForKey:@"tags"];
                     NSArray* tags  = [tagsData objectForKey:@"data"];
-                
+                    NSMutableArray *tags_id_arr = [[NSMutableArray alloc] init];
+                    NSMutableArray *tags_name_arr = [[NSMutableArray alloc] init];
+                    
                     for (id tag in tags) {
                         ////////// MIT LEUTEN //////////////
-                        tags_id = [tag valueForKey:@"id"];
-                        tags_name = [tag valueForKey:@"name"];
+                        
+                        [tags_id_arr addObject:[tag valueForKey:@"id"]];
+                        [tags_name_arr addObject:[tag valueForKey:@"name"]];
                     }
+
                     
-                    NSDictionary *newQuestion = [NSDictionary dictionaryWithObjectsAndKeys:
+                    NSMutableDictionary *newQuestion = [NSDictionary dictionaryWithObjectsAndKeys:
                                                  person_name, @"person_name",
                                                  person_id, @"person_id",
                                                  place_name, @"place_name",
                                                  place_id, @"place_id",
-                                                 tags_name, @"tags_name",
-                                                 tags_id, @"tags_id",
+                                                 tags_name_arr, @"tags_name",
+                                                 tags_id_arr, @"tags_id",
                                                  place_location_city, @"place_location_city",
                                                  place_location_latitude, @"place_location_latitude",
                                                  place_location_longitude, @"place_location_longitude",
@@ -322,10 +345,10 @@
     Friends *friends= [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:mainDelegate.managedObjectContext];
     
     friends.name=[newFriend valueForKey:@"name"];
-    friends.friend_id=[newFriend valueForKey:@"friend_id"];
+    friends.friend_id=[newFriend valueForKey:@"id"];
     friends.picture=[newFriend valueForKey:@"picture"];
 
-    //NSLog(@"%@", friends);
+    NSLog(@"%@", friends);
     [mainDelegate.managedObjectContext save:nil];
     
 }
@@ -375,7 +398,7 @@
                  [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
                 
                 NSString *person_name= [result valueForKey:@"name"];
-                NSString *person_id= [result objectForKey:@"friends"];
+                NSString *person_id= [result objectForKey:@"id"];
                 id picObj = [result objectForKey:@"picture"];
                 id dataObj = [picObj objectForKey:@"data"];
                 NSString *person_picture = [dataObj valueForKey:@"url"];

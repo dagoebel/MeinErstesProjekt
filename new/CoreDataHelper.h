@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
-#import "Location.h"
+#import "Question.h"
 
 @interface CoreDataHelper : NSObject
 
@@ -18,6 +18,7 @@
 
 // For random selection of objects
 
-+(Location *)getRandomObjectsForEntity:(NSString*)entityName withSortKey:(NSString*)sortKey andSortAscending:(BOOL)sortAscending andContext:(NSManagedObjectContext *)managedObjectContext;
++(Question *)getRandomObjectsForEntity:(NSString*)entityName withSortKey:(NSString*)sortKey andSortAscending:(BOOL)sortAscending andContext:(NSManagedObjectContext *)managedObjectContext;
++(Question *)searchRandomObjectsForEntity:(NSString*)entityName withPredicate:(NSPredicate *)predicate andSortKey:(NSString*)sortKey andSortAscending:(BOOL)sortAscending andContext:(NSManagedObjectContext *)managedObjectContext;
 
 @end

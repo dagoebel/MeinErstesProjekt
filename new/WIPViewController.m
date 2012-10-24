@@ -42,6 +42,7 @@ static double globalLocationHeading;
 
 @synthesize people, filteredPeople;
 @synthesize searchDisplayController;
+@synthesize progressBar;
 
 
 static int curveValues[] = {
@@ -77,16 +78,18 @@ static int curveValues[] = {
 	[CLController.locMgr startUpdatingLocation];
     [CLController.locMgr startUpdatingHeading];
     
-    
-    mWIPFacebook = [[WIPFacebook alloc] init];
-    
-    //[mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
-    
-    [mWIPFacebook getFacebookFriends:tableView];
-      
-   // [mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
-    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+
+    if (!([CoreDataHelper countForEntity:@"Friends" andContext:mainDelegate.managedObjectContext]>0)) {
         
+        mWIPFacebook = [[WIPFacebook alloc] init];
+        
+        [mWIPFacebook getFacebookFriends:tableView];
+        
+         NSLog(@"GGETTING FRIENDS");
+    }
+
+
 }
 
 
@@ -400,11 +403,6 @@ static int curveValues[] = {
 
 - (IBAction)spielerNameEntered:(id)sender {
     
-    mWIPFacebook = [[WIPFacebook alloc] init];
-    
-    [mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
-
-    
     UITextField *spielerNameField = (UITextField*) sender;
     NSString *spielerNameValue = spielerNameField.text;
     
@@ -412,14 +410,15 @@ static int curveValues[] = {
         spielerNameValue = spielerNameField.placeholder;
     }
     
-    [self spielerNameSelected:spielerNameValue];
+    [self spielerNameSelected:spielerNameValue :nil];
    
     
 }
 
-- (void)spielerNameSelected:(NSString*)spielerNameValue {
+- (void)spielerNameSelected:(NSString*)spielerNameValue: (NSInteger)spielerFbId {
     
-    [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer]];
+       
+    [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer] :spielerFbId:nil];
     
     spielerName.placeholder = [NSString stringWithFormat:@"Spieler %.0f", currentPlayer+1];
     spielerName.text = @"";
@@ -457,6 +456,7 @@ static int curveValues[] = {
     
     if (currentPlayer==anzahlPlayer+1) {
         [self startGame];
+        currentPlayer = 1;
         tableView.hidden = true;
     }
     else{
@@ -470,13 +470,31 @@ static int curveValues[] = {
 
 - (void)startGame {
     
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    
+    if (!([CoreDataHelper countForEntity:@"Question" andContext:mainDelegate.managedObjectContext]>0)) {
+        mWIPFacebook = [[WIPFacebook alloc] init];
+        [mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
+        
+        progressBar.hidden=FALSE;
+        progressBar.progress=0.5;
+        
+        NSLog(@"GENERATING QUESTIONS, SPIEL KANN NICHT BEGINNEN!");
+
+    }
+    else{
+        
+        
+        
     spielAktiv = true;
 
     mWIPDirection  = [[WIPDirection alloc]init];
     mWIPLocations  = [[WIPLocations alloc]init];
 
     
-    locationAktiv = [mWIPLocations selectLocation];
+    locationAktiv = [mWIPLocations selectLocation:1];
     
     
     NSString * frageString = @"";
@@ -508,21 +526,17 @@ static int curveValues[] = {
         
     }
     
-    if (locationAktiv.tags_name!=nil) {
-        frageString = [frageString stringByAppendingString:@" mit "];
-        frageString = [frageString stringByAppendingString:locationAktiv.tags_name];
-    }
+  //  if (locationAktiv.tags.!=nil) {
+       // frageString = [frageString stringByAppendingString:@" mit "];
+       // frageString = [frageString stringByAppendingString:locationAktiv.tags_name];
+  //  }
           
          
     
     locationLabel.hidden = FALSE;
     locationLabel.text = frageString;
     
-    
 
-    
-
-    
     float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:globalPosition];
     globalLocationHeading = angle;
     
@@ -573,6 +587,8 @@ static int curveValues[] = {
     
     menuLabel.hidden = TRUE;
     spielerName.hidden = TRUE;
+        
+    }
         
 }
 
@@ -666,44 +682,6 @@ static int curveValues[] = {
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)importLocations:(id)sender {
-    
-  
-
-}
-
-- (IBAction)selectLocation:(id)sender {
-    
-    
-    
-}
-
-- (IBAction)calculateLocation:(id)sender {
-    
-    
-   
-}
-
-
-- (IBAction)gastgeberTapped:(id)sender {
-
-    mWIPFacebook = [[WIPFacebook alloc] init];
-    
-    [mWIPFacebook sendRequestToFacebook:@"me/friends?fields=name,locations"];
-    
-
-}
-- (IBAction)showFriendPicker:(id)sender {
-    
-     mWIPFacebook = [[WIPFacebook alloc] init];
-    
-    [mWIPFacebook getFacebookFriends:tableView];
-
-
-
-    
-}
-
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -721,10 +699,10 @@ static int curveValues[] = {
     
     cell.userInteractionEnabled = FALSE;
     cell.backgroundColor = [UIColor whiteColor];
-    NSLog(@"tap ");
+    NSLog(@"tap %d@",cell.tag);
 
     
-    [self spielerNameSelected:cellText];
+    [self spielerNameSelected:cellText :cell.tag];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -748,7 +726,13 @@ static int curveValues[] = {
     if (count!=0) {
     
         cell.textLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"name"];
+        
+        
+        cell.tag = [[[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"] integerValue];
    
+        NSLog(@"ADS: %@", [[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"]);
+        NSLog(@"ADS_name: %@", [[friends objectAtIndex:indexPath.row] valueForKey:@"name"]);
+
         
         NSURL *imageURL = [NSURL URLWithString: [[friends objectAtIndex:indexPath.row] valueForKey:@"picture"]];
 

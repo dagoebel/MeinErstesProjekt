@@ -26,6 +26,6 @@
 - (void) nextPlayer;
 - (void) calculateWinner;
 - (void) deletePlayer;
-- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId;
+- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSInteger)fb_id: (NSString *)fb_url;
 
 @end

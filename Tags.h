@@ -1,5 +1,5 @@
 //
-//  Player.h
+//  Tags.h
 //  new
 //
 //  Created by Daniel Goebel on 24.10.12.
@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Question;
 
-@interface Player : NSManagedObject
+@interface Tags : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * id;
+@property (nonatomic, retain) NSString * id;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * fb_id;
-@property (nonatomic, retain) NSString * fb_url;
+@property (nonatomic, retain) Question *question;
 
 @end

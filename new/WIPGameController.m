@@ -49,7 +49,7 @@ static double playerCount;
 }
 
 
-- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId
+- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSInteger)fb_id: (NSString *)fb_url
 {
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
     
@@ -57,6 +57,9 @@ static double playerCount;
     
     player.name = playerName;
     player.id = playerId;
+    player.fb_id = [NSString stringWithFormat:@"%d", fb_id];
+    player.fb_url = fb_url;
+    
     
     [mainDelegate.managedObjectContext save:nil];
     

@@ -39,6 +39,7 @@
 
 
 
+
 @property (weak, nonatomic) IBOutlet UIImageView *bottle;
 @property (weak, nonatomic) IBOutlet UIImageView *container;
 @property (weak, nonatomic) IBOutlet UIView *zeiger;
@@ -62,6 +63,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *spieler3Lbl;
 @property (weak, nonatomic) IBOutlet UILabel *spieler4Lbl;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *menuLabel;

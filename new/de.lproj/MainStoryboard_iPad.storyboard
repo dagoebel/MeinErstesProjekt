@@ -61,16 +61,16 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Wähle die Anzahl der Spieler!" textAlignment="center" lineBreakMode="clip" numberOfLines="5" minimumScaleFactor="0.30000000000000016" id="tZF-V0-dEH">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Wieviele Mitspieler?" textAlignment="center" lineBreakMode="clip" numberOfLines="4" minimumScaleFactor="0.30000000000000016" id="tZF-V0-dEH">
                                 <rect key="frame" x="194" y="854" width="378" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="21"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="35"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" alpha="0.60000000000000009" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" id="0jj-Xt-vy0">
-                                <rect key="frame" x="311" y="20" width="146" height="49"/>
+                                <rect key="frame" x="311" y="0.0" width="146" height="49"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -272,13 +272,6 @@
                                     <action selector="selectPlayerSetup:" destination="2" eventType="touchUpInside" id="mel-rv-J9d"/>
                                 </connections>
                             </button>
-                            <progressView hidden="YES" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" progressViewStyle="bar" progress="0.20000000000000001" id="ltD-Vg-zML">
-                                <rect key="frame" x="146" y="863" width="477" height="11"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <rect key="contentStretch" x="1" y="1" width="1" height="1"/>
-                                <color key="progressTintColor" red="0.45882356169999999" green="0.27843138579999999" blue="0.14901961389999999" alpha="1" colorSpace="deviceRGB"/>
-                                <color key="trackTintColor" red="0.84705889229999998" green="0.64313727620000005" blue="0.4274510145" alpha="1" colorSpace="deviceRGB"/>
-                            </progressView>
                         </subviews>
                         <color key="backgroundColor" red="0.59215688705444336" green="0.23921570181846619" blue="0.08235294371843338" alpha="1" colorSpace="deviceRGB"/>
                     </view>
@@ -290,7 +283,6 @@
                         <outlet property="kompassScheibe" destination="ztA-Yk-7td" id="Es1-kD-XbF"/>
                         <outlet property="locationLabel" destination="tZF-V0-dEH" id="4Bu-4S-44k"/>
                         <outlet property="menuLabel" destination="uVn-5e-Fjc" id="VCr-tt-Amv"/>
-                        <outlet property="progressBar" destination="ltD-Vg-zML" id="ooI-zL-Ilk"/>
                         <outlet property="spieler1" destination="dxm-qM-5AO" id="Y9f-Te-zuw"/>
                         <outlet property="spieler1Btn" destination="ndi-Sc-eNP" id="4IM-9y-k43"/>
                         <outlet property="spieler1Lbl" destination="qIT-0p-LTy" id="VZx-EO-vAy"/>
@@ -329,56 +321,6 @@
         <image name="connnect.png" width="743" height="181"/>
         <image name="wooden_top.jpeg" width="1440" height="900"/>
     </resources>
-    <classes>
-        <class className="WIPViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/WIPViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backToMenu:"/>
-                <relationship kind="action" name="calculateLocation:"/>
-                <relationship kind="action" name="fakeDegree:"/>
-                <relationship kind="action" name="flascheFaerben:"/>
-                <relationship kind="action" name="gastgeberTapped:"/>
-                <relationship kind="action" name="handleCloseButton:"/>
-                <relationship kind="action" name="importLocations:"/>
-                <relationship kind="action" name="rotateTheFUCKINGBottle:"/>
-                <relationship kind="action" name="selectLocation:"/>
-                <relationship kind="action" name="selectPlayer:"/>
-                <relationship kind="action" name="selectPlayerSetup:"/>
-                <relationship kind="action" name="showFriendPicker:"/>
-                <relationship kind="action" name="singleBottleTap:"/>
-                <relationship kind="action" name="spielerNameEntered:"/>
-                <relationship kind="outlet" name="TableViewFriends" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="bottle" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="container" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="gameMenu" candidateClass="UIView"/>
-                <relationship kind="outlet" name="glass1" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="glass2" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="glass3" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="glass4" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="glassOutlet2" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="kompassScheibe" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="locLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="locationLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="menuLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="progressBar" candidateClass="UIProgressView"/>
-                <relationship kind="outlet" name="spieler1" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="spieler1Btn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="spieler1Lbl" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="spieler2" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="spieler2Btn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="spieler2Lbl" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="spieler3" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="spieler3Btn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="spieler3Lbl" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="spieler4" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="spieler4Btn" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="spieler4Lbl" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="spielerName" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="zeiger" candidateClass="UIView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

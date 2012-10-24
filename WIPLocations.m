@@ -17,43 +17,69 @@
 
 
 
-- (void) createLocations
+
+- (Question*) selectLocation:(NSInteger)aktiverSpieler
 {
     
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+ 
+    NSString *id_aktiver_spieler = [NSString stringWithFormat:@"%d", aktiverSpieler];
+    NSString *fb_id_aktiver_spieler = [[NSString  alloc] init];
+    NSString *fb_id_nicht_aktiver_spieler = [[NSString  alloc] init];
+    NSMutableArray *nicht_aktive_spieler = [[NSMutableArray alloc] init];
+    NSMutableArray *aktiver_spieler = [[NSMutableArray alloc] init];
+
+
     
-    [CoreDataHelper deleteAllObjectsForEntity:@"Location" andContext:mainDelegate.managedObjectContext];
+    
+    /// GET MITSPIELER
+    
+    
+    NSPredicate *query_aktiver_spieler = [NSPredicate predicateWithFormat:@"id CONTAINS %@", id_aktiver_spieler];
+    
+    aktiver_spieler = [CoreDataHelper searchObjectsForEntity:@"Player" withPredicate:query_aktiver_spieler andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    
+    NSPredicate *query_nicht_aktive_spieler = [NSPredicate predicateWithFormat:@"NOT id CONTAINS %@", fb_id_aktiver_spieler];
+    
+    nicht_aktive_spieler = [CoreDataHelper searchObjectsForEntity:@"Player" withPredicate:query_nicht_aktive_spieler andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    
+    for (id single_aktiver_spieler in aktiver_spieler) {
+        fb_id_aktiver_spieler = [single_aktiver_spieler valueForKey:@"fb_id"];
+        NSLog(@"fb_id_aktiver_spieler %@", fb_id_aktiver_spieler);
+    }
+    
+    for (id single_nicht_aktive_spieler in nicht_aktive_spieler) {
+        fb_id_nicht_aktiver_spieler = [single_nicht_aktive_spieler valueForKey:@"fb_id"];
+        NSLog(@"fb_id_nicht_aktiver_spieler %@", fb_id_nicht_aktiver_spieler);
+    }
+    
+    //NSLog(@"fb_id_aktiver_spieler %@", fb_id_aktiver_spieler);
    
-    [self insertLocation:@"Paula Amling war bei Dresden Holi Open Air Festival" withLatti:[NSNumber numberWithDouble:51.050588328159000000000000000000] andLocationLongi:[NSNumber numberWithDouble:13.731794743445000000000000000000]];
-    [self insertLocation:@"Kayser Hartmud war bei Arteum, Am Brauhaus 3, Dresden" withLatti:[NSNumber numberWithDouble:51.068614454596000000000000000000] andLocationLongi:[NSNumber numberWithDouble:13.778622449588000000000000000000]];
-    [self insertLocation:@"Phoenix Wu war bei Fitness Fitness First Prager Spitze, Prager Str. 2" withLatti:[NSNumber numberWithDouble:51.041324183460000000000000000000] andLocationLongi:[NSNumber numberWithDouble:	13.734192362666000000000000000000]];
-    [self insertLocation:@"Phoenix Wu war bei Park Sanssouci, Potsdam" withLatti:[NSNumber numberWithDouble:52.401182950000000000000000000000] andLocationLongi:[NSNumber numberWithDouble:13.017415320000000000000000000000]];
-    [self insertLocation:@"Phoenix Wu war bei Katy's Garage, Alaunstraße 48" withLatti:[NSNumber numberWithDouble:51.066740252249000000000000000000] andLocationLongi:[NSNumber numberWithDouble:13.751660787179000000000000000000]];
-    [self insertLocation:@"Sven Hemm war bei Griechisches Restaurant Delphi, Blasewitzer Str. 41" withLatti:[NSNumber numberWithDouble:51.053334970014000000000000000000] andLocationLongi:[NSNumber numberWithDouble:	13.779330444863000000000000000000]];
-    [self insertLocation:@"Nicole Mäding war bei Zoo Dresden" withLatti:[NSNumber numberWithDouble:51.037469420426000000000000000000] andLocationLongi:[NSNumber numberWithDouble:13.752768848078000000000000000000]];
-
-}
-
-- (Question*) selectLocation
-{
     
-    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id != %@) AND (person_id contains[c] %@) AND ANY tags.id like %@", fb_id_aktiver_spieler, nicht_aktive_spieler, @"100000772131786" ];
 
-    Question *question = [CoreDataHelper getRandomObjectsForEntity:@"Question" withSortKey:@"place_id" andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    
+    if(question==nil)
+    {
+        NSLog(@"KEINE 1. LOCATION GEFUNDEN");
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id != %@) AND (person_id contains[c] %@)", @"100001282720584", @"100001339740089"];
+        
+        Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+        return question;
+
+    }
     
     return question;
        
 }
 
 
-
-
-
 - (void)insertLocation:(NSString *)locationName withLatti:(NSNumber *) locationLatti andLocationLongi: (NSNumber *) locationLongi
 {
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
 
-    Location *location = [NSEntityDescription insertNewObjectForEntityForName:@"Location" inManagedObjectContext:mainDelegate.managedObjectContext];
+    Location *location = [NSEntityDescription insertNewObjectForEntityForName:@"Question" inManagedObjectContext:mainDelegate.managedObjectContext];
     
     location.name = locationName;
     location.latti = locationLatti;
