@@ -11,10 +11,12 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Player" representedClassName="Player" syncable="YES">
+        <attribute name="angle" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="fb_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fb_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="points" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
     </entity>
     <entity name="Question" representedClassName="Question" syncable="YES">
         <attribute name="created_time" optional="YES" attributeType="String" syncable="YES"/>
@@ -39,7 +41,7 @@
     <elements>
         <element name="Friends" positionX="160" positionY="192" width="128" height="88"/>
         <element name="Location" positionX="-11" positionY="531" width="128" height="90"/>
-        <element name="Player" positionX="135" positionY="321" width="128" height="103"/>
+        <element name="Player" positionX="135" positionY="321" width="128" height="135"/>
         <element name="Question" positionX="-630" positionY="269" width="128" height="238"/>
         <element name="Tags" positionX="-153" positionY="287" width="128" height="88"/>
     </elements>

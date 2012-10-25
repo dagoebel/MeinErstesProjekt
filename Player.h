@@ -2,7 +2,7 @@
 //  Player.h
 //  new
 //
-//  Created by Daniel Goebel on 24.10.12.
+//  Created by Daniel Goebel on 25.10.12.
 //  Copyright (c) 2012 Daniel. All rights reserved.
 //
 
@@ -12,9 +12,11 @@
 
 @interface Player : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * id;
-@property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * fb_id;
 @property (nonatomic, retain) NSString * fb_url;
+@property (nonatomic, retain) NSNumber * id;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * points;
+@property (nonatomic, retain) NSNumber * angle;
 
 @end

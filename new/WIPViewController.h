@@ -111,5 +111,7 @@
 @protocol WIPViewControllerDelegate <NSObject>
 
 -(void)WIPViewControllerDidFinish:(WIPViewController*)viewController;
+- (void)nextPlayer;
+- (void)finishRound;
 
 @end

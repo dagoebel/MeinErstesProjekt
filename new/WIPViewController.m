@@ -9,6 +9,7 @@
 #import "WIPViewController.h"
 #import "WIPAppDelegate.h"
 #import "Friends.h"
+#import "Tags.h"
 #import "CoreDataHelper.h"
 
 @interface WIPViewController ()
@@ -144,94 +145,11 @@ static int curveValues[] = {
 - (IBAction) selectPlayerSetup:(id)sender {
     UIButton *button = (UIButton *)sender;
     
-   
-    
+  
     if(spielAktiv){
         
-        if (button.tag == 1) {
-            if (currentPlayer == 1) {
-                if (anzahlPlayer != 1) {
-                     currentPlayer = 2;
-                    [imageWheel resetAngle: globalHeading];
-                    [self stopPulsateUIImageView:self.glass1];
-                    [self stopPulsateUIImageView:self.glass4];
-                    [self stopPulsateUIImageView:self.glass3];
-                    [self pulsateUIImageView:self.glass2];
-                }
-                else
-                {
-                   [self stopPulsateUIImageView:self.glass1];
-                    NSLog(@"AUSWERTUNG");
-                }
-               
-            }
-            else{
-                currentPlayer = 1;
-                [self stopPulsateUIImageView:self.glass4];
-                [self stopPulsateUIImageView:self.glass2];
-                [self stopPulsateUIImageView:self.glass3];
-                [self pulsateUIImageView:self.glass1];
-            }
-            
-        }
-        else if (button.tag == 2) {
-            if (currentPlayer == 2) {
-                if (anzahlPlayer != 2) {
-                    currentPlayer = 3;
-                    [self stopPulsateUIImageView:self.glass1];
-                    [self stopPulsateUIImageView:self.glass4];
-                    [self stopPulsateUIImageView:self.glass2];
-                    [self pulsateUIImageView:self.glass3];
-                }
-                else
-                {
-                    [self stopPulsateUIImageView:self.glass2];
-                    NSLog(@"AUSWERTUNG");
-                }
-                
-            }
-            else{
-                currentPlayer = 1;
-                [self stopPulsateUIImageView:self.glass4];
-                [self stopPulsateUIImageView:self.glass2];
-                [self stopPulsateUIImageView:self.glass3];
-                [self pulsateUIImageView:self.glass1];
-            }
-            
-        }
-        else if (button.tag == 3) {
-            if (currentPlayer == 3) {
-                if (anzahlPlayer != 3) {
-                    currentPlayer = 4;
-                    [self stopPulsateUIImageView:self.glass1];
-                    [self stopPulsateUIImageView:self.glass3];
-                    [self stopPulsateUIImageView:self.glass2];
-                    [self pulsateUIImageView:self.glass4];
-                }
-                else
-                {
-                    [self stopPulsateUIImageView:self.glass3];
-                    NSLog(@"AUSWERTUNG");
-                }
-                
-            }
-            else{
-                currentPlayer = 1;
-                [self stopPulsateUIImageView:self.glass4];
-                [self stopPulsateUIImageView:self.glass2];
-                [self stopPulsateUIImageView:self.glass3];
-                [self pulsateUIImageView:self.glass1];
-            }
-            
-        }
-
-        else if (button.tag == 4) {
-            if (currentPlayer == 4) {
-                    [self stopPulsateUIImageView:self.glass4];
-                    NSLog(@"AUSWERTUNG");
-                }
-        }
-
+        [self nextPlayer:button.tag];
+        
     }
     
     else{
@@ -415,7 +333,7 @@ static int curveValues[] = {
     
 }
 
-- (void)spielerNameSelected:(NSString*)spielerNameValue: (NSInteger)spielerFbId {
+- (void)spielerNameSelected:(NSString*)spielerNameValue: (NSString*)spielerFbId {
     
        
     [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer] :spielerFbId:nil];
@@ -470,6 +388,14 @@ static int curveValues[] = {
 
 - (void)startGame {
     
+ 
+    
+    
+    
+    [self stopPulsateUIImageView:self.glass4];
+    [self stopPulsateUIImageView:self.glass2];
+    [self stopPulsateUIImageView:self.glass3];
+    [self pulsateUIImageView:self.glass1];
     
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
     
@@ -526,10 +452,17 @@ static int curveValues[] = {
         
     }
     
-  //  if (locationAktiv.tags.!=nil) {
-       // frageString = [frageString stringByAppendingString:@" mit "];
-       // frageString = [frageString stringByAppendingString:locationAktiv.tags_name];
-  //  }
+    if ([locationAktiv.tags count]>0) {
+        frageString = [frageString stringByAppendingString:@" mit "];
+        
+        for (Tags* tag in locationAktiv.tags)
+        {
+           NSLog(@"tag %@",tag.name);
+            NSLog(@"tagID %@",tag.id);
+            frageString = [frageString stringByAppendingString:tag.name];
+            frageString = [frageString stringByAppendingString:@" , "];
+        }
+    }
           
          
     
@@ -551,7 +484,7 @@ static int curveValues[] = {
     imageWheel = [[ANImageWheel alloc] initWithFrame:CGRectMake(0, 0, kompassScheibeHeight, kompassScheibeWidth)];
     [imageWheel setImage:[UIImage imageNamed:@"jj1.png"]];
     [imageWheel startAnimating:self];
-    [imageWheel setDrag:.5];
+    [imageWheel setDrag:.9];
     
     // first reduce the view to 1/100th of its original dimension
 
@@ -592,14 +525,108 @@ static int curveValues[] = {
         
 }
 
-- (void)nextPlayer {
+- (void)nextPlayer:(int) spielerNr {
     
-  
-  
+    mWIPGameController = [[WIPGameController alloc]init];
+    if (spielerNr == 1) {
+        if (currentPlayer == 1) {
+            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
+            if (anzahlPlayer != 1) {
+                currentPlayer = 2;
+                [imageWheel resetAngle: globalHeading];
+                [self stopPulsateUIImageView:self.glass1];
+                [self stopPulsateUIImageView:self.glass4];
+                [self stopPulsateUIImageView:self.glass3];
+                [self pulsateUIImageView:self.glass2];
+            }
+            else
+            {
+                [self stopPulsateUIImageView:self.glass1];
+                [self finishRound];
+            }
+            
+        }
+        else{
+            currentPlayer = 1;
+            [self stopPulsateUIImageView:self.glass4];
+            [self stopPulsateUIImageView:self.glass2];
+            [self stopPulsateUIImageView:self.glass3];
+            [self pulsateUIImageView:self.glass1];
+        }
+        
+    }
+    else if (spielerNr == 2) {
+        [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
+        if (currentPlayer == 2) {
+            if (anzahlPlayer != 2) {
+                currentPlayer = 3;
+                [self stopPulsateUIImageView:self.glass1];
+                [self stopPulsateUIImageView:self.glass4];
+                [self stopPulsateUIImageView:self.glass2];
+                [self pulsateUIImageView:self.glass3];
+            }
+            else
+            {
+                [self stopPulsateUIImageView:self.glass2];
+                [self finishRound];
+            }
+            
+        }
+        else{
+            currentPlayer = 1;
+            [self stopPulsateUIImageView:self.glass4];
+            [self stopPulsateUIImageView:self.glass2];
+            [self stopPulsateUIImageView:self.glass3];
+            [self pulsateUIImageView:self.glass1];
+        }
+        
+    }
+    else if (spielerNr == 3) {
+        if (currentPlayer == 3) {
+        [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
+            if (anzahlPlayer != 3) {
+                currentPlayer = 4;
+                [self stopPulsateUIImageView:self.glass1];
+                [self stopPulsateUIImageView:self.glass3];
+                [self stopPulsateUIImageView:self.glass2];
+                [self pulsateUIImageView:self.glass4];
+            }
+            else
+            {
+                [self stopPulsateUIImageView:self.glass3];
+                [self finishRound];
+            }
+            
+        }
+        else{
+            currentPlayer = 1;
+            [self stopPulsateUIImageView:self.glass4];
+            [self stopPulsateUIImageView:self.glass2];
+            [self stopPulsateUIImageView:self.glass3];
+            [self pulsateUIImageView:self.glass1];
+        }
+        
+    }
     
+    else if (spielerNr == 4) {
+        if (currentPlayer == 4) {
+            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
+            [self stopPulsateUIImageView:self.glass4];
+            [self finishRound];
+            
+        }
+    }
+  
 }
 
+- (void)finishRound
+{
+    NSLog(@"AUSWERTUNG");
+    
+    mWIPGameController = [[WIPGameController alloc]init];
 
+    [mWIPGameController calculateWinner:[imageWheel getAngle]];
+}
 
 
 - (void)pulsateUIImageView:(UIImageView*) view
@@ -696,13 +723,15 @@ static int curveValues[] = {
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSString *cellText = cell.textLabel.text;
+    NSString *cellDetailedText = cell.detailTextLabel.text;
     
     cell.userInteractionEnabled = FALSE;
     cell.backgroundColor = [UIColor whiteColor];
-    NSLog(@"tap %d@",cell.tag);
+    NSLog(@"tap %@",cellDetailedText );
+    NSLog(@"tap %@",cellText );
 
     
-    [self spielerNameSelected:cellText :cell.tag];
+    [self spielerNameSelected:cellText :cellDetailedText];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -714,7 +743,7 @@ static int curveValues[] = {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
     }
     
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
@@ -726,23 +755,17 @@ static int curveValues[] = {
     if (count!=0) {
     
         cell.textLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"name"];
-        
-        
-        cell.tag = [[[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"] integerValue];
-   
-        NSLog(@"ADS: %@", [[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"]);
-        NSLog(@"ADS_name: %@", [[friends objectAtIndex:indexPath.row] valueForKey:@"name"]);
-
+        cell.detailTextLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"];
         
         NSURL *imageURL = [NSURL URLWithString: [[friends objectAtIndex:indexPath.row] valueForKey:@"picture"]];
-
-        
+ 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 // Update the UI
                cell.imageView.image = [UIImage imageWithData:imageData];
+                
             });
         });
         

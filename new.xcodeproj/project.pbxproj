@@ -11,6 +11,7 @@
 		AA33F139162986B40045FC78 /* jaeger.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F138162986B40045FC78 /* jaeger.png */; };
 		AA33F13C162987030045FC78 /* jaeger1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13B162987030045FC78 /* jaeger1.png */; };
 		AA33F13E1629873C0045FC78 /* jj1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13D1629873C0045FC78 /* jj1.png */; };
+		AA39063E1639737500155200 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39063D1639737500155200 /* Player.m */; };
 		AA4250351627EE1700152714 /* fortune.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4250331627EE1700152714 /* fortune.png */; };
 		AA4250361627EE3700152714 /* fortune.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4250331627EE1700152714 /* fortune.png */; };
 		AA42503C1627EEC900152714 /* ANSpinWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4250391627EEC800152714 /* ANSpinWheel.m */; };
@@ -62,7 +63,6 @@
 		AAB84FC81626F99B0025FDFD /* WIPGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB84FC71626F99B0025FDFD /* WIPGameController.m */; };
 		AADC7E02163811F6006AD87A /* Tags.m in Sources */ = {isa = PBXBuildFile; fileRef = AADC7E01163811F6006AD87A /* Tags.m */; };
 		AADC7E05163811F7006AD87A /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = AADC7E04163811F7006AD87A /* Question.m */; };
-		AADC7E081638340E006AD87A /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AADC7E071638340E006AD87A /* Player.m */; };
 		AAF320981615E63A00D7E0BD /* wooden_top.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AAF320971615E63A00D7E0BD /* wooden_top.jpeg */; };
 		AAF320A41618AEEB00D7E0BD /* WIPDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF320A31618AEEB00D7E0BD /* WIPDirection.m */; };
 		AAF320AE1618DB6200D7E0BD /* WIPLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF320AD1618DB6200D7E0BD /* WIPLocationController.m */; };
@@ -91,6 +91,8 @@
 		AA33F138162986B40045FC78 /* jaeger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaeger.png; sourceTree = "<group>"; };
 		AA33F13B162987030045FC78 /* jaeger1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaeger1.png; sourceTree = "<group>"; };
 		AA33F13D1629873C0045FC78 /* jj1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jj1.png; sourceTree = "<group>"; };
+		AA39063C1639737500155200 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		AA39063D1639737500155200 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		AA4250331627EE1700152714 /* fortune.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fortune.png; sourceTree = "<group>"; };
 		AA4250341627EE1700152714 /* SpinWheel-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SpinWheel-Prefix.pch"; sourceTree = "<group>"; };
 		AA4250381627EEC800152714 /* ANSpinWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANSpinWheel.h; sourceTree = "<group>"; };
@@ -155,8 +157,6 @@
 		AADC7E01163811F6006AD87A /* Tags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tags.m; sourceTree = "<group>"; };
 		AADC7E03163811F7006AD87A /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
 		AADC7E04163811F7006AD87A /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
-		AADC7E061638340E006AD87A /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
-		AADC7E071638340E006AD87A /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		AAF320971615E63A00D7E0BD /* wooden_top.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = wooden_top.jpeg; path = new/wooden_top.jpeg; sourceTree = "<group>"; };
 		AAF320A21618AEEB00D7E0BD /* WIPDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WIPDirection.h; path = ../WIPDirection.h; sourceTree = "<group>"; };
 		AAF320A31618AEEB00D7E0BD /* WIPDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WIPDirection.m; path = ../WIPDirection.m; sourceTree = "<group>"; };
@@ -350,13 +350,13 @@
 				AAA117A9161EF91000A3A3A6 /* CoreDataHelper.h */,
 				AAA117AA161EF91000A3A3A6 /* CoreDataHelper.m */,
 				AA611B6216344F4100ED4E34 /* Friends.h */,
-				AA611B6316344F4100ED4E34 /* Friends.m */,
 				AADC7E03163811F7006AD87A /* Question.h */,
 				AADC7E04163811F7006AD87A /* Question.m */,
 				AADC7E00163811F6006AD87A /* Tags.h */,
 				AADC7E01163811F6006AD87A /* Tags.m */,
-				AADC7E061638340E006AD87A /* Player.h */,
-				AADC7E071638340E006AD87A /* Player.m */,
+				AA611B6316344F4100ED4E34 /* Friends.m */,
+				AA39063C1639737500155200 /* Player.h */,
+				AA39063D1639737500155200 /* Player.m */,
 			);
 			name = "Core Date";
 			sourceTree = "<group>";
@@ -514,7 +514,7 @@
 				AA611B6416344F4100ED4E34 /* Friends.m in Sources */,
 				AADC7E02163811F6006AD87A /* Tags.m in Sources */,
 				AADC7E05163811F7006AD87A /* Question.m in Sources */,
-				AADC7E081638340E006AD87A /* Player.m in Sources */,
+				AA39063E1639737500155200 /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

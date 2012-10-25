@@ -148,17 +148,28 @@
     
     
     NSMutableSet *mySet = [[NSMutableSet alloc] init];
+    NSMutableArray *tagsName = [NSMutableArray array];
     
     NSLog(@"[newQuestion valueForKey:tags_id%@",[newQuestion valueForKey:@"tags_id"]);
+    NSLog(@"[newQuestion valueForKey:tags_name%@",[newQuestion valueForKey:@"tags_name"]);
+    
+    tagsName = [newQuestion valueForKey:@"tags_name"];
+    
+    int i = 0;
     
     for (id tag_id in [newQuestion valueForKey:@"tags_id"]){
         
         Tags *tag = [NSEntityDescription insertNewObjectForEntityForName:@"Tags" inManagedObjectContext:mainDelegate.managedObjectContext];
         
         tag.id = tag_id;
-        //tag.name = [newQuestion valueForKey:@"tags_name"];
+        tag.name = [tagsName objectAtIndex:i];
+        
+         NSLog(@"QUESTION TAG ID%@", tag.id);
+         NSLog(@"QUESTION TAG NAME%@", tag.name);
         
         [mySet addObject:tag];
+        
+        i++;
         
     }
        
@@ -166,7 +177,7 @@
     [question setTags:mySet];
  
     //NSLog(@"TAGS: %@",tags);
-    NSLog(@"%@",question);
+    NSLog(@"QUESTION%@",question);
     
     [mainDelegate.managedObjectContext save:nil];
     

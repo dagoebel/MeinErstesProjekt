@@ -24,8 +24,11 @@
 
 - (void) newGame: (double) playerCount;
 - (void) nextPlayer;
-- (void) calculateWinner;
+- (int) calculateWinner:(double)angle;
 - (void) deletePlayer;
-- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSInteger)fb_id: (NSString *)fb_url;
+- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSString *)fb_id: (NSString *)fb_url;
+
+- (void) saveAngle:(int)playerID:(double)angle;
+- (void) savePoints:(int)playerID:(double)points;
 
 @end

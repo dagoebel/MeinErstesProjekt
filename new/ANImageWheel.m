@@ -37,6 +37,18 @@
 - (void)setAngle:(double)anAngle {
     [super setAngle:anAngle];
     [[imageView layer] setTransform:CATransform3DMakeRotation(angle, 0, 0, 1)];
+    
+}
+
+- (double)getAngle {
+    
+    CALayer* layer = [imageView.layer presentationLayer];
+    
+    double rotationAngle = [[layer valueForKeyPath:@"transform.rotation.z"] floatValue];
+    
+    NSLog(@"AG %f",rotationAngle);
+
+    return rotationAngle;
 }
 
 - (void)resetAngle: (double) globalHeading {
@@ -55,7 +67,12 @@
     animRotate.cumulative=true;
     animRotate.removedOnCompletion = FALSE;
     [imageView.layer addAnimation:animRotate forKey:@"rotate"];
+    [imageView.layer removeAllAnimations];
 
+
+    
+
+   
 }
 
 
