@@ -27,10 +27,14 @@ static double playerCount;
     
     
 }
-- (int) calculateWinner:(double)angle{
+- (int) calculateWinner:(double)locationAngle{
     
     int winner = 1;
     double diffAngle = 0.0;
+    double bestDiffAngle = 0.0;
+    
+    
+    NSLog(@"locationAngle %f",locationAngle);
     
     NSMutableArray *spieler = [[NSMutableArray alloc] init];
     
@@ -38,27 +42,64 @@ static double playerCount;
     
     spieler = [CoreDataHelper getObjectsForEntity:@"Player" withSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
     
+    if(locationAngle<0)
+        locationAngle = M_PI + (M_PI + locationAngle);
+    
     for(Player *player in spieler)
     {
         double playerAngle = [player.angle doubleValue];
         double playerID = [player.id doubleValue];
-        double playerDiffAngle = (playerAngle-angle);
+        if(playerAngle<0)
+            playerAngle = M_PI + (M_PI + playerAngle);
         
-        if (playerID==1) {
-            diffAngle = playerDiffAngle;
-        }
-        else
+        
+        if(locationAngle>playerAngle)
         {
-            NSLog(@"diffAnfle %f",diffAngle);
-             NSLog(@"PLAYERdiffAnfle %f",playerDiffAngle);
-            if(diffAngle>playerDiffAngle)
-            {
-                diffAngle = playerDiffAngle;
-                winner = playerID;
-                
+            if ((locationAngle-playerAngle)>M_PI) {
+                diffAngle  = 2*M_PI - locationAngle + playerAngle;
+            }
+            else{
+                diffAngle = locationAngle - playerAngle;
             }
             
         }
+        else
+        {
+            if((playerAngle - locationAngle) > M_PI)
+            {
+                diffAngle  = 2*M_PI - playerAngle + locationAngle;
+            }
+            else{
+                diffAngle = playerAngle - locationAngle;
+            }
+        }
+        
+        if(playerID==1)
+        {
+            bestDiffAngle = diffAngle;
+            winner = playerID;
+        }
+        else{
+            if(diffAngle<bestDiffAngle){
+                bestDiffAngle = diffAngle;
+                winner = playerID;
+            }
+        }
+            
+        
+        
+        NSLog(@"==========");
+             
+         NSLog(@"%f playerAngle %f",playerID, playerAngle);
+        NSLog(@"%f  diffAngle %f",playerID,  diffAngle);
+        
+        
+         NSLog(@"==========");
+        
+         NSLog(@"==========");
+         NSLog(@"==========");
+        
+         NSLog(@"%f bestDiffAngle %f",playerID, bestDiffAngle);
  
     }
 

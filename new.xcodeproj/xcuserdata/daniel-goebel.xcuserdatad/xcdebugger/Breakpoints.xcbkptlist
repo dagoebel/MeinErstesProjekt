@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.h"
-         timestampString = "372767071.287278"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "109"
-         endingLineNumber = "109"
+         startingLineNumber = "119"
+         endingLineNumber = "119"
          landmarkName = "@interface WIPViewController"
          landmarkType = "2">
       </FileBreakpoint>
@@ -34,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372861058.960599"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "387"
-         endingLineNumber = "387"
+         startingLineNumber = "475"
+         endingLineNumber = "475"
          landmarkName = "-spielerNameSelected::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -333,11 +333,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372866740.277812"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "755"
-         endingLineNumber = "755"
+         startingLineNumber = "863"
+         endingLineNumber = "863"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -346,11 +346,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372866740.277812"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "771"
-         endingLineNumber = "771"
+         startingLineNumber = "880"
+         endingLineNumber = "880"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -359,11 +359,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372861058.960599"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "344"
-         endingLineNumber = "344"
+         startingLineNumber = "367"
+         endingLineNumber = "367"
          landmarkName = "-spielerNameSelected::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -372,11 +372,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372866740.277812"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "760"
-         endingLineNumber = "760"
+         startingLineNumber = "869"
+         endingLineNumber = "869"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -385,11 +385,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372866740.277812"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "763"
-         endingLineNumber = "763"
+         startingLineNumber = "871"
+         endingLineNumber = "871"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -398,11 +398,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372862339.896467"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "403"
-         endingLineNumber = "403"
+         startingLineNumber = "484"
+         endingLineNumber = "484"
          landmarkName = "-startGame"
          landmarkType = "5">
       </FileBreakpoint>
@@ -580,11 +580,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372861058.960599"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "378"
-         endingLineNumber = "378"
+         startingLineNumber = "435"
+         endingLineNumber = "435"
          landmarkName = "-spielerNameSelected::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -671,11 +671,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372861058.960599"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "339"
-         endingLineNumber = "339"
+         startingLineNumber = "362"
+         endingLineNumber = "362"
          landmarkName = "-spielerNameSelected::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -684,11 +684,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372866740.277812"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "734"
-         endingLineNumber = "734"
+         startingLineNumber = "842"
+         endingLineNumber = "842"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -840,11 +840,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372866947.230832"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "533"
-         endingLineNumber = "533"
+         startingLineNumber = "652"
+         endingLineNumber = "652"
          landmarkName = "-nextPlayer:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -853,11 +853,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "372866948.751051"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "536"
-         endingLineNumber = "536"
+         startingLineNumber = "655"
+         endingLineNumber = "655"
          landmarkName = "-nextPlayer:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -866,11 +866,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "76"
-         endingLineNumber = "76"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
          landmarkName = "-saveAngle::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -879,11 +879,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "78"
-         endingLineNumber = "78"
+         startingLineNumber = "119"
+         endingLineNumber = "119"
          landmarkName = "-saveAngle::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -892,11 +892,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "80"
-         endingLineNumber = "80"
+         startingLineNumber = "121"
+         endingLineNumber = "121"
          landmarkName = "-saveAngle::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -905,11 +905,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "82"
-         endingLineNumber = "82"
+         startingLineNumber = "123"
+         endingLineNumber = "123"
          landmarkName = "-saveAngle::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -918,11 +918,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "84"
-         endingLineNumber = "84"
+         startingLineNumber = "125"
+         endingLineNumber = "125"
          landmarkName = "-saveAngle::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -931,11 +931,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "86"
-         endingLineNumber = "86"
+         startingLineNumber = "127"
+         endingLineNumber = "127"
          landmarkName = "-saveAngle::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -944,11 +944,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "87"
-         endingLineNumber = "87"
+         startingLineNumber = "128"
+         endingLineNumber = "128"
          landmarkName = "-saveAngle::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -957,11 +957,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "88"
-         endingLineNumber = "88"
+         startingLineNumber = "129"
+         endingLineNumber = "129"
          landmarkName = "-saveAngle::"
          landmarkType = "5">
       </FileBreakpoint>
@@ -970,37 +970,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868735.604573"
+         timestampString = "373036630.133237"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "48"
-         endingLineNumber = "48"
-         landmarkName = "-calculateWinner:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "57"
-         endingLineNumber = "57"
-         landmarkName = "-calculateWinner:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "56"
-         endingLineNumber = "56"
+         startingLineNumber = "52"
+         endingLineNumber = "52"
          landmarkName = "-calculateWinner:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1009,11 +983,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPGameController.m"
-         timestampString = "372868981.570013"
+         timestampString = "373036967.776232"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "54"
-         endingLineNumber = "54"
+         startingLineNumber = "52"
+         endingLineNumber = "52"
          landmarkName = "-calculateWinner:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1021,13 +995,26 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "new/WIPGameController.m"
-         timestampString = "372868964.019829"
+         filePath = "new/WIPViewController.m"
+         timestampString = "373049902.282417"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "53"
-         endingLineNumber = "53"
-         landmarkName = "-calculateWinner:"
+         startingLineNumber = "976"
+         endingLineNumber = "976"
+         landmarkName = "-naechsteRunde:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/ANImageWheel.m"
+         timestampString = "373046844.705969"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "64"
+         endingLineNumber = "64"
+         landmarkName = "-resetAngle:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

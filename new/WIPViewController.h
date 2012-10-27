@@ -16,6 +16,7 @@
 #import "WIPAnimations.h"
 #import "WIPAppDelegate.h"
 #import "WIPFacebook.h"
+#import <AVFoundation/AVFoundation.h>
 
 
 @protocol WIPViewControllerDelegate;
@@ -32,6 +33,7 @@
 
     NSArray *people;
 	NSArray *filteredPeople;
+    AVAudioPlayer* audioPlayer;
     
 	UISearchDisplayController *searchDisplayController;
 }
@@ -64,11 +66,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *spieler4Lbl;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
+@property (weak, nonatomic) IBOutlet UIButton *naechsteRundeBtn;
+- (IBAction)naechsteRunde:(id)sender;
+
+
+@property (weak, nonatomic) IBOutlet UIImageView *player1Img;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *menuLabel;
 - (IBAction)spielerNameEntered:(id)sender;
-
 
 @property (weak, nonatomic) IBOutlet UIImageView *glassOutlet2;
 
@@ -102,7 +108,11 @@
 - (IBAction)selectLocation:(id)sender;
 - (IBAction)calculateLocation:(id)sender;
 
+
 - (void)pulsateUIImageView:(UIImageView*) view;
+- (UIImage * ) mergeImage: (UIImage *) imageA
+withImage:  (UIImage *) imageB
+                 strength: (float) strength;
 
 @property (weak, nonatomic) IBOutlet UITableView *TableViewFriends;
 
@@ -113,5 +123,6 @@
 -(void)WIPViewControllerDidFinish:(WIPViewController*)viewController;
 - (void)nextPlayer;
 - (void)finishRound;
+
 
 @end

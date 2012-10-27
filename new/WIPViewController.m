@@ -11,6 +11,7 @@
 #import "Friends.h"
 #import "Tags.h"
 #import "CoreDataHelper.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface WIPViewController ()
 
@@ -20,7 +21,7 @@
 
 static double kompassScheibeHeight, kompassScheibeWidth;
 static double globalHeading;
-static double anzahlPlayer, currentPlayer;
+static double anzahlPlayer, currentPlayer, startPlayer;
 static bool spielAktiv;
 static double spielerAktiv;
 static Question *locationAktiv;
@@ -38,12 +39,14 @@ static double globalLocationHeading;
 @synthesize spieler1Btn, spieler2Btn, spieler3Btn, spieler4Btn;
 
 @synthesize spieler1Lbl,  spieler2Lbl, spieler3Lbl, spieler4Lbl;
+@synthesize player1Img;
 @synthesize menuLabel;
 @synthesize tableView;
 
 @synthesize people, filteredPeople;
 @synthesize searchDisplayController;
 @synthesize progressBar;
+@synthesize naechsteRundeBtn;
 
 
 static int curveValues[] = {
@@ -91,6 +94,26 @@ static int curveValues[] = {
     }
 
 
+}
+
+- (UIImage * ) mergeImage: (UIImage *) imageA
+                withImage:  (UIImage *) imageB
+                 strength: (float) strength {
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(imageA.size.width, imageA.size.height), YES, 0.0);
+    
+    
+ 
+    [imageA drawInRect:CGRectMake(0, 0, imageA.size.width, imageA.size.height)];
+    [imageB drawInRect:CGRectMake(0, 0, imageA.size.width, imageA.size.height) blendMode: kCGBlendModeNormal alpha: strength];
+    
+
+    
+    UIImage *answer = UIGraphicsGetImageFromCurrentImageContext();
+    
+  
+    UIGraphicsEndImageContext();
+    return answer;
 }
 
 
@@ -144,8 +167,7 @@ static int curveValues[] = {
 
 - (IBAction) selectPlayerSetup:(id)sender {
     UIButton *button = (UIButton *)sender;
-    
-  
+
     if(spielAktiv){
         
         [self nextPlayer:button.tag];
@@ -335,6 +357,7 @@ static int curveValues[] = {
 
 - (void)spielerNameSelected:(NSString*)spielerNameValue: (NSString*)spielerFbId {
     
+    UIImageView * glass = nil;
        
     [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer] :spielerFbId:nil];
     
@@ -347,28 +370,62 @@ static int curveValues[] = {
 
     if (currentPlayer==2) {
         [self stopPulsateUIImageView:self.glass1];
-        spieler1Lbl.text = spielerNameValue;
+        if(spielerFbId!=nil)
+        {
+          glass = glass1;
+          spieler1Lbl.text = @"";
+        }
+        else{
+            spieler1Lbl.text = spielerNameValue;
+   
+        }
         [self pulsateUIImageView:self.glass2];
     }
     
-    if (currentPlayer==3) {
+    else if (currentPlayer==3) {
         [self stopPulsateUIImageView:self.glass2];
-        spieler2Lbl.text = spielerNameValue;
+        if(spielerFbId!=nil)
+        {
+            glass = glass2;
+            spieler2Lbl.text = @"";
+        }
+        else{
+            spieler2Lbl.text = spielerNameValue;
+            
+        }
+
         [self pulsateUIImageView:self.glass3];
        //  [spielerName becomeFirstResponder];
     }
     
-    if (currentPlayer==4) {
+    else if (currentPlayer==4) {
         [self stopPulsateUIImageView:self.glass3];
-        spieler3Lbl.text = spielerNameValue;
+        if(spielerFbId!=nil)
+        {
+            glass = glass3;
+            spieler3Lbl.text = @"";
+        }
+        else{
+            spieler3Lbl.text = spielerNameValue;
+            
+        }
+
         [self pulsateUIImageView:self.glass4];
       //  [spielerName becomeFirstResponder];
     }
     
     
-    if (currentPlayer==5) {
+    else if (currentPlayer==5) {
         [self stopPulsateUIImageView:self.glass4];
-        spieler4Lbl.text = spielerNameValue;
+        if(spielerFbId!=nil)
+        {
+            glass = glass4;
+            spieler4Lbl.text = @"";
+        }
+        else{
+            spieler4Lbl.text = spielerNameValue;
+            
+        }
     }
     
     
@@ -383,19 +440,43 @@ static int curveValues[] = {
 
     }
     
+    
+    
+    /////// LOAD IMAGE
+    
+    NSString *imageUrlString = @"http://graph.facebook.com/";
+    imageUrlString = [imageUrlString stringByAppendingString:spielerFbId];
+    imageUrlString = [imageUrlString stringByAppendingString:@"/picture?type=large"];
+    
+    NSURL *imageURL = [NSURL URLWithString: imageUrlString];
+    
+    
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // Update the UI
+            
+             UIImage* new = [UIImage imageWithData:imageData];
+            
+            glass.image = [self mergeImage:glass.image withImage:new strength:1];
+            glass.layer.cornerRadius  = 75.0;
+           glass.layer.masksToBounds = YES;
+            
+           // kompassScheibe.image  = [self createMenuRingWithFrame:CGRectMake(0,0,480,480)];
+            
+            
+            
+        });
+    });
+    
 
 }
 
 - (void)startGame {
     
- 
-    
-    
-    
-    [self stopPulsateUIImageView:self.glass4];
-    [self stopPulsateUIImageView:self.glass2];
-    [self stopPulsateUIImageView:self.glass3];
-    [self pulsateUIImageView:self.glass1];
+
     
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
     
@@ -414,69 +495,9 @@ static int curveValues[] = {
         
         
         
-    spielAktiv = true;
-
-    mWIPDirection  = [[WIPDirection alloc]init];
-    mWIPLocations  = [[WIPLocations alloc]init];
-
+      
     
-    locationAktiv = [mWIPLocations selectLocation:1];
-    
-    
-    NSString * frageString = @"";
-    
-    frageString = [frageString stringByAppendingString:locationAktiv.person_name];
-    
-    if (locationAktiv.place_name!=nil) {
-        frageString = [frageString stringByAppendingString:@" war bei "];
-        frageString = [frageString stringByAppendingString:locationAktiv.place_name];
-
-    }
-    
-    if (locationAktiv.place_location_city!=nil) {
-        frageString = [frageString stringByAppendingString:@" in "];
-        frageString = [frageString stringByAppendingString:locationAktiv.place_location_city];
         
-    }
-    
-    if (locationAktiv.place_location_street!=nil) {
-        frageString = [frageString stringByAppendingString:@" ("];
-        frageString = [frageString stringByAppendingString:locationAktiv.place_location_street];
-         frageString = [frageString stringByAppendingString:@")"];
-        
-    }
-    
-    if (locationAktiv.created_time!=nil) {
-        frageString = [frageString stringByAppendingString:@" am "];
-        frageString = [frageString stringByAppendingString:locationAktiv.created_time];
-        
-    }
-    
-    if ([locationAktiv.tags count]>0) {
-        frageString = [frageString stringByAppendingString:@" mit "];
-        
-        for (Tags* tag in locationAktiv.tags)
-        {
-           NSLog(@"tag %@",tag.name);
-            NSLog(@"tagID %@",tag.id);
-            frageString = [frageString stringByAppendingString:tag.name];
-            frageString = [frageString stringByAppendingString:@" , "];
-        }
-    }
-          
-         
-    
-    locationLabel.hidden = FALSE;
-    locationLabel.text = frageString;
-    
-
-    float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:globalPosition];
-    globalLocationHeading = angle;
-    
-    
-    zeiger.tag = angle;    
-    zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (-globalHeading-90+zeiger.tag));
-    
     mWIPGameController = [[WIPGameController alloc]init];
     [mWIPGameController newGame:anzahlPlayer];
     
@@ -521,13 +542,111 @@ static int curveValues[] = {
     menuLabel.hidden = TRUE;
     spielerName.hidden = TRUE;
         
+        spielAktiv = true;
+        startPlayer = 1;
+        
+        [self nextRound];
+        
     }
         
 }
 
+- (void)nextRound{
+    
+  
+    
+    mWIPDirection  = [[WIPDirection alloc]init];
+    mWIPLocations  = [[WIPLocations alloc]init];
+    
+    
+    locationAktiv = [mWIPLocations selectLocation:startPlayer];
+    
+    NSString * frageString = @"";
+    
+    frageString = [frageString stringByAppendingString:locationAktiv.person_name];
+    
+    if (locationAktiv.place_name!=nil) {
+        frageString = [frageString stringByAppendingString:@" war bei "];
+        frageString = [frageString stringByAppendingString:locationAktiv.place_name];
+        
+    }
+    
+    if (locationAktiv.place_location_city!=nil) {
+        frageString = [frageString stringByAppendingString:@" in "];
+        frageString = [frageString stringByAppendingString:locationAktiv.place_location_city];
+        
+    }
+    
+    if (locationAktiv.place_location_street!=nil) {
+        frageString = [frageString stringByAppendingString:@" ("];
+        frageString = [frageString stringByAppendingString:locationAktiv.place_location_street];
+        frageString = [frageString stringByAppendingString:@")"];
+        
+    }
+    
+    if (locationAktiv.created_time!=nil) {
+        frageString = [frageString stringByAppendingString:@" am "];
+        frageString = [frageString stringByAppendingString:locationAktiv.created_time];
+        
+    }
+    
+    if ([locationAktiv.tags count]>0) {
+        frageString = [frageString stringByAppendingString:@" mit "];
+        
+        for (Tags* tag in locationAktiv.tags)
+        {
+            NSLog(@"tag %@",tag.name);
+            NSLog(@"tagID %@",tag.id);
+            frageString = [frageString stringByAppendingString:tag.name];
+            frageString = [frageString stringByAppendingString:@" , "];
+        }
+    }
+    
+    
+    
+    locationLabel.hidden = FALSE;
+    locationLabel.text = frageString;
+    
+    
+    float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:globalPosition];
+    globalLocationHeading = angle;
+    
+    
+    zeiger.tag = angle;
+    zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (-globalHeading-90+zeiger.tag));
+    
+    
+    
+    
+    if(startPlayer<anzahlPlayer)
+    {
+        //startPlayer++;
+    }
+    else
+    {
+        startPlayer = 1;
+    }
+    
+    
+    [self stopPulsateUIImageView:self.glass4];
+    [self stopPulsateUIImageView:self.glass2];
+    [self stopPulsateUIImageView:self.glass3];
+    [self pulsateUIImageView:self.glass1];
+    
+    currentPlayer = 1;
+   
+}
+
 - (void)nextPlayer:(int) spielerNr {
     
+    NSURL* file = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"bu" ofType:@"mp3"]];
+    
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:file error:nil];
+    [audioPlayer prepareToPlay];
+
+    
     mWIPGameController = [[WIPGameController alloc]init];
+
     if (spielerNr == 1) {
         if (currentPlayer == 1) {
             [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
@@ -538,6 +657,7 @@ static int curveValues[] = {
                 [self stopPulsateUIImageView:self.glass4];
                 [self stopPulsateUIImageView:self.glass3];
                 [self pulsateUIImageView:self.glass2];
+                [audioPlayer play];
             }
             else
             {
@@ -545,13 +665,6 @@ static int curveValues[] = {
                 [self finishRound];
             }
             
-        }
-        else{
-            currentPlayer = 1;
-            [self stopPulsateUIImageView:self.glass4];
-            [self stopPulsateUIImageView:self.glass2];
-            [self stopPulsateUIImageView:self.glass3];
-            [self pulsateUIImageView:self.glass1];
         }
         
     }
@@ -564,6 +677,7 @@ static int curveValues[] = {
                 [self stopPulsateUIImageView:self.glass4];
                 [self stopPulsateUIImageView:self.glass2];
                 [self pulsateUIImageView:self.glass3];
+                [audioPlayer play];
             }
             else
             {
@@ -571,13 +685,6 @@ static int curveValues[] = {
                 [self finishRound];
             }
             
-        }
-        else{
-            currentPlayer = 1;
-            [self stopPulsateUIImageView:self.glass4];
-            [self stopPulsateUIImageView:self.glass2];
-            [self stopPulsateUIImageView:self.glass3];
-            [self pulsateUIImageView:self.glass1];
         }
         
     }
@@ -590,6 +697,7 @@ static int curveValues[] = {
                 [self stopPulsateUIImageView:self.glass3];
                 [self stopPulsateUIImageView:self.glass2];
                 [self pulsateUIImageView:self.glass4];
+                [audioPlayer play];
             }
             else
             {
@@ -597,13 +705,6 @@ static int curveValues[] = {
                 [self finishRound];
             }
             
-        }
-        else{
-            currentPlayer = 1;
-            [self stopPulsateUIImageView:self.glass4];
-            [self stopPulsateUIImageView:self.glass2];
-            [self stopPulsateUIImageView:self.glass3];
-            [self pulsateUIImageView:self.glass1];
         }
         
     }
@@ -623,9 +724,17 @@ static int curveValues[] = {
 {
     NSLog(@"AUSWERTUNG");
     
+    int winner = [mWIPGameController calculateWinner:((2*M_PI/360)*globalLocationHeading)];
+    
     mWIPGameController = [[WIPGameController alloc]init];
+    
+    
+    locationLabel.text = [NSString stringWithFormat:@"DER GEWINNER IST: %i", winner];
 
-    [mWIPGameController calculateWinner:[imageWheel getAngle]];
+    [audioPlayer play];
+    
+    naechsteRundeBtn.hidden = false;
+    
 }
 
 
@@ -702,7 +811,6 @@ static int curveValues[] = {
 
 
 
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -726,7 +834,7 @@ static int curveValues[] = {
     NSString *cellDetailedText = cell.detailTextLabel.text;
     
     cell.userInteractionEnabled = FALSE;
-    cell.backgroundColor = [UIColor whiteColor];
+
     NSLog(@"tap %@",cellDetailedText );
     NSLog(@"tap %@",cellText );
 
@@ -756,6 +864,7 @@ static int curveValues[] = {
     
         cell.textLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"name"];
         cell.detailTextLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"];
+        cell.detailTextLabel.hidden =true;
         
         NSURL *imageURL = [NSURL URLWithString: [[friends objectAtIndex:indexPath.row] valueForKey:@"picture"]];
  
@@ -783,9 +892,91 @@ static int curveValues[] = {
     
    }
 
+- (void) drawStringAtContext:(CGContextRef) context string:(NSString*) text atAngle:(float) angle withRadius:(float) radius
+{
+    CGSize textSize = [text sizeWithFont:[UIFont systemFontOfSize:88.0f]];
+    
+    float perimeter = 2 * M_PI * radius;
+    float textAngle = textSize.width / perimeter * 2 * M_PI;
+    
+    angle += textAngle / 2;
+    
+    for (int index = 0; index < [text length]; index++)
+    {
+        NSRange range = {index, 1};
+        NSString* letter = [text substringWithRange:range];
+        char* c = (char*)[letter cStringUsingEncoding:NSASCIIStringEncoding];
+        CGSize charSize = [letter sizeWithFont:[UIFont systemFontOfSize:88.0f]];
+        
+        NSLog(@"Char %@ with size: %f x %f", letter, charSize.width, charSize.height);
+        
+        float x = radius * cos(angle);
+        float y = radius * sin(angle);
+        
+        float letterAngle = (charSize.width / perimeter * -2 * M_PI);
+        
+        CGContextSaveGState(context);
+        CGContextTranslateCTM(context, x, y);
+        CGContextRotateCTM(context, (angle - 0.5 * M_PI));
+        CGContextShowTextAtPoint(context, 0, 0, c, strlen(c));
+        CGContextRestoreGState(context);
+        
+        angle += letterAngle;
+    }
+}
+
+- (UIImage*) createMenuRingWithFrame:(CGRect)frame
+{
+   NSSet *sections = [NSSet setWithObjects:@"1",@"2",@"3",@"4",@"5",nil];
+    CGPoint centerPoint = CGPointMake(frame.size.width / 2, frame.size.height / 2);
+    char* fontName = (char*)[@"daadsasdasdas" cStringUsingEncoding:NSASCIIStringEncoding];
+    
+    CGFloat* ringColorComponents = (float*)CGColorGetComponents([[UIColor whiteColor] CGColor]);
+    CGFloat* textColorComponents = (float*)CGColorGetComponents([[UIColor redColor] CGColor]);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef context = CGBitmapContextCreate(NULL, frame.size.width, frame.size.height, 8, 4 * frame.size.width, colorSpace, kCGImageAlphaPremultipliedFirst);
+    
+    CGContextSetTextMatrix(context, CGAffineTransformIdentity);
+    
+    CGContextSelectFont(context, fontName, 18, kCGEncodingMacRoman);
+    CGContextSetRGBStrokeColor(context, ringColorComponents[0], ringColorComponents[1], ringColorComponents[2], 1);
+    CGContextSetLineWidth(context, 20);
+    
+    CGContextStrokeEllipseInRect(context, CGRectMake(20, 20, frame.size.width - (20 * 2), frame.size.height - (20 * 2)));
+    CGContextSetRGBFillColor(context, textColorComponents[0], textColorComponents[1], textColorComponents[2], 1);
+    
+    CGContextSaveGState(context);
+    CGContextTranslateCTM(context, centerPoint.x, centerPoint.y);
+    
+    float angleStep = 2 * M_PI / [sections count];
+    float angle = M_PI/2;
+    
+    //textRadius = 20 - 12;
+    
+    for (NSString* text in sections)
+    {
+        [self drawStringAtContext:context string:text atAngle:angle withRadius:8];
+        angle -= angleStep;
+    }
+    
+    CGContextRestoreGState(context);
+    
+    CGImageRef contextImage = CGBitmapContextCreateImage(context);
+    
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    
+    //[self saveImage:[UIImage imageWithCGImage:contextImage] withName:@"test.png"];
+    return [UIImage imageWithCGImage:contextImage];
+    
+}
 
 
-
-
-
+- (IBAction)naechsteRunde:(id)sender {
+    
+    naechsteRundeBtn.hidden = true;
+    
+    [self nextRound];
+}
 @end

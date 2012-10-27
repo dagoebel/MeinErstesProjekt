@@ -12,6 +12,8 @@
 		AA33F13C162987030045FC78 /* jaeger1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13B162987030045FC78 /* jaeger1.png */; };
 		AA33F13E1629873C0045FC78 /* jj1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13D1629873C0045FC78 /* jj1.png */; };
 		AA39063E1639737500155200 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39063D1639737500155200 /* Player.m */; };
+		AA390644163C394A00155200 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA390643163C394A00155200 /* AVFoundation.framework */; };
+		AA390647163C3A6900155200 /* bu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AA390646163C3A6900155200 /* bu.mp3 */; };
 		AA4250351627EE1700152714 /* fortune.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4250331627EE1700152714 /* fortune.png */; };
 		AA4250361627EE3700152714 /* fortune.png in Resources */ = {isa = PBXBuildFile; fileRef = AA4250331627EE1700152714 /* fortune.png */; };
 		AA42503C1627EEC900152714 /* ANSpinWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4250391627EEC800152714 /* ANSpinWheel.m */; };
@@ -93,6 +95,8 @@
 		AA33F13D1629873C0045FC78 /* jj1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jj1.png; sourceTree = "<group>"; };
 		AA39063C1639737500155200 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		AA39063D1639737500155200 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		AA390643163C394A00155200 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		AA390646163C3A6900155200 /* bu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bu.mp3; sourceTree = "<group>"; };
 		AA4250331627EE1700152714 /* fortune.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fortune.png; sourceTree = "<group>"; };
 		AA4250341627EE1700152714 /* SpinWheel-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SpinWheel-Prefix.pch"; sourceTree = "<group>"; };
 		AA4250381627EEC800152714 /* ANSpinWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ANSpinWheel.h; sourceTree = "<group>"; };
@@ -179,6 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA390644163C394A00155200 /* AVFoundation.framework in Frameworks */,
 				AA824AF5162AC4CB00522ACB /* AdSupport.framework in Frameworks */,
 				AA824AF3162AC40000522ACB /* Accounts.framework in Frameworks */,
 				AA824AF1162AC3F900522ACB /* Social.framework in Frameworks */,
@@ -208,6 +213,7 @@
 		AA8B1530161315A600752349 = {
 			isa = PBXGroup;
 			children = (
+				AA390643163C394A00155200 /* AVFoundation.framework */,
 				AAFD83EF1637F16F00662C26 /* Default-Landscape@2x~ipad.png */,
 				AAFD83E61637F00500662C26 /* 144.png */,
 				AA824AF4162AC4CB00522ACB /* AdSupport.framework */,
@@ -320,6 +326,7 @@
 		AAA117A1161EF7A300A3A3A6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AA390646163C3A6900155200 /* bu.mp3 */,
 				AAFD83ED1637F13300662C26 /* Default@2x~ipad.png */,
 				AA0EBFAA162984F70058ED8D /* jaegermeister.png */,
 				AAA117B21623121300A3A3A6 /* bottle.png */,
@@ -458,6 +465,7 @@
 				AAFD83E71637F00500662C26 /* 144.png in Resources */,
 				AAFD83EE1637F13300662C26 /* Default@2x~ipad.png in Resources */,
 				AAFD83F01637F16F00662C26 /* Default-Landscape@2x~ipad.png in Resources */,
+				AA390647163C3A6900155200 /* bu.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
