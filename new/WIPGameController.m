@@ -27,7 +27,20 @@ static double playerCount;
     
     
 }
-- (int) calculateWinner:(double)locationAngle{
+- (NSArray*) calculateWinner:(double)locationAngle{
+    
+    NSString *playerIDStr = @"id";
+    NSString *distance = @"distance";
+    NSString *name = @"name";
+    NSString *playerName = nil;
+    
+    // A dictionary object
+    NSDictionary *dict;
+    
+    // Create array to hold dictionaries
+    NSMutableArray *arrayOfDictionaries = [NSMutableArray array];
+
+    
     
     int winner = 1;
     double diffAngle = 0.0;
@@ -49,6 +62,7 @@ static double playerCount;
     {
         double playerAngle = [player.angle doubleValue];
         double playerID = [player.id doubleValue];
+        playerName = player.name;
         if(playerAngle<0)
             playerAngle = M_PI + (M_PI + playerAngle);
         
@@ -100,13 +114,38 @@ static double playerCount;
          NSLog(@"==========");
         
          NSLog(@"%f bestDiffAngle %f",playerID, bestDiffAngle);
+        
+        // Create three dictionaries
+        dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                // Key value pairs
+                playerName, name,
+                [NSString stringWithFormat:@"%f",playerID], playerIDStr,
+                [NSNumber numberWithDouble:diffAngle], distance, nil];
+        [arrayOfDictionaries addObject:dict];
+        
  
     }
 
-
+    NSSortDescriptor *hopProfileDescriptor =
+    [[NSSortDescriptor alloc] initWithKey:distance
+                                ascending:YES];
+    
+    NSArray *descriptors = [NSArray arrayWithObjects:hopProfileDescriptor, nil];
+    NSArray *sortedArrayOfDictionaries = [arrayOfDictionaries sortedArrayUsingDescriptors:descriptors];
+    
+    NSLog(@"sorted array of dictionaries: %@", sortedArrayOfDictionaries);
+    
     NSLog(@"WINNER %i", winner);
-
-    return winner;
+    
+    // Define keys for dictionary values
+ 
+       
+    
+    
+    
+    
+       
+    return sortedArrayOfDictionaries;
 
   
 }

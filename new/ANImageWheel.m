@@ -59,10 +59,12 @@
     CABasicAnimation *animRotate = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     [animRotate setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
     
+    NSLog(@"globalHeading %f",globalHeading);
+    
     if(globalHeading>180)
     {
         
-        [animRotate setToValue:[NSNumber numberWithFloat:(2*M_PI/360*(360-globalHeading))]];
+        [animRotate setToValue:[NSNumber numberWithFloat:(M_PI/180*(360-globalHeading))]];
 
     }
     else{
@@ -76,8 +78,8 @@
     animRotate.fillMode = kCAFillModeForwards;
     animRotate.cumulative=true;
     animRotate.removedOnCompletion = FALSE;
-  //  [imageView.layer addAnimation:animRotate forKey:@"rotate"];
-    //[imageView.layer removeAllAnimations];
+    [imageView.layer addAnimation:animRotate forKey:@"rotate"];
+    [imageView.layer removeAllAnimations];
 
 
     

@@ -68,7 +68,22 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UIButton *naechsteRundeBtn;
 - (IBAction)naechsteRunde:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *spieler1Bubble;
+@property (weak, nonatomic) IBOutlet UIImageView *spieler1BubbleImg;
+@property (weak, nonatomic) IBOutlet UIView *spieler2Bubble;
+@property (weak, nonatomic) IBOutlet UIImageView *spieler2BubbleImg;
+@property (weak, nonatomic) IBOutlet UIView *spieler3Bubble;
+@property (weak, nonatomic) IBOutlet UIImageView *spieler3BubbleImg;
+@property (weak, nonatomic) IBOutlet UIView *spieler4Bubble;
+@property (weak, nonatomic) IBOutlet UIImageView *spieler4BubbleImg;
+@property (weak, nonatomic) IBOutlet UILabel *auswertungLbl1;
+@property (weak, nonatomic) IBOutlet UILabel *auswertungLbl2;
+@property (weak, nonatomic) IBOutlet UILabel *auswertungLbl3;
+@property (weak, nonatomic) IBOutlet UILabel *auswertungLbl4;
+@property (weak, nonatomic) IBOutlet UIView *auswertungView;
 
+@property (weak, nonatomic) IBOutlet UILabel *spinningLbl;
+@property (weak, nonatomic) IBOutlet UIView *spinningLblBackr;
 
 @property (weak, nonatomic) IBOutlet UIImageView *player1Img;
 

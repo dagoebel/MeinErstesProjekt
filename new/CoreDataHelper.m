@@ -163,6 +163,9 @@
 		NSLog(@"Couldn't get objects for entity %@", entityName);
     
 	NSInteger count = [mutableFetchResults count];
+    
+    NSLog(@"POTENTIELLE FRAGEN%d", count);
+    
     if (count>0) {
         randomMutableFetchResults = [mutableFetchResults objectAtIndex: arc4random() % count];
         return randomMutableFetchResults;

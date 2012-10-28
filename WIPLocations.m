@@ -60,7 +60,11 @@
    
     ////// ERSTE STUFE
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id != %@) AND (person_id in %@) AND (ANY tags.id contains %@)", fb_id_aktiver_spieler, IDinaktiv_arr, fb_id_aktiver_spieler];
+    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id contains %@) AND (person_id in %@) AND (ANY tags.id contains %@)", fb_id_aktiver_spieler, IDinaktiv_arr, fb_id_aktiver_spieler];
+    
+    
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id == %@) AND (ANY tags.id in %@)", fb_id_aktiver_spieler, IDinaktiv_arr];
 
     Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
     
@@ -68,8 +72,11 @@
     ////// ZWEITE STUFE
     if(question==nil)
     {
-        NSLog(@"KEINE 1. LOCATION GEFUNDEN");
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id != %@) AND (person_id in %@)", fb_id_aktiver_spieler, IDinaktiv_arr];
+        NSLog(@"KEINE 1. ER + FREUND IM TAGS ");
+        //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id != %@) AND (person_id in %@)", fb_id_aktiver_spieler, IDinaktiv_arr];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (ANY person_id in %@) AND (ANY tags.id == %@)", IDinaktiv_arr, fb_id_aktiver_spieler];
+
         
         Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
         if(question!=nil)
@@ -80,8 +87,10 @@
     ////// ZWEITE STUFE
     if(question==nil)
     {
-        NSLog(@"KEINE 2. LOCATION GEFUNDEN");
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id != %@) AND ANY tags.id in %@", fb_id_aktiver_spieler, IDinaktiv_arr];
+         NSLog(@"KEINE 2. EIN FREUND UND ER IM TAG");
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND person_id == %@", fb_id_aktiver_spieler];
+       // NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id != %@) AND ANY tags.id in %@", fb_id_aktiver_spieler, IDinaktiv_arr];
         
         Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
         if(question!=nil)
@@ -92,14 +101,42 @@
     ////// ZWEITE STUFE
     if(question==nil)
     {
-        NSLog(@"KEINE 3. LOCATION GEFUNDEN");
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id != %@)", fb_id_aktiver_spieler];
+          NSLog(@"KEINE 3. ER ALLEINE");
+         
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (ANY person_id in %@)", IDinaktiv_arr];
         
         Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
         if(question!=nil)
         return question;
         
     }
+    
+    ////// ZWEITE STUFE
+    if(question==nil)
+    {
+        NSLog(@"KEINE 4. EIN FREUND");
+         
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil) AND (ANY tags.id in %@)", IDinaktiv_arr];
+        
+        Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+        if(question!=nil)
+            return question;
+        
+    }
+    
+    ////// ZWEITE STUFE
+    if(question==nil)
+    {
+        NSLog(@"KEINE 5. IRGENDJEMAND");
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(place_location_latitude != nil) AND (place_location_longitude != nil)"];
+        
+        Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+        if(question!=nil)
+            return question;
+        
+    }
+
     
     return question;
        
