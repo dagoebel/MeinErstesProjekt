@@ -8,8 +8,10 @@
 
 #import "WIPGameController.h"
 #import "Player.h"
+#import "FriendsMutualFriends.h"
 #import "CoreDataHelper.h"
 #import "WIPAppDelegate.h"
+#import "WIPFacebook.h"
 
 @implementation WIPGameController
 
@@ -27,10 +29,11 @@ static double playerCount;
     
     
 }
-- (NSArray*) calculateWinner:(double)locationAngle{
+- (NSArray*) calculateWinner:(double)locationAngle: (double)startPlayer{
     
     NSString *playerIDStr = @"id";
     NSString *distance = @"distance";
+    NSString *startplayer = @"startplayer";
     NSString *name = @"name";
     NSString *playerName = nil;
     
@@ -62,6 +65,17 @@ static double playerCount;
     {
         double playerAngle = [player.angle doubleValue];
         double playerID = [player.id doubleValue];
+        double playerStart = 0;
+        
+        if([player.id doubleValue] >= startPlayer){
+            
+            playerStart= [player.id doubleValue] - startPlayer;
+            
+        }
+        else{
+             playerStart= spieler.count - (startPlayer - [player.id doubleValue]);
+        }
+        
         playerName = player.name;
         if(playerAngle<0)
             playerAngle = M_PI + (M_PI + playerAngle);
@@ -120,17 +134,23 @@ static double playerCount;
                 // Key value pairs
                 playerName, name,
                 [NSString stringWithFormat:@"%f",playerID], playerIDStr,
+                [NSNumber numberWithDouble:playerStart], startplayer,
                 [NSNumber numberWithDouble:diffAngle], distance, nil];
         [arrayOfDictionaries addObject:dict];
         
  
     }
+    
 
-    NSSortDescriptor *hopProfileDescriptor =
+    NSSortDescriptor *distancesort =
     [[NSSortDescriptor alloc] initWithKey:distance
                                 ascending:YES];
     
-    NSArray *descriptors = [NSArray arrayWithObjects:hopProfileDescriptor, nil];
+    NSSortDescriptor *startplayersort =
+    [[NSSortDescriptor alloc] initWithKey:startplayer
+                                ascending:YES];
+    
+    NSArray *descriptors = [NSArray arrayWithObjects:distancesort, startplayersort, nil];
     NSArray *sortedArrayOfDictionaries = [arrayOfDictionaries sortedArrayUsingDescriptors:descriptors];
     
     NSLog(@"sorted array of dictionaries: %@", sortedArrayOfDictionaries);
@@ -220,6 +240,13 @@ static double playerCount;
     
     [mainDelegate.managedObjectContext save:nil];
     
+       
 }
 
+- (void)getMutualFriends:(Player*) player{
+       
+
+       
+       
+}
 @end

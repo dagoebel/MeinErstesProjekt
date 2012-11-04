@@ -9,14 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import "Question.h"
-#import "WIPGameController.h"
+#import "FriendsMutualFriends.h"
+#import "Player.h"
 
 
 
-@interface WIPFacebook : NSObject <FBFriendPickerDelegate>{
- 
+@interface WIPFacebook : NSObject
 
-}
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
@@ -28,6 +27,7 @@
 - (void)sendRequestToFacebook:(NSString*) query;
 
 - (void)getFacebookFriends:(UITableView*) tableView;
+- (void)getFacebookMutualFriends;
 
 - (void)buttonRequestClickHandler;
 

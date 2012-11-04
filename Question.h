@@ -2,7 +2,7 @@
 //  Question.h
 //  new
 //
-//  Created by Daniel Goebel on 24.10.12.
+//  Created by Daniel Goebel on 03.11.12.
 //  Copyright (c) 2012 Daniel. All rights reserved.
 //
 
@@ -25,6 +25,7 @@
 @property (nonatomic, retain) NSString * place_location_street;
 @property (nonatomic, retain) NSString * place_location_zip;
 @property (nonatomic, retain) NSString * place_name;
+@property (nonatomic, retain) NSNumber * asked;
 @property (nonatomic, retain) NSSet *tags;
 @end
 

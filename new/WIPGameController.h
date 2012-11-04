@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "Player.h"
+#import "FriendsMutualFriends.h"
+#import "WIPFacebook.h"
 
 
 
 @interface WIPGameController : NSObject{
-    
     NSMutableArray *secondArr;
+    WIPFacebook * mWIPFacebook;
 }
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -24,7 +26,7 @@
 
 - (void) newGame: (double) playerCount;
 - (void) nextPlayer;
-- (NSArray*) calculateWinner:(double)angle;
+- (NSArray*) calculateWinner:(double)angle: (double)startPlayer;
 - (void) deletePlayer;
 - (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSString *)fb_id: (NSString *)fb_url;
 

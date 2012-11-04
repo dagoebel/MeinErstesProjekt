@@ -12,8 +12,6 @@
 #import "Question.h"
 #import "Tags.h"
 #import "Friends.h"
-#import "WIPGameController.h"
-
 
 // FBSample logic
 // We need to handle some of the UX events related to friend selection, and so we declare
@@ -44,13 +42,20 @@
 @synthesize friendPickerController = _friendPickerController;
 @synthesize requestConnection = _requestConnection;
 
+int limit, offset, querycount;
 
-- (void)sendRequestToFacebook:(NSString*) query {
+limit = 50;
+offset = 0;
+querycount = 1;
+
+- (void)sendRequestToFacebook:(NSString*) query{
+
     
    if([self checkFBSession])
    {
-
+    
        [self queryFacebook:query];
+       
      
    }
 }
@@ -63,6 +68,7 @@
                             @"user_location",
                             @"user_birthday",
                             @"user_likes",
+                            @"user_checkins",                            
                             @"friends_location",
                             @"friends_hometown",
                             @"friends_checkins",
@@ -84,7 +90,7 @@
     return conectionEnabled;
 }
 
-- (void)queryFacebook: (NSString*) query{
+- (void)queryFacebook:(NSString*) query{
     
     FBRequestConnection *newConnection = [[FBRequestConnection alloc] init];
 
@@ -93,7 +99,14 @@
         [self processResponse:connection result:result error:error];
     };
     
-    FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession graphPath:query];
+    FBRequest *request = nil;
+
+    if (query==nil) {
+        request = [[FBRequest alloc] initWithSession:FBSession.activeSession graphPath:@"me/friends?fields=name,locations,checkins.fields(id,tags,place,created_time)&limit=50&offset=0"];
+    }
+    else{
+         request = [[FBRequest alloc] initWithSession:FBSession.activeSession graphPath:query];
+    }
     
     [newConnection addRequest:request completionHandler:handler];    
     [self.requestConnection cancel];    
@@ -115,16 +128,32 @@
     if (error) {
         text = error.localizedDescription;
     } else {
-        NSDictionary *dictionary = (NSDictionary *)result;
-        text = (NSString *)[dictionary objectForKey:@"data"];
+  
+        NSArray* friends = [result objectForKey:@"data"];
+       if(friends.count>0)
+       {
+           offset = limit * querycount;
+           NSString * query = @"me/friends?fields=name,locations,checkins.fields(id,tags,place,created_time)&limit=";
+           query = [query stringByAppendingString:[NSString stringWithFormat:@"%i",limit]];
+           query = [query stringByAppendingString:@"&offset="];
+           query = [query stringByAppendingString:[NSString stringWithFormat:@"%i",offset]];
+           [self sendRequestToFacebook:query];
+            [self processParsedLocations:friends];
+           querycount = querycount+1;
+       }
+
+       //NSLog(@"%@",result);
+        
+               
+        //NSArray* checkFriends = [result objectForKey:@"friends"];
+        
+        
+        
+       
+
     }
 
-   //NSLog(@"%@",result);
-    
-   NSArray* friends = [result objectForKey:@"data"];
-   
-   [self processParsedLocations:friends];
-    
+       
 }
 
 - (void)saveQuestion:(NSMutableDictionary*) newQuestion {
@@ -150,8 +179,8 @@
     NSMutableSet *mySet = [[NSMutableSet alloc] init];
     NSMutableArray *tagsName = [NSMutableArray array];
     
-    NSLog(@"[newQuestion valueForKey:tags_id%@",[newQuestion valueForKey:@"tags_id"]);
-    NSLog(@"[newQuestion valueForKey:tags_name%@",[newQuestion valueForKey:@"tags_name"]);
+  //  NSLog(@"[newQuestion valueForKey:tags_id%@",[newQuestion valueForKey:@"tags_id"]);
+  //  NSLog(@"[newQuestion valueForKey:tags_name%@",[newQuestion valueForKey:@"tags_name"]);
     
     tagsName = [newQuestion valueForKey:@"tags_name"];
     
@@ -191,10 +220,6 @@
     
    if([object isKindOfClass:[NSArray class]]){
        
-       WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
-       
-       [CoreDataHelper deleteAllObjectsForEntity:@"Question" andContext:mainDelegate.managedObjectContext];
-        
         for(id child in object){
             
             NSString *person_name= nil;
@@ -203,7 +228,7 @@
             person_name = [child valueForKey:@"name"];
             person_id = [child valueForKey:@"id"];
             
-            if([child objectForKey:@"locations"] !=nil)
+            if([child objectForKey:@"locations"] !=nil||[child objectForKey:@"checkins"] !=nil)
             {
                 
                 NSString *place_name= nil;
@@ -219,7 +244,16 @@
                 NSString *from_id= nil;
                 NSString *from_name= nil;
                
-                id locations = [child objectForKey:@"locations"];
+                id locations = nil;
+                
+                if([child objectForKey:@"locations"]!=nil){
+                    locations = [child objectForKey:@"locations"];  
+                }
+                else if ([child objectForKey:@"checkins"]!=nil)
+                {
+                    locations = [child objectForKey:@"checkins"];
+                }
+                
                 
                 NSArray* data = [locations objectForKey:@"data"];
             
@@ -406,6 +440,7 @@
                 WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
 
                 
+                [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
                  [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
                 
                 NSString *person_name= [result valueForKey:@"name"];
@@ -445,11 +480,35 @@
                                                nil];
                     
                     
-                    [self saveFriends:newFriend];
+                    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+                    
+                    Friends *friends= [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:mainDelegate.managedObjectContext];
+                    
+                    friends.name=[newFriend valueForKey:@"name"];
+                    friends.friend_id=[newFriend valueForKey:@"id"];
+                    friends.picture=[newFriend valueForKey:@"picture"];
+                    
+                    NSLog(@"%@", friends);
+                    [mainDelegate.managedObjectContext save:nil];
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                                         
                 }
                 
-                 [tableView reloadData];
+                  
+                  [self getFacebookMutualFriends];
+                [tableView reloadData];
                 
             }
 
@@ -474,7 +533,119 @@
 
 
 
+- (void)getFacebookMutualFriends {
+     
+    NSMutableArray *friends = [[NSMutableArray alloc] init];
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    NSPredicate *query_emtpy = [NSPredicate predicateWithFormat:@"friendsmutualfriends.@count == 0"];
+    
+    friends = [CoreDataHelper searchObjectsForEntity:@"Friends" withPredicate:query_emtpy andSortKey:@"friend_id" andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    
+    if (friends.count!=0) {
 
+    Friends *friend = [friends objectAtIndex:0];
+
+
+    FBRequestConnection *newConnection = [[FBRequestConnection alloc] init];
+
+
+        FBRequestHandler handler =
+        ^(FBRequestConnection *connection, id result, NSError *error) {
+            
+            
+            //////////////////////
+            
+            if (self.requestConnection &&
+                connection != self.requestConnection) {
+                return;
+            }
+            self.requestConnection = nil;
+            
+            NSString *text;
+            
+            if (error) {
+                text = error.localizedDescription;
+                //return nil;
+            } else {
+                NSDictionary *dictionary = (NSDictionary *)result;
+                text = (NSString *)[dictionary objectForKey:@"data"];
+            }
+            
+            NSLog(@"%@",result);
+            id friendsObj = [result objectForKey:@"mutualfriends"];
+            
+            NSArray* friendsraw = [friendsObj objectForKey:@"data"];
+            NSMutableSet *mySet = [[NSMutableSet alloc] init];
+  
+            if([friendsraw  isKindOfClass:[NSArray class]]){
+ 
+                for(id friendraw in friendsraw ){
+                    
+                    NSString* person_name= nil;
+                    NSString* person_id= nil;
+                    NSString* person_picture= nil;
+                    
+                    person_name = [friendraw valueForKey:@"name"];
+                    person_id = [friendraw valueForKey:@"id"];
+                    
+                    id picObj = [friendraw objectForKey:@"picture"];
+                    id dataObj = [picObj objectForKey:@"data"];
+                    person_picture = [dataObj valueForKey:@"url"];
+                    
+                    
+                    FriendsMutualFriends *FriendsMutualFriends = [NSEntityDescription insertNewObjectForEntityForName:@"FriendsMutualFriends" inManagedObjectContext:mainDelegate.managedObjectContext];
+                    
+                    FriendsMutualFriends.fb_id = person_id;
+                    FriendsMutualFriends.name = person_name;
+                    FriendsMutualFriends.fb_url = person_picture;
+                    
+                    [mySet addObject:FriendsMutualFriends];
+                    
+                }
+                
+                
+
+            }
+            else{
+                
+                FriendsMutualFriends *FriendsMutualFriends = [NSEntityDescription insertNewObjectForEntityForName:@"FriendsMutualFriends" inManagedObjectContext:mainDelegate.managedObjectContext];
+                
+                FriendsMutualFriends.fb_id = nil;
+                FriendsMutualFriends.name = nil;
+                FriendsMutualFriends.fb_url = nil;
+                
+                [mySet addObject:FriendsMutualFriends];
+        
+            }
+            
+            [friend setFriendsmutualfriends:mySet];
+            
+            [mainDelegate.managedObjectContext save:nil];
+            NSLog(@"%@",friend);
+            [self getFacebookMutualFriends];
+            
+            //////////////////////
+        };
+        
+        NSString* query = @"me?fields=id,name,mutualfriends.user(";
+        query = [query stringByAppendingString:friend.friend_id];
+        query = [query stringByAppendingString:@").fields(name,picture)"];
+      
+        FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession graphPath:query];
+    
+    
+        
+        [newConnection addRequest:request completionHandler:handler];
+        [self.requestConnection cancel];
+        self.requestConnection = newConnection;
+        [newConnection start];
+        
+       }
+    
+    
+}
 
 
 

@@ -2,7 +2,7 @@
 //  Question.m
 //  new
 //
-//  Created by Daniel Goebel on 24.10.12.
+//  Created by Daniel Goebel on 03.11.12.
 //  Copyright (c) 2012 Daniel. All rights reserved.
 //
 
@@ -24,6 +24,7 @@
 @dynamic place_location_street;
 @dynamic place_location_zip;
 @dynamic place_name;
+@dynamic asked;
 @dynamic tags;
 
 @end

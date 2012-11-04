@@ -158,16 +158,23 @@
     Question *randomMutableFetchResults = nil;
 	NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
     
-	// If the returned array was nil then there was an error
-	if (mutableFetchResults == nil)
-		NSLog(@"Couldn't get objects for entity %@", entityName);
+	
     
 	NSInteger count = [mutableFetchResults count];
     
-    NSLog(@"POTENTIELLE FRAGEN%d", count);
+    NSLog(@"POTENTIELLE FRAGEN %d", count);
     
     if (count>0) {
         randomMutableFetchResults = [mutableFetchResults objectAtIndex: arc4random() % count];
+        
+        NSLog(@"GEWÄHLTE FRAGE OHNE ASKED%@", randomMutableFetchResults.asked);
+
+        
+        randomMutableFetchResults.asked = [[NSNumber alloc] initWithDouble:1];
+        [managedObjectContext save:nil];
+        
+        NSLog(@"GEWÄHLTE FRAGE %@", randomMutableFetchResults);
+        
         return randomMutableFetchResults;
     }
     else{

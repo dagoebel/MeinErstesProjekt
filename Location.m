@@ -1,8 +1,8 @@
 //
-//  new.m
+//  Location.m
 //  new
 //
-//  Created by Daniel Goebel on 02.10.12.
+//  Created by Daniel Goebel on 03.11.12.
 //  Copyright (c) 2012 Daniel. All rights reserved.
 //
 
@@ -11,9 +11,8 @@
 
 @implementation Location
 
-@dynamic name;
-@dynamic type;
+@dynamic latti;
 @dynamic longi;
-@dynamic latt;
+@dynamic name;
 
 @end

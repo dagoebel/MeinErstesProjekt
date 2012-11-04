@@ -34,6 +34,8 @@
     NSArray *people;
 	NSArray *filteredPeople;
     AVAudioPlayer* audioPlayer;
+    AVAudioPlayer* audioPlayerWin;
+    AVAudioPlayer* audioPlayerQuestio;
     
 	UISearchDisplayController *searchDisplayController;
 }
@@ -49,7 +51,12 @@
 @property (weak, nonatomic) IBOutlet UIImageView *glass2;
 @property (weak, nonatomic) IBOutlet UIImageView *glass3;
 @property (weak, nonatomic) IBOutlet UIImageView *glass4;
-@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *kompassScheibe;
+@property (weak, nonatomic) IBOutlet UIImageView *kompassScheibeImg;
+@property (weak, nonatomic) IBOutlet UILabel *locationLblBot;
+@property (weak, nonatomic) IBOutlet UILabel *locationLblTop;
+
 @property (weak, nonatomic) IBOutlet UIView *gameMenu;
 @property (weak, nonatomic) IBOutlet UIButton *spieler1;
 @property (weak, nonatomic) IBOutlet UIButton *spieler2;
@@ -82,7 +89,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *auswertungLbl4;
 @property (weak, nonatomic) IBOutlet UIView *auswertungView;
 
-@property (weak, nonatomic) IBOutlet UILabel *spinningLbl;
+@property (weak, nonatomic) IBOutlet UILabel *spinngLblTop;
+@property (weak, nonatomic) IBOutlet UILabel *spinngLblBot;
+
+
 @property (weak, nonatomic) IBOutlet UIView *spinningLblBackr;
 
 @property (weak, nonatomic) IBOutlet UIImageView *player1Img;
@@ -93,8 +103,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *glassOutlet2;
 
-
-@property (weak, nonatomic) IBOutlet UIImageView *kompassScheibe;
 
 @property double startTransform;
 
