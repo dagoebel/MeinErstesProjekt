@@ -94,7 +94,7 @@ static bool preventSpin;
     initialPoint = [[touches anyObject] locationInView:self];
     float dist = [self calculateDistanceFromCenter:initialPoint];
     NSLog(@"Distance: %f", dist);
-    if (dist < 40 || dist > 280) {
+    if (dist < 10 || dist > 280) {
         preventSpin = YES;
         return;
     }

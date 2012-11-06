@@ -55,6 +55,7 @@ static double globalLocationHeading;
 @synthesize auswertungView;
 @synthesize player1Auswertung, player2Auswertung, player3Auswertung, player4Auswertung;
 @synthesize player1AuswertungImg,player2AuswertungImg,player3AuswertungImg,player4AuswertungImg;
+@synthesize nextBtn;
 
 static int curveValues[] = {
     UIViewAnimationOptionCurveEaseInOut,
@@ -369,7 +370,7 @@ static int curveValues[] = {
     
     mWIPGameController = [[WIPGameController alloc]init];
     
-    spielerName.hidden = FALSE;
+   // spielerName.hidden = FALSE;
     menuLabel.text = @"Spieler 1";
     spielerName.placeholder =  @"Spieler 1";
     
@@ -615,8 +616,8 @@ static int curveValues[] = {
 - (void)showAuswertungToAll{
     
      auswertungView.hidden = false;
-    zeiger.hidden = false;
     
+    zeiger.hidden  = false;
 
     
     NSURL* fileWin = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"win" ofType:@"mp3"]];
@@ -703,6 +704,10 @@ static int curveValues[] = {
 
 -(void)onTick:(NSTimer *)timer {
     
+    nextBtn.hidden = false;
+    
+    
+    
     mWIPGameController = [[WIPGameController alloc]init];
     
     NSArray *liste = [mWIPGameController calculateWinner:globalLocationHeading: startPlayer];
@@ -750,7 +755,7 @@ static int curveValues[] = {
                 [self pulsateUIImageView:player1AuswertungImg];
             }
             
-            player1Auswertung.text = [NSString stringWithFormat:@"%.0f°",dis];
+            player1Auswertung.text = [NSString stringWithFormat:@"- %.0f°",dis];
             player1Auswertung.hidden = false;
             player1AuswertungImg.hidden = false;
         }
@@ -762,7 +767,7 @@ static int curveValues[] = {
                 [self pulsateUIImageView:player2AuswertungImg];
             }
             
-            player2Auswertung.text = [NSString stringWithFormat:@"%.0f°",dis];
+            player2Auswertung.text = [NSString stringWithFormat:@"- %.0f°",dis];
             player2Auswertung.hidden = false;
             player2AuswertungImg.hidden = false;
         }
@@ -774,7 +779,7 @@ static int curveValues[] = {
                 [self pulsateUIImageView:player3AuswertungImg];
             }
             
-            player3Auswertung.text = [NSString stringWithFormat:@"%.0f°",dis];
+            player3Auswertung.text = [NSString stringWithFormat:@"- %.0f°",dis];
             player3Auswertung.hidden = false;
             player3AuswertungImg.hidden = false;
 
@@ -786,7 +791,7 @@ static int curveValues[] = {
                 [self pulsateUIImageView:glass4];
                 [self pulsateUIImageView:player4AuswertungImg];
             }
-            player4Auswertung.text = [NSString stringWithFormat:@"%.0f°",dis];
+            player4Auswertung.text = [NSString stringWithFormat:@"- %.0f°",dis];
             player4Auswertung.hidden = false;
             player4AuswertungImg.hidden = false;
         }
@@ -1252,13 +1257,17 @@ static int curveValues[] = {
     NSString *cellText = cell.textLabel.text;
     NSString *cellDetailedText = cell.detailTextLabel.text;
     
-    //cell.userInteractionEnabled = FALSE;
+   // cell.userInteractionEnabled = FALSE;
 
     NSLog(@"tap %@",cellDetailedText );
     NSLog(@"tap %@",cellText );
+    
+    if (cellText!=nil) {
+         [self spielerNameSelected:cellText :cellDetailedText];
+    }
 
     
-    [self spielerNameSelected:cellText :cellDetailedText];
+   
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1396,6 +1405,7 @@ static int curveValues[] = {
     
     auswertungView.hidden = true;
     zeiger.hidden = true;
+    nextBtn.hidden = true;
     spieler1Bubble.hidden = true;
     spieler2Bubble.hidden = true;
     spieler3Bubble.hidden = true;
@@ -1412,6 +1422,7 @@ static int curveValues[] = {
     [self stopPulsateUIImageView:player2AuswertungImg];
     [self stopPulsateUIImageView:player3AuswertungImg];
     [self stopPulsateUIImageView:player4AuswertungImg];
+     [self stopPulsateUIImageView:nextBtn.imageView];
     player1AuswertungImg.hidden = true;
     player2AuswertungImg.hidden = true;
     player3AuswertungImg.hidden = true;

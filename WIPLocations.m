@@ -81,16 +81,16 @@
     for (id single_nicht_aktive_friends in nicht_aktive_friends) {
         id test = [single_nicht_aktive_friends valueForKey:@"friendsmutualfriends"];
         for (FriendsMutualFriends *single_mutualfriend in test) {
-            if(anzahl==1)
+            if(anzahl==1&&single_mutualfriend.fb_id!=nil)
                 [player1  addObject:single_mutualfriend.fb_id ];
             
-            if(anzahl==2)
+            if(anzahl==2&&single_mutualfriend.fb_id!=nil)
                 [player2  addObject:single_mutualfriend.fb_id ];
 
-            if(anzahl==3)
+            if(anzahl==3&&single_mutualfriend.fb_id!=nil)
                 [player3  addObject:single_mutualfriend.fb_id ];
 
-            if(anzahl==4)
+            if(anzahl==4&&single_mutualfriend.fb_id!=nil)
                 [player4  addObject:single_mutualfriend.fb_id ];
 
             

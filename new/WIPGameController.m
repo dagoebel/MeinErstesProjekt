@@ -24,11 +24,7 @@ static double playerCount;
     playerCount = anzahlSpieler;
     
 }
-- (void) nextPlayer{
-    
-    
-    
-}
+
 - (NSArray*) calculateWinner:(double)locationAngle: (double)startPlayer{
     
     NSString *playerIDStr = @"id";
@@ -187,7 +183,7 @@ static double playerCount;
     // Define keys for dictionary values
  
        
-    
+    [self saveResults:sortedArrayOfDictionaries];
     
     
     
@@ -196,7 +192,19 @@ static double playerCount;
 
   
 }
+- (void) saveResults:(NSArray*) sortedArrayOfDictionaries{
+    
+    NSString *name = nil;
+    double playerid = 1;
+    double distance = 1;
+    
+    for (NSDictionary *listeneintrag in sortedArrayOfDictionaries)
+    {
+         
+    }
 
+    
+}
 
 - (void) saveAngle:(int)playerID:(double)angle{
     

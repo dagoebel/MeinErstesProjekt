@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA0EBFAB162984F70058ED8D /* jaegermeister.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0EBFAA162984F70058ED8D /* jaegermeister.png */; };
+		AA255C3C16497F5900328421 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = AA255C3B16497F5900328421 /* next.png */; };
 		AA33F139162986B40045FC78 /* jaeger.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F138162986B40045FC78 /* jaeger.png */; };
 		AA33F13C162987030045FC78 /* jaeger1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13B162987030045FC78 /* jaeger1.png */; };
 		AA33F13E1629873C0045FC78 /* jj1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13D1629873C0045FC78 /* jj1.png */; };
@@ -105,6 +106,7 @@
 
 /* Begin PBXFileReference section */
 		AA0EBFAA162984F70058ED8D /* jaegermeister.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaegermeister.png; sourceTree = "<group>"; };
+		AA255C3B16497F5900328421 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
 		AA33F138162986B40045FC78 /* jaeger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaeger.png; sourceTree = "<group>"; };
 		AA33F13B162987030045FC78 /* jaeger1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaeger1.png; sourceTree = "<group>"; };
 		AA33F13D1629873C0045FC78 /* jj1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jj1.png; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				AAF68D621646CBE300C0EC57 /* questio.mp3 */,
 				AA82BF0316481C31004217CE /* Closed.png */,
 				AAF68D5F1646C70000C0EC57 /* jaeger_backfrage.png */,
+				AA255C3B16497F5900328421 /* next.png */,
 				AA82BEFF16481C0B004217CE /* Forward.png */,
 				AAF320B01619B90100D7E0BD /* compass.png */,
 				AAD346B71649585C00627D1A /* badge1.png */,
@@ -533,6 +536,7 @@
 				AA82BF0616481D01004217CE /* Track[Back].png in Resources */,
 				AAD346B91649585C00627D1A /* badge1.png in Resources */,
 				AAD346BA1649585C00627D1A /* badge4.png in Resources */,
+				AA255C3C16497F5900328421 /* next.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -89,6 +89,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *auswertungLbl4;
 @property (weak, nonatomic) IBOutlet UIView *auswertungView;
 @property (weak, nonatomic) IBOutlet UILabel *zeigerLbl;
+@property (weak, nonatomic) IBOutlet UIButton *nextBtn;
 
 @property (weak, nonatomic) IBOutlet UILabel *player1Auswertung;
 @property (weak, nonatomic) IBOutlet UILabel *player2Auswertung;
