@@ -23,13 +23,10 @@
 
 
 - (BOOL) checkFBSession;
-- (UIViewController *) pickFriendsButtonClick;
 - (void)sendRequestToFacebook:(NSString*) query;
-
 - (void)getFacebookFriends:(UITableView*) tableView;
 - (void)getFacebookMutualFriends;
 
-- (void)buttonRequestClickHandler;
 
 @end
 

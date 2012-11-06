@@ -16,8 +16,6 @@
 @implementation WIPLocations
 
 
-
-
 - (Question*) selectLocation:(NSInteger)aktiverSpieler
 {
     

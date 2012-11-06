@@ -20,7 +20,6 @@
 
 
 - (Question*) selectLocation:(NSInteger)aktiverSpieler;
-- (void) createLocations;
 
 
 @end

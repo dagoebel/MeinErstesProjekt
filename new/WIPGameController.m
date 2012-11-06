@@ -36,6 +36,7 @@ static double playerCount;
     NSString *startplayer = @"startplayer";
     NSString *name = @"name";
     NSString *playerName = nil;
+
     
     // A dictionary object
     NSDictionary *dict;
@@ -48,6 +49,7 @@ static double playerCount;
     int winner = 1;
     double diffAngle = 0.0;
     double bestDiffAngle = 0.0;
+
     
     
     NSLog(@"locationAngle %f",locationAngle);
@@ -58,12 +60,20 @@ static double playerCount;
     
     spieler = [CoreDataHelper getObjectsForEntity:@"Player" withSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
     
-    if(locationAngle<0)
-        locationAngle = M_PI + (M_PI + locationAngle);
+    
     
     for(Player *player in spieler)
     {
         double playerAngle = [player.angle doubleValue];
+        
+        if (playerAngle>=0) {
+            playerAngle = 180 / M_PI * playerAngle;
+        }
+        else{
+            playerAngle = 180 / M_PI * (M_PI+playerAngle)+180;
+        }
+        
+        NSLog(@"WAHRER FLASCHEN ANGLE %f",playerAngle);
         double playerID = [player.id doubleValue];
         double playerStart = 0;
         
@@ -77,14 +87,25 @@ static double playerCount;
         }
         
         playerName = player.name;
-        if(playerAngle<0)
-            playerAngle = M_PI + (M_PI + playerAngle);
+  
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         if(locationAngle>playerAngle)
         {
-            if ((locationAngle-playerAngle)>M_PI) {
-                diffAngle  = 2*M_PI - locationAngle + playerAngle;
+            if ((locationAngle-playerAngle)>=180) {
+                diffAngle  = 360 - locationAngle + playerAngle;
             }
             else{
                 diffAngle = locationAngle - playerAngle;
@@ -93,14 +114,20 @@ static double playerCount;
         }
         else
         {
-            if((playerAngle - locationAngle) > M_PI)
+            if((playerAngle - locationAngle) >= 180)
             {
-                diffAngle  = 2*M_PI - playerAngle + locationAngle;
+                diffAngle  = 360 - playerAngle + locationAngle;
             }
             else{
                 diffAngle = playerAngle - locationAngle;
             }
         }
+        
+        
+        
+        
+        
+        
         
         if(playerID==1)
         {

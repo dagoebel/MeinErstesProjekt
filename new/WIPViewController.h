@@ -88,6 +88,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *auswertungLbl3;
 @property (weak, nonatomic) IBOutlet UILabel *auswertungLbl4;
 @property (weak, nonatomic) IBOutlet UIView *auswertungView;
+@property (weak, nonatomic) IBOutlet UILabel *zeigerLbl;
+
+@property (weak, nonatomic) IBOutlet UILabel *player1Auswertung;
+@property (weak, nonatomic) IBOutlet UILabel *player2Auswertung;
+@property (weak, nonatomic) IBOutlet UILabel *player3Auswertung;
+@property (weak, nonatomic) IBOutlet UILabel *player4Auswertung;
+
+@property (weak, nonatomic) IBOutlet UIImageView *player4AuswertungImg;
+@property (weak, nonatomic) IBOutlet UIImageView *player3AuswertungImg;
+@property (weak, nonatomic) IBOutlet UIImageView *player1AuswertungImg;
+@property (weak, nonatomic) IBOutlet UIImageView *player2AuswertungImg;
+
+
+
 
 @property (weak, nonatomic) IBOutlet UILabel *spinngLblTop;
 @property (weak, nonatomic) IBOutlet UILabel *spinngLblBot;

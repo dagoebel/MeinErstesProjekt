@@ -49,11 +49,9 @@ UIView *container;
     // 1 - Get touch position
     CGPoint touchPoint = [touch locationInView:self];
     // 1.1 - Get the distance from the center
-    float dist = [self calculateDistanceFromCenter:touchPoint];
+    //float dist = [self calculateDistanceFromCenter:touchPoint];
     // 1.2 - Filter out touches too close to the center
   
-     
-   
     // 2 - Calculate distance from center
     float dx = touchPoint.x - container.center.x;
     float dy = touchPoint.y - container.center.y;

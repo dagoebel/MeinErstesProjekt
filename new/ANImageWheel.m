@@ -40,11 +40,17 @@
     
 }
 
-- (double)getAngle {
+- (double)getAngle:(double) globalHeading; {
     
     CALayer* layer = [imageView.layer presentationLayer];
     
     double rotationAngle = [[layer valueForKeyPath:@"transform.rotation.z"] floatValue];
+    
+    rotationAngle = rotationAngle+(2*M_PI/360*globalHeading);
+    
+    if (rotationAngle>(2*M_PI)) {
+        rotationAngle = rotationAngle - 2*M_PI;
+    }
 
     NSLog(@"FLASCHE ANGLE %f", rotationAngle);
     return rotationAngle;

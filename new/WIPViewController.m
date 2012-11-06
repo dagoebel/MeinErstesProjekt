@@ -28,7 +28,7 @@ static Question *locationAktiv;
 static CLLocationCoordinate2D globalPosition;
 static double globalLocationHeading;
 
-@implementation WIPViewController{
+@implementation WIPViewController {
     
     NSArray *tableData;
 }
@@ -53,7 +53,8 @@ static double globalLocationHeading;
 @synthesize spieler1BubbleImg, spieler2BubbleImg, spieler3BubbleImg, spieler4BubbleImg;
 @synthesize auswertungLbl1, auswertungLbl2,auswertungLbl3,auswertungLbl4;
 @synthesize auswertungView;
-
+@synthesize player1Auswertung, player2Auswertung, player3Auswertung, player4Auswertung;
+@synthesize player1AuswertungImg,player2AuswertungImg,player3AuswertungImg,player4AuswertungImg;
 
 static int curveValues[] = {
     UIViewAnimationOptionCurveEaseInOut,
@@ -63,7 +64,7 @@ static int curveValues[] = {
 
 
 
-@synthesize container, startTransform, bottle, zeiger, kompassScheibe, kompassScheibeImg;
+@synthesize container, startTransform, bottle, zeiger, zeigerLbl, kompassScheibe, kompassScheibeImg;
 @synthesize locationLblBot, locationLblTop, gameMenu;
 
 - (void)viewDidLoad
@@ -79,7 +80,9 @@ static int curveValues[] = {
     kompassScheibeWidth = kompassScheibeImg.frame.size.width;
    
     
-    locationLblTop.transform = CGAffineTransformRotate(locationLblTop.transform,  M_PI);;
+
+    locationLblTop.transform = CGAffineTransformRotate(locationLblTop.transform,  M_PI);
+
     
        /// START LOCATION SERVICES
     
@@ -134,15 +137,14 @@ static int curveValues[] = {
     
     if (spielAktiv && locationAktiv!=nil) {
         mWIPDirection  = [[WIPDirection alloc] init];        
-        CLLocationCoordinate2D myPosition  = [location coordinate];        
-        float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:myPosition];
+        float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:globalPosition];
         globalLocationHeading = angle;
         zeiger.tag = angle;
-        if (angle<=61){
-            zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (270 + angle+29));
+        if (angle>=90){
+            zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (angle-90));
         }
         else{
-            zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (90 + angle+29-360));
+            zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (360-angle));
         }
         
         
@@ -162,18 +164,8 @@ static int curveValues[] = {
            [UIView animateWithDuration:1.0 delay:0.0 options:0
                             animations:^{
                                 kompassScheibe.transform = CGAffineTransformMakeRotation(M_PI / 180 * (-[heading trueHeading]));
-                                if (zeiger.tag<=61){
-                                    zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (270 + zeiger.tag+29));
-                                }
-                                else{
-                                    zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (90 + zeiger.tag+29-360));
-                                }
-                                
-                                spieler1Bubble.transform = CGAffineTransformMakeRotation(M_PI / 180 * (-[heading trueHeading]));
-                                spieler2Bubble.transform = CGAffineTransformMakeRotation(M_PI / 180 * (-[heading trueHeading]));
-                                spieler3Bubble.transform = CGAffineTransformMakeRotation(M_PI / 180 * (-[heading trueHeading]));
-                                spieler4Bubble.transform = CGAffineTransformMakeRotation(M_PI / 180 * (-[heading trueHeading]));
-
+                                                               
+                               
 
                                 
                             }
@@ -426,7 +418,7 @@ static int curveValues[] = {
         if(spielerFbId!=nil)
         {
           glass = glass1;
-            playerBubble = spieler1BubbleImg;
+        playerBubble = spieler1BubbleImg;
           spieler1Lbl.text = @"";
         }
         else{
@@ -520,10 +512,10 @@ static int curveValues[] = {
             glass.image = [self mergeImage:glass.image withImage:new strength:1];
             playerBubble.image = glass.image;
             glass.layer.cornerRadius  = 75.0;
-           glass.layer.masksToBounds = YES;
+            glass.layer.masksToBounds = YES;
             
             
-            playerBubble.layer.cornerRadius  = 5.0;
+            playerBubble.layer.cornerRadius  = 20.0;
             playerBubble.layer.masksToBounds = YES;
             
     
@@ -583,7 +575,6 @@ static int curveValues[] = {
 
 - (void)showQuestionToAll{
     
-    int start = 1;
     
     NSURL* fileQuestio = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"questio" ofType:@"mp3"]];
     
@@ -624,6 +615,9 @@ static int curveValues[] = {
 - (void)showAuswertungToAll{
     
      auswertungView.hidden = false;
+    zeiger.hidden = false;
+    
+
     
     NSURL* fileWin = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"win" ofType:@"mp3"]];
     
@@ -645,7 +639,7 @@ static int curveValues[] = {
     
     CABasicAnimation *animRotate = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     [animRotate setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-    [animRotate setToValue:[NSNumber numberWithFloat:10*M_PI+(M_PI/180*globalHeading)]];
+    [animRotate setToValue:[NSNumber numberWithFloat:3*M_PI]];
     
     [animRotate setAutoreverses:NO];
     [animRotate setDuration:2];
@@ -655,46 +649,48 @@ static int curveValues[] = {
     animRotate.removedOnCompletion = FALSE;
     [imageWheel.layer addAnimation:animRotate forKey:@"rotate"];
     
-    int i = 0;
-    NSString *name = nil;
-    NSString *distance = nil;
     
     
     
-    mWIPGameController = [[WIPGameController alloc]init];
     
-    NSArray *liste = [mWIPGameController calculateWinner:((2*M_PI/360)*globalLocationHeading): startPlayer];
+    CABasicAnimation *animScale1 = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    [animScale1 setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [animScale1 setFromValue:[NSNumber numberWithFloat:.000001]];
+    [animScale1 setToValue:[NSNumber numberWithFloat:1]];
     
+    [animScale1 setAutoreverses:NO];
+    [animScale1 setDuration:2];
+    animScale1.repeatCount = NO;
+    animScale1.fillMode = kCAFillModeForwards;
     
-    for (NSDictionary *listeneintrag in liste)
-    {
-        
-        name = [listeneintrag valueForKey:@"name"];
-        distance = [listeneintrag valueForKey:@"distance"];
-        double dis = [distance doubleValue]/M_PI*180;
-        
-        if (i==0) {
-            auswertungLbl1.text = [NSString stringWithFormat:@"1. %@: %.0f° daneben",name,dis];
-            auswertungLbl2.text = @"";
-            auswertungLbl3.text = @"";
-            auswertungLbl4.text = @"";
-        }
-        
-        if (i==1) {
-            auswertungLbl2.text = [NSString stringWithFormat:@"2. %@: %.0f° daneben",name,dis];
-        }
-        
-        if (i==2) {
-            auswertungLbl3.text = [NSString stringWithFormat:@"3. %@: %.0f° daneben",name,dis];
-        }
-        
-        if (i==3) {
-            auswertungLbl4.text = [NSString stringWithFormat:@"4. %@: %.0f° daneben",name,dis];
-        }
-        
-        i++;
-        
+    [zeiger.layer addAnimation:animScale1 forKey:@"grow"];
+    
+    CABasicAnimation *animRotate1 = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    [animRotate1 setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+    
+    if (globalLocationHeading>=90){
+        [animRotate1 setToValue:[NSNumber numberWithFloat:-12*M_PI+(M_PI / 180 * (globalLocationHeading-90))]];
     }
+    else{
+        [animRotate1 setToValue:[NSNumber numberWithFloat:-12*M_PI+(M_PI / 180 * (360-globalLocationHeading))]];
+    }
+    
+    
+    [animRotate1 setAutoreverses:NO];
+    [animRotate1 setDuration:8];
+    animRotate1.repeatCount = NO;
+    animRotate1.fillMode = kCAFillModeForwards;
+    animRotate1.cumulative=true;
+    animRotate1.removedOnCompletion = FALSE;
+    [zeiger.layer addAnimation:animRotate1 forKey:@"rotate"];
+    
+    spieler1Bubble.hidden = false;
+    spieler2Bubble.hidden = false;
+    spieler3Bubble.hidden = false;
+    spieler4Bubble.hidden = false;
+
+    [NSTimer scheduledTimerWithTimeInterval: 8.0 target: self selector:@selector(onTick:) userInfo: nil repeats:NO];
+    
     [audioPlayerWin prepareToPlay];
     
     [audioPlayerWin play];
@@ -702,6 +698,123 @@ static int curveValues[] = {
     
    
 
+    
+}
+
+-(void)onTick:(NSTimer *)timer {
+    
+    mWIPGameController = [[WIPGameController alloc]init];
+    
+    NSArray *liste = [mWIPGameController calculateWinner:globalLocationHeading: startPlayer];
+    
+    int i = 1;
+    NSString *name = nil;
+    double playerid = 1;
+    NSString *distance = nil;
+    UIImage *img = nil;
+    
+    i = 0;
+    
+    
+    //// SELECT KREIS IMG
+    
+    for (NSDictionary *listeneintrag in liste)
+    {
+    i++;
+        if (i==1) {
+            img = [UIImage imageNamed:@"badge1.png"];
+        }
+        else if (i-anzahlPlayer==0)
+        {
+            img = [UIImage imageNamed:@"badge4.png"];
+        }
+        else
+        {
+          img = nil;   
+        }
+               
+        
+        
+        
+        name = [listeneintrag valueForKey:@"name"];
+        distance = [listeneintrag valueForKey:@"distance"];
+        playerid = [[listeneintrag valueForKey:@"id"] doubleValue];
+        double dis = [distance doubleValue];
+   
+        
+        
+        if (playerid==1) {
+            if (i==1){
+                [self pulsateUIImageView:spieler1BubbleImg];
+                [self pulsateUIImageView:glass1];
+                [self pulsateUIImageView:player1AuswertungImg];
+            }
+            
+            player1Auswertung.text = [NSString stringWithFormat:@"%.0f°",dis];
+            player1Auswertung.hidden = false;
+            player1AuswertungImg.hidden = false;
+        }
+        
+        if (playerid==2) {
+            if (i==1){
+                [self pulsateUIImageView:spieler2BubbleImg];
+                [self pulsateUIImageView:glass2];
+                [self pulsateUIImageView:player2AuswertungImg];
+            }
+            
+            player2Auswertung.text = [NSString stringWithFormat:@"%.0f°",dis];
+            player2Auswertung.hidden = false;
+            player2AuswertungImg.hidden = false;
+        }
+        
+        if (playerid==3) {
+            if (i==1){
+                [self pulsateUIImageView:spieler3BubbleImg];
+                [self pulsateUIImageView:glass3];
+                [self pulsateUIImageView:player3AuswertungImg];
+            }
+            
+            player3Auswertung.text = [NSString stringWithFormat:@"%.0f°",dis];
+            player3Auswertung.hidden = false;
+            player3AuswertungImg.hidden = false;
+
+        }
+        
+        if (playerid==4) {
+            if (i==1){
+                [self pulsateUIImageView:spieler4BubbleImg];
+                [self pulsateUIImageView:glass4];
+                [self pulsateUIImageView:player4AuswertungImg];
+            }
+            player4Auswertung.text = [NSString stringWithFormat:@"%.0f°",dis];
+            player4Auswertung.hidden = false;
+            player4AuswertungImg.hidden = false;
+        }
+        
+      
+                
+        if (playerid==1) {
+            player1AuswertungImg.image = img;
+                   }
+        if (playerid==2) {
+            player2AuswertungImg.image = img;
+                   }
+        if (playerid==3) {{
+            player3AuswertungImg.image = img;
+                    }
+        if (playerid==4) {
+            player4AuswertungImg.image = img;
+                   }
+        
+        
+        
+        
+       
+        
+    }
+     
+    
+   } 
     
 }
 
@@ -800,6 +913,7 @@ static int curveValues[] = {
        
         frageString = [frageString stringByAppendingString:locationAktiv.place_name];
         frageShortString = locationAktiv.place_name;
+        zeigerLbl.text = locationAktiv.place_name;
         
     }
     
@@ -810,6 +924,8 @@ static int curveValues[] = {
         
         frageShortString = [frageShortString stringByAppendingString:@" in "];
         frageShortString = [frageShortString stringByAppendingString:locationAktiv.place_location_city];
+        zeigerLbl.text = [zeigerLbl.text stringByAppendingString:@" "];
+        zeigerLbl.text = [zeigerLbl.text stringByAppendingString:locationAktiv.place_location_city];
         
     }
     
@@ -846,20 +962,15 @@ static int curveValues[] = {
     spinngLblBot.text = frageString;
     spinngLblTop.text = frageString;
     
-    
-    
-    
+ 
     float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:globalPosition];
     globalLocationHeading = angle;
-
     zeiger.tag = angle;
- 
-    
-    if (angle<=61){
-        zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (270 + angle+29));
+    if (angle>=90){
+        zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (angle-90));
     }
     else{
-         zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (90 + angle+29-360));
+         zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (360-angle));
     }
     
     
@@ -911,7 +1022,8 @@ static int curveValues[] = {
 
     if (spielerNr == 1) {
         if (currentPlayer == 1) {
-            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
+            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle:globalHeading]];
+            spieler1Bubble.transform = CGAffineTransformMakeRotation([imageWheel getAngle:globalHeading]-(M_PI/2));
             if (anzahlPlayer>countPlayer) {
                 currentPlayer = 2;
                 countPlayer++;
@@ -933,8 +1045,9 @@ static int curveValues[] = {
     }
     if (spielerNr == 2) {
         if (currentPlayer == 2) {
-            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
-            if (anzahlPlayer>countPlayer) {
+            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle:globalHeading]];
+            spieler2Bubble.transform = CGAffineTransformMakeRotation([imageWheel getAngle:globalHeading]-(M_PI/2));
+            if (anzahlPlayer>countPlayer&&anzahlPlayer!=2) {
                 currentPlayer = 3;
                 countPlayer++;
                 [imageWheel resetAngle: globalHeading];
@@ -943,6 +1056,18 @@ static int curveValues[] = {
                 [self stopPulsateUIImageView:self.glass2];
                 [self pulsateUIImageView:self.glass3];
                 [audioPlayer play];
+            }
+            else if (anzahlPlayer>countPlayer&&anzahlPlayer==2)
+            {
+                currentPlayer = 1;
+                countPlayer++;
+                [imageWheel resetAngle: globalHeading];
+                [self stopPulsateUIImageView:self.glass3];
+                [self stopPulsateUIImageView:self.glass4];
+                [self stopPulsateUIImageView:self.glass2];
+                [self pulsateUIImageView:self.glass1];
+                [audioPlayer play];
+                
             }
             else
             {
@@ -955,8 +1080,9 @@ static int curveValues[] = {
     }
     if (spielerNr == 3) {
         if (currentPlayer == 3) {
-            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
-            if (anzahlPlayer>countPlayer) {
+            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle:globalHeading]];
+            spieler3Bubble.transform = CGAffineTransformMakeRotation([imageWheel getAngle:globalHeading]-(M_PI/2));
+            if (anzahlPlayer>countPlayer&&anzahlPlayer!=3) {
                 currentPlayer = 4;
                 countPlayer++;
                 [imageWheel resetAngle: globalHeading];
@@ -965,6 +1091,19 @@ static int curveValues[] = {
                 [self stopPulsateUIImageView:self.glass3];
                 [self pulsateUIImageView:self.glass4];
                 [audioPlayer play];
+            }
+            else if (anzahlPlayer>countPlayer&&anzahlPlayer==3)
+            {
+                currentPlayer = 1;
+                countPlayer++;
+                [imageWheel resetAngle: globalHeading];
+                [self stopPulsateUIImageView:self.glass4];
+                [self stopPulsateUIImageView:self.glass2];
+                [self stopPulsateUIImageView:self.glass3];
+                [self pulsateUIImageView:self.glass1];
+                [audioPlayer play];
+
+                
             }
             else
             {
@@ -977,7 +1116,8 @@ static int curveValues[] = {
     }
     if (spielerNr == 4) {
         if (currentPlayer == 4) {
-            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle]];
+            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle:globalHeading]];
+            spieler4Bubble.transform = CGAffineTransformMakeRotation([imageWheel getAngle:globalHeading]-(M_PI/2));
             if (anzahlPlayer>countPlayer) {
                 currentPlayer = 1;
                 countPlayer++;
@@ -1107,8 +1247,8 @@ static int curveValues[] = {
     
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+-(void)tableView:(UITableView *)tableView1 didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView1 cellForRowAtIndexPath:indexPath];
     NSString *cellText = cell.textLabel.text;
     NSString *cellDetailedText = cell.detailTextLabel.text;
     
@@ -1121,13 +1261,13 @@ static int curveValues[] = {
     [self spielerNameSelected:cellText :cellDetailedText];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 
 {
     
       static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    UITableViewCell *cell = [tableView1 dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleSubtitle reuseIdentifier:simpleTableIdentifier];
@@ -1164,11 +1304,11 @@ static int curveValues[] = {
     return cell;
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (NSIndexPath *)tableView:(UITableView *)tableView1 willDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [tableView1 cellForRowAtIndexPath:indexPath];
 
-    
+    return indexPath;
    }
 
 - (void) drawStringAtContext:(CGContextRef) context string:(NSString*) text atAngle:(float) angle withRadius:(float) radius
@@ -1255,6 +1395,32 @@ static int curveValues[] = {
 - (IBAction)naechsteRunde:(id)sender {
     
     auswertungView.hidden = true;
+    zeiger.hidden = true;
+    spieler1Bubble.hidden = true;
+    spieler2Bubble.hidden = true;
+    spieler3Bubble.hidden = true;
+    spieler4Bubble.hidden = true;
+    [self stopPulsateUIImageView:glass1];
+    [self stopPulsateUIImageView:glass2];
+    [self stopPulsateUIImageView:glass3];
+    [self stopPulsateUIImageView:glass4];
+    [self stopPulsateUIImageView:spieler1BubbleImg];
+    [self stopPulsateUIImageView:spieler2BubbleImg];
+    [self stopPulsateUIImageView:spieler3BubbleImg];
+    [self stopPulsateUIImageView:spieler4BubbleImg];
+    [self stopPulsateUIImageView:player1AuswertungImg];
+    [self stopPulsateUIImageView:player2AuswertungImg];
+    [self stopPulsateUIImageView:player3AuswertungImg];
+    [self stopPulsateUIImageView:player4AuswertungImg];
+    player1AuswertungImg.hidden = true;
+    player2AuswertungImg.hidden = true;
+    player3AuswertungImg.hidden = true;
+    player4AuswertungImg.hidden = true;
+    
+    player1Auswertung.hidden = true;
+    player2Auswertung.hidden = true;
+    player3Auswertung.hidden = true;
+    player4Auswertung.hidden = true;
     
     [self nextRound];
 }
