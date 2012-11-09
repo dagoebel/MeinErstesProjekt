@@ -2,7 +2,7 @@
 //  Question.h
 //  new
 //
-//  Created by Daniel Goebel on 03.11.12.
+//  Created by Daniel Goebel on 09.11.12.
 //  Copyright (c) 2012 Daniel. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 
 @interface Question : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * asked;
 @property (nonatomic, retain) NSString * created_time;
 @property (nonatomic, retain) NSString * from_id;
 @property (nonatomic, retain) NSString * from_name;
@@ -25,7 +26,6 @@
 @property (nonatomic, retain) NSString * place_location_street;
 @property (nonatomic, retain) NSString * place_location_zip;
 @property (nonatomic, retain) NSString * place_name;
-@property (nonatomic, retain) NSNumber * asked;
 @property (nonatomic, retain) NSSet *tags;
 @end
 

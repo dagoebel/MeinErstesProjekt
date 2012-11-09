@@ -8,6 +8,7 @@
 
 #import "WIPGameController.h"
 #import "Player.h"
+#import "Friends.h"
 #import "FriendsMutualFriends.h"
 #import "CoreDataHelper.h"
 #import "WIPAppDelegate.h"
@@ -180,30 +181,59 @@ static double playerCount;
     
     NSLog(@"WINNER %i", winner);
     
-    // Define keys for dictionary values
- 
-       
-    [self saveResults:sortedArrayOfDictionaries];
-    
-    
-    
-       
     return sortedArrayOfDictionaries;
 
   
 }
-- (void) saveResults:(NSArray*) sortedArrayOfDictionaries{
-    
-    NSString *name = nil;
-    double playerid = 1;
-    double distance = 1;
-    
-    for (NSDictionary *listeneintrag in sortedArrayOfDictionaries)
-    {
-         
-    }
 
+
+- (NSArray*) getResults{
     
+    NSString *playerIDStr = @"id";
+    NSString *distance = @"distance";
+    NSString *startplayer = @"startplayer";
+    NSString *name = @"name";
+    
+    NSMutableArray *arrayOfDictionaries = [NSMutableArray array];
+    
+    NSMutableArray *spieler = [[NSMutableArray alloc] init];
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    spieler = [CoreDataHelper getObjectsForEntity:@"Player" withSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+
+    for(Player *player in spieler)
+    {
+        double playerTotalAngle = [player.angle_total doubleValue];
+       
+        double playerID = [player.id doubleValue];
+    
+        NSString *playerName = player.name;
+
+         // Create three dictionaries
+       NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                // Key value pairs
+                playerName, name,
+                [NSString stringWithFormat:@"%f",playerID], playerIDStr,
+                [NSNumber numberWithDouble:playerTotalAngle], distance, nil];
+        [arrayOfDictionaries addObject:dict];
+  
+    }
+    
+    NSSortDescriptor *distancesort =
+    [[NSSortDescriptor alloc] initWithKey:distance
+                                ascending:YES];
+    
+    NSSortDescriptor *startplayersort =
+    [[NSSortDescriptor alloc] initWithKey:startplayer
+                                ascending:YES];
+    
+    NSArray *descriptors = [NSArray arrayWithObjects:distancesort, startplayersort, nil];
+    NSArray *sortedArrayOfDictionaries = [arrayOfDictionaries sortedArrayUsingDescriptors:descriptors];
+    
+    NSLog(@"sorted array of dictionaries: %@", sortedArrayOfDictionaries);
+       
+   return sortedArrayOfDictionaries; 
 }
 
 - (void) saveAngle:(int)playerID:(double)angle{
@@ -219,6 +249,12 @@ static double playerCount;
     Player *player = [spieler objectAtIndex:0];
     
     player.angle = [NSNumber numberWithDouble:angle];
+    
+    double angle_total = [player.angle_total doubleValue];
+    
+    double anglein = [player.angle doubleValue];
+    
+    player.angle_total = [NSNumber numberWithDouble:(angle_total + anglein)];
     
     [mainDelegate.managedObjectContext save:nil];
 
@@ -261,27 +297,43 @@ static double playerCount;
 }
 
 
-- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSString *)fb_id: (NSString *)fb_url
+- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSString *)fb_id: (id) pictureBase64 
 {
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
     
     Player *player = [NSEntityDescription insertNewObjectForEntityForName:@"Player" inManagedObjectContext:mainDelegate.managedObjectContext];
     
+    Friends *friend = nil;
+    
+    if(fb_id!=nil)
+    {
+        NSMutableArray *friends = [[NSMutableArray alloc] init];
+                
+        NSPredicate *query_emtpy = [NSPredicate predicateWithFormat:@"friend_id==%@",fb_id];
+    
+        friends = [CoreDataHelper searchObjectsForEntity:@"Friends" withPredicate:query_emtpy andSortKey:@"friend_id" andSortAscending:false andContext:mainDelegate.managedObjectContext];
+        
+        if (friends.count!=0) {
+            
+            friend = [friends objectAtIndex:0];
+            player.pictureBase64 = friend.pictureBase64;
+            player.fb_id = fb_id;
+        }
+    }
+    else if (fb_id==nil)
+    {
+        player.fb_id = 0;
+        player.pictureBase64 = pictureBase64;
+    }
+    
     player.name = playerName;
     player.id = playerId;
-    player.fb_id = fb_id;
-    player.fb_url = fb_url;
-    
-    
+   
+
     [mainDelegate.managedObjectContext save:nil];
     
        
 }
+     
 
-- (void)getMutualFriends:(Player*) player{
-       
-
-       
-       
-}
 @end

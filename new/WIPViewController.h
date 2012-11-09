@@ -17,11 +17,12 @@
 #import "WIPAppDelegate.h"
 #import "WIPFacebook.h"
 #import <AVFoundation/AVFoundation.h>
+#import "WIPResultViewController.h"
 
 
 @protocol WIPViewControllerDelegate;
 
-@interface WIPViewController : UIViewController <WIPLocationControllerDelegate, UITableViewDelegate, UITableViewDataSource>{
+@interface WIPViewController : UIViewController <WIPLocationControllerDelegate, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
     WIPGameController *mWIPGameController;
     WIPBottle *mWIPBottle;
     WIPDirection *mWIPDirection;
@@ -101,7 +102,24 @@
 @property (weak, nonatomic) IBOutlet UIImageView *player1AuswertungImg;
 @property (weak, nonatomic) IBOutlet UIImageView *player2AuswertungImg;
 
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_warVALIE;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_amVALIE;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_mitVALIE;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_beiVALIE;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_inVALIE;
 
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_in;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_am;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_war;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_mit;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_bei;
+
+@property (weak, nonatomic) IBOutlet UIButton *cameraBtn;
+
+
+
+
+- (IBAction)showAuswertung:(id)sender;
 
 
 @property (weak, nonatomic) IBOutlet UILabel *spinngLblTop;

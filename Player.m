@@ -2,7 +2,7 @@
 //  Player.m
 //  new
 //
-//  Created by Daniel Goebel on 03.11.12.
+//  Created by Daniel Goebel on 09.11.12.
 //  Copyright (c) 2012 Daniel. All rights reserved.
 //
 
@@ -18,5 +18,6 @@
 @dynamic id;
 @dynamic name;
 @dynamic points;
+@dynamic pictureBase64;
 
 @end

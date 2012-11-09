@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA0EBFAB162984F70058ED8D /* jaegermeister.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0EBFAA162984F70058ED8D /* jaegermeister.png */; };
+		AA23FB30164D775F00FE36D9 /* instr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA23FB2F164D775F00FE36D9 /* instr.png */; };
 		AA255C3C16497F5900328421 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = AA255C3B16497F5900328421 /* next.png */; };
 		AA33F139162986B40045FC78 /* jaeger.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F138162986B40045FC78 /* jaeger.png */; };
 		AA33F13C162987030045FC78 /* jaeger1.png in Resources */ = {isa = PBXBuildFile; fileRef = AA33F13B162987030045FC78 /* jaeger1.png */; };
@@ -63,16 +64,17 @@
 		AA8B1584161316AD00752349 /* Xante%20Bottle.png in Resources */ = {isa = PBXBuildFile; fileRef = AA8B1583161316AD00752349 /* Xante%20Bottle.png */; };
 		AA8B1586161317BD00752349 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = AA8B1585161317BD00752349 /* compass.png */; };
 		AA8B15A1161335A000752349 /* WIPBottle.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8B15A0161335A000752349 /* WIPBottle.m */; };
-		AA9DED11164513630047F202 /* Tags.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9DED10164513630047F202 /* Tags.m */; };
-		AA9DED14164513650047F202 /* FriendsMutualFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9DED13164513650047F202 /* FriendsMutualFriends.m */; };
-		AA9DED17164513660047F202 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9DED16164513660047F202 /* Location.m */; };
-		AA9DED1A164513660047F202 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9DED19164513660047F202 /* Question.m */; };
-		AA9DED1D164513660047F202 /* Friends.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9DED1C164513660047F202 /* Friends.m */; };
-		AA9DED20164513660047F202 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9DED1F164513660047F202 /* Player.m */; };
 		AAA117A5161EF85A00A3A3A6 /* Location.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AAA117A3161EF85A00A3A3A6 /* Location.xcdatamodeld */; };
 		AAA117AB161EF91000A3A3A6 /* CoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA117AA161EF91000A3A3A6 /* CoreDataHelper.m */; };
 		AAA117B11623111B00A3A3A6 /* compass_background.png in Resources */ = {isa = PBXBuildFile; fileRef = AAA117B01623111B00A3A3A6 /* compass_background.png */; };
 		AAA117B31623121300A3A3A6 /* bottle.png in Resources */ = {isa = PBXBuildFile; fileRef = AAA117B21623121300A3A3A6 /* bottle.png */; };
+		AAAAEEF7164D107E00AC58A4 /* WIPResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAEEF6164D107D00AC58A4 /* WIPResultViewController.m */; };
+		AAAAEEFA164D221500AC58A4 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAEEF9164D221500AC58A4 /* Question.m */; };
+		AAAAEEFD164D221700AC58A4 /* Tags.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAEEFC164D221700AC58A4 /* Tags.m */; };
+		AAAAEF00164D221700AC58A4 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAEEFF164D221700AC58A4 /* Location.m */; };
+		AAAAEF03164D221700AC58A4 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAEF02164D221700AC58A4 /* Player.m */; };
+		AAAAEF06164D221700AC58A4 /* Friends.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAEF05164D221700AC58A4 /* Friends.m */; };
+		AAAAEF09164D221700AC58A4 /* FriendsMutualFriends.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAAEF08164D221700AC58A4 /* FriendsMutualFriends.m */; };
 		AAAB8D9F162AE07A006AD9AA /* WIPFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB8D9E162AE07A006AD9AA /* WIPFacebook.m */; };
 		AAAB8DA3162AE1E3006AD9AA /* FPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB8DA2162AE1E3006AD9AA /* FPViewController.m */; };
 		AAB84FC81626F99B0025FDFD /* WIPGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB84FC71626F99B0025FDFD /* WIPGameController.m */; };
@@ -106,6 +108,7 @@
 
 /* Begin PBXFileReference section */
 		AA0EBFAA162984F70058ED8D /* jaegermeister.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaegermeister.png; sourceTree = "<group>"; };
+		AA23FB2F164D775F00FE36D9 /* instr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = instr.png; sourceTree = "<group>"; };
 		AA255C3B16497F5900328421 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
 		AA33F138162986B40045FC78 /* jaeger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaeger.png; sourceTree = "<group>"; };
 		AA33F13B162987030045FC78 /* jaeger1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaeger1.png; sourceTree = "<group>"; };
@@ -168,23 +171,25 @@
 		AA8B1585161317BD00752349 /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = compass.png; path = new/compass.png; sourceTree = "<group>"; };
 		AA8B159F161335A000752349 /* WIPBottle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIPBottle.h; sourceTree = "<group>"; };
 		AA8B15A0161335A000752349 /* WIPBottle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIPBottle.m; sourceTree = "<group>"; };
-		AA9DED0F164513630047F202 /* Tags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tags.h; sourceTree = "<group>"; };
-		AA9DED10164513630047F202 /* Tags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tags.m; sourceTree = "<group>"; };
-		AA9DED12164513650047F202 /* FriendsMutualFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsMutualFriends.h; sourceTree = "<group>"; };
-		AA9DED13164513650047F202 /* FriendsMutualFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsMutualFriends.m; sourceTree = "<group>"; };
-		AA9DED15164513660047F202 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		AA9DED16164513660047F202 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		AA9DED18164513660047F202 /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
-		AA9DED19164513660047F202 /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
-		AA9DED1B164513660047F202 /* Friends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friends.h; sourceTree = "<group>"; };
-		AA9DED1C164513660047F202 /* Friends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friends.m; sourceTree = "<group>"; };
-		AA9DED1E164513660047F202 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
-		AA9DED1F164513660047F202 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		AAA117A4161EF85A00A3A3A6 /* Location.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Location.xcdatamodel; sourceTree = "<group>"; };
 		AAA117A9161EF91000A3A3A6 /* CoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataHelper.h; path = new/CoreDataHelper.h; sourceTree = "<group>"; };
 		AAA117AA161EF91000A3A3A6 /* CoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataHelper.m; path = new/CoreDataHelper.m; sourceTree = "<group>"; };
 		AAA117B01623111B00A3A3A6 /* compass_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = compass_background.png; path = new/compass_background.png; sourceTree = "<group>"; };
 		AAA117B21623121300A3A3A6 /* bottle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottle.png; sourceTree = "<group>"; };
+		AAAAEEF5164D107D00AC58A4 /* WIPResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIPResultViewController.h; sourceTree = "<group>"; };
+		AAAAEEF6164D107D00AC58A4 /* WIPResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIPResultViewController.m; sourceTree = "<group>"; };
+		AAAAEEF8164D221500AC58A4 /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
+		AAAAEEF9164D221500AC58A4 /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
+		AAAAEEFB164D221700AC58A4 /* Tags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tags.h; sourceTree = "<group>"; };
+		AAAAEEFC164D221700AC58A4 /* Tags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tags.m; sourceTree = "<group>"; };
+		AAAAEEFE164D221700AC58A4 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		AAAAEEFF164D221700AC58A4 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		AAAAEF01164D221700AC58A4 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		AAAAEF02164D221700AC58A4 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		AAAAEF04164D221700AC58A4 /* Friends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friends.h; sourceTree = "<group>"; };
+		AAAAEF05164D221700AC58A4 /* Friends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friends.m; sourceTree = "<group>"; };
+		AAAAEF07164D221700AC58A4 /* FriendsMutualFriends.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsMutualFriends.h; sourceTree = "<group>"; };
+		AAAAEF08164D221700AC58A4 /* FriendsMutualFriends.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsMutualFriends.m; sourceTree = "<group>"; };
 		AAAB8D9D162AE07A006AD9AA /* WIPFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIPFacebook.h; sourceTree = "<group>"; };
 		AAAB8D9E162AE07A006AD9AA /* WIPFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIPFacebook.m; sourceTree = "<group>"; };
 		AAAB8DA1162AE1E3006AD9AA /* FPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPViewController.h; sourceTree = "<group>"; };
@@ -319,6 +324,8 @@
 				AAAB8D9E162AE07A006AD9AA /* WIPFacebook.m */,
 				AAAB8DA1162AE1E3006AD9AA /* FPViewController.h */,
 				AAAB8DA2162AE1E3006AD9AA /* FPViewController.m */,
+				AAAAEEF5164D107D00AC58A4 /* WIPResultViewController.h */,
+				AAAAEEF6164D107D00AC58A4 /* WIPResultViewController.m */,
 			);
 			path = new;
 			sourceTree = "<group>";
@@ -384,6 +391,7 @@
 				AAF320B01619B90100D7E0BD /* compass.png */,
 				AAD346B71649585C00627D1A /* badge1.png */,
 				AAD346B81649585C00627D1A /* badge4.png */,
+				AA23FB2F164D775F00FE36D9 /* instr.png */,
 				AA82BF0116481C1B004217CE /* Chart.png */,
 				AA82BEFB16480296004217CE /* zettel.png */,
 				AA611B6F1634819100ED4E34 /* connnect.png */,
@@ -406,18 +414,18 @@
 				AAA117A3161EF85A00A3A3A6 /* Location.xcdatamodeld */,
 				AAA117A9161EF91000A3A3A6 /* CoreDataHelper.h */,
 				AAA117AA161EF91000A3A3A6 /* CoreDataHelper.m */,
-				AA9DED1E164513660047F202 /* Player.h */,
-				AA9DED1F164513660047F202 /* Player.m */,
-				AA9DED1B164513660047F202 /* Friends.h */,
-				AA9DED1C164513660047F202 /* Friends.m */,
-				AA9DED18164513660047F202 /* Question.h */,
-				AA9DED19164513660047F202 /* Question.m */,
-				AA9DED15164513660047F202 /* Location.h */,
-				AA9DED16164513660047F202 /* Location.m */,
-				AA9DED12164513650047F202 /* FriendsMutualFriends.h */,
-				AA9DED13164513650047F202 /* FriendsMutualFriends.m */,
-				AA9DED0F164513630047F202 /* Tags.h */,
-				AA9DED10164513630047F202 /* Tags.m */,
+				AAAAEF07164D221700AC58A4 /* FriendsMutualFriends.h */,
+				AAAAEF08164D221700AC58A4 /* FriendsMutualFriends.m */,
+				AAAAEF04164D221700AC58A4 /* Friends.h */,
+				AAAAEF05164D221700AC58A4 /* Friends.m */,
+				AAAAEF01164D221700AC58A4 /* Player.h */,
+				AAAAEF02164D221700AC58A4 /* Player.m */,
+				AAAAEEFE164D221700AC58A4 /* Location.h */,
+				AAAAEEFF164D221700AC58A4 /* Location.m */,
+				AAAAEEFB164D221700AC58A4 /* Tags.h */,
+				AAAAEEFC164D221700AC58A4 /* Tags.m */,
+				AAAAEEF8164D221500AC58A4 /* Question.h */,
+				AAAAEEF9164D221500AC58A4 /* Question.m */,
 			);
 			name = "Core Date";
 			sourceTree = "<group>";
@@ -537,6 +545,7 @@
 				AAD346B91649585C00627D1A /* badge1.png in Resources */,
 				AAD346BA1649585C00627D1A /* badge4.png in Resources */,
 				AA255C3C16497F5900328421 /* next.png in Resources */,
+				AA23FB30164D775F00FE36D9 /* instr.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,12 +596,13 @@
 				AAA117AB161EF91000A3A3A6 /* CoreDataHelper.m in Sources */,
 				AAB84FC81626F99B0025FDFD /* WIPGameController.m in Sources */,
 				AAAB8D9F162AE07A006AD9AA /* WIPFacebook.m in Sources */,
-				AA9DED11164513630047F202 /* Tags.m in Sources */,
-				AA9DED14164513650047F202 /* FriendsMutualFriends.m in Sources */,
-				AA9DED17164513660047F202 /* Location.m in Sources */,
-				AA9DED1A164513660047F202 /* Question.m in Sources */,
-				AA9DED1D164513660047F202 /* Friends.m in Sources */,
-				AA9DED20164513660047F202 /* Player.m in Sources */,
+				AAAAEEF7164D107E00AC58A4 /* WIPResultViewController.m in Sources */,
+				AAAAEEFA164D221500AC58A4 /* Question.m in Sources */,
+				AAAAEEFD164D221700AC58A4 /* Tags.m in Sources */,
+				AAAAEF00164D221700AC58A4 /* Location.m in Sources */,
+				AAAAEF03164D221700AC58A4 /* Player.m in Sources */,
+				AAAAEF06164D221700AC58A4 /* Friends.m in Sources */,
+				AAAAEF09164D221700AC58A4 /* FriendsMutualFriends.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

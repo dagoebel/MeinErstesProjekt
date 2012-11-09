@@ -2,7 +2,7 @@
 //  Player.h
 //  new
 //
-//  Created by Daniel Goebel on 03.11.12.
+//  Created by Daniel Goebel on 09.11.12.
 //  Copyright (c) 2012 Daniel. All rights reserved.
 //
 
@@ -19,5 +19,6 @@
 @property (nonatomic, retain) NSNumber * id;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * points;
+@property (nonatomic, retain) id pictureBase64;
 
 @end

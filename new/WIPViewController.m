@@ -12,6 +12,7 @@
 #import "Tags.h"
 #import "CoreDataHelper.h"
 #import <AVFoundation/AVFoundation.h>
+#import "WIPResultViewController.h"
 
 @interface WIPViewController ()
 
@@ -28,7 +29,7 @@ static Question *locationAktiv;
 static CLLocationCoordinate2D globalPosition;
 static double globalLocationHeading;
 
-@implementation WIPViewController {
+@implementation WIPViewController{
     
     NSArray *tableData;
 }
@@ -55,7 +56,21 @@ static double globalLocationHeading;
 @synthesize auswertungView;
 @synthesize player1Auswertung, player2Auswertung, player3Auswertung, player4Auswertung;
 @synthesize player1AuswertungImg,player2AuswertungImg,player3AuswertungImg,player4AuswertungImg;
-@synthesize nextBtn;
+@synthesize nextBtn,cameraBtn;
+
+
+
+
+
+
+//////////////
+
+@synthesize  qu_unten_am,qu_unten_amVALIE,qu_unten_bei,qu_unten_beiVALIE,qu_unten_in,qu_unten_inVALIE,qu_unten_mit,qu_unten_mitVALIE,qu_unten_war,qu_unten_warVALIE;
+
+
+
+
+////////
 
 static int curveValues[] = {
     UIViewAnimationOptionCurveEaseInOut,
@@ -70,6 +85,8 @@ static int curveValues[] = {
 
 - (void)viewDidLoad
 {
+    
+    
     [super viewDidLoad];
     
     spielAktiv = false;
@@ -103,9 +120,27 @@ static int curveValues[] = {
         
         [mWIPFacebook getFacebookFriends:tableView];
         
-         NSLog(@"GGETTING FRIENDS");
+         NSLog(@"GfETTING FRIENDS");
     }
+
     
+    NSPredicate *predicate_asked = [NSPredicate predicateWithFormat:@"(asked == 1)"];
+    
+    NSMutableArray *questionArray = [CoreDataHelper searchObjectsForEntity:@"Question" withPredicate:predicate_asked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    
+    
+    if (questionArray.count>0) {
+        
+        for (Question *asked_question in questionArray) {
+            asked_question.asked = [[NSNumber alloc] initWithDouble:0];
+            [mainDelegate.managedObjectContext save:nil];
+        }
+        
+        NSLog(@"ASKED=1 ZURÜCKGESETZ %u", questionArray.count);
+        
+        
+    }
+
 
 
 
@@ -188,25 +223,6 @@ static int curveValues[] = {
     [self presentViewController:vc
                        animated:YES completion:nil];
     
-    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
-    
-    NSPredicate *predicate_asked = [NSPredicate predicateWithFormat:@"(asked == 1)"];
-    
-    NSMutableArray *questionArray = [CoreDataHelper searchObjectsForEntity:@"Question" withPredicate:predicate_asked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
-    
-    
-    if (questionArray.count>0) {
-        
-        for (Question *asked_question in questionArray) {
-            asked_question.asked = [[NSNumber alloc] initWithDouble:0];
-            [mainDelegate.managedObjectContext save:nil];
-        }
-               
-        NSLog(@"COUNT: ASKED= ZURÜCKGESETZ %u", questionArray.count);
-
-        
-    }
-
 
 }
 
@@ -386,26 +402,15 @@ static int curveValues[] = {
         }
 }
 
-- (IBAction)spielerNameEntered:(id)sender {
-    
-    UITextField *spielerNameField = (UITextField*) sender;
-    NSString *spielerNameValue = spielerNameField.text;
-    
-    if (spielerNameValue.length==0) {
-        spielerNameValue = spielerNameField.placeholder;
-    }
-    
-    [self spielerNameSelected:spielerNameValue :nil];
-   
-    
-}
 
-- (void)spielerNameSelected:(NSString*)spielerNameValue: (NSString*)spielerFbId {
+
+- (void)spielerNameSelected:(NSString*)spielerNameValue: (NSString*)spielerFbId: (UIImage*) pictureBase64 {
     
     UIImageView * glass = nil;
     UIImageView * playerBubble = nil;
-       
-    [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer] :spielerFbId:nil];
+ 
+    [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer] :spielerFbId :pictureBase64];
+    
     
     spielerName.placeholder = [NSString stringWithFormat:@"Spieler %.0f", currentPlayer+1];
     spielerName.text = @"";
@@ -413,75 +418,39 @@ static int curveValues[] = {
     menuLabel.text = [NSString stringWithFormat:@"Spieler %.0f", currentPlayer+1];
 
     currentPlayer = currentPlayer+1;
-
+//spieler1Lbl.text = spielerNameValue;
     if (currentPlayer==2) {
         [self stopPulsateUIImageView:self.glass1];
-        if(spielerFbId!=nil)
-        {
-          glass = glass1;
+        glass = glass1;
         playerBubble = spieler1BubbleImg;
-          spieler1Lbl.text = @"";
-        }
-        else{
-            spieler1Lbl.text = spielerNameValue;
-   
-        }
+        spieler1Lbl.text = @"";
         [self pulsateUIImageView:self.glass2];
     }
-    
     else if (currentPlayer==3) {
         [self stopPulsateUIImageView:self.glass2];
-        if(spielerFbId!=nil)
-        {
-            glass = glass2;
-             playerBubble = spieler2BubbleImg;
-            spieler2Lbl.text = @"";
-        }
-        else{
-            spieler2Lbl.text = spielerNameValue;
-            
-        }
-
-        [self pulsateUIImageView:self.glass3];
-       //  [spielerName becomeFirstResponder];
-    }
+        glass = glass2;
+        playerBubble = spieler2BubbleImg;
+        spieler2Lbl.text = @"";
+        [self pulsateUIImageView:self.glass3];    }
     
     else if (currentPlayer==4) {
         [self stopPulsateUIImageView:self.glass3];
-        if(spielerFbId!=nil)
-        {
-            glass = glass3;
-             playerBubble = spieler3BubbleImg;
-            spieler3Lbl.text = @"";
-        }
-        else{
-            spieler3Lbl.text = spielerNameValue;
-            
-        }
-
-        [self pulsateUIImageView:self.glass4];
-      //  [spielerName becomeFirstResponder];
-    }
+        glass = glass3;
+        playerBubble = spieler3BubbleImg;
+        spieler3Lbl.text = @"";
+        [self pulsateUIImageView:self.glass4];    }
     
     
     else if (currentPlayer==5) {
         [self stopPulsateUIImageView:self.glass4];
-        if(spielerFbId!=nil)
-        {
-            glass = glass4;
-             playerBubble = spieler4BubbleImg;
-            spieler4Lbl.text = @"";
-        }
-        else{
-            spieler4Lbl.text = spielerNameValue;
-            
-        }
+        glass = glass4;
+        playerBubble = spieler4BubbleImg;
+        spieler4Lbl.text = @"";
     }
     
-    
-    if (currentPlayer==anzahlPlayer+1) {
-        [self startGame];
 
+    if (currentPlayer==anzahlPlayer+1) {
+       [self startGame];
         tableView.hidden = true;
     }
     else{
@@ -491,7 +460,8 @@ static int curveValues[] = {
     }
     
     
-    
+    if(spielerFbId!=nil)
+    {
     /////// LOAD IMAGE
     
     NSString *imageUrlString = @"http://graph.facebook.com/";
@@ -508,23 +478,36 @@ static int curveValues[] = {
         dispatch_async(dispatch_get_main_queue(), ^{
             // Update the UI
             
-             UIImage* new = [UIImage imageWithData:imageData];
+            UIImage* new = [UIImage imageWithData:imageData];
             
-            glass.image = [self mergeImage:glass.image withImage:new strength:1];
+            glass.image = new;
             playerBubble.image = glass.image;
             glass.layer.cornerRadius  = 75.0;
             glass.layer.masksToBounds = YES;
             
             
-            playerBubble.layer.cornerRadius  = 20.0;
+            playerBubble.layer.cornerRadius  = 15.0;
             playerBubble.layer.masksToBounds = YES;
-            
-    
-            
-            
-            
+
         });
     });
+        
+    }
+    else if (pictureBase64!=nil)
+    {
+                
+        UIImage* new = pictureBase64;
+
+        glass.image =  pictureBase64;
+
+        playerBubble.image = new;
+        glass.layer.cornerRadius  = 75.0;
+        glass.layer.masksToBounds = YES;
+        
+        
+        playerBubble.layer.cornerRadius  = 15.0;
+        playerBubble.layer.masksToBounds = YES;
+    }
     
 
 }
@@ -564,6 +547,7 @@ static int curveValues[] = {
     
     menuLabel.hidden = TRUE;
     spielerName.hidden = TRUE;
+    cameraBtn.hidden = TRUE;
         
         spielAktiv = true;
         startPlayer = 0;
@@ -706,6 +690,7 @@ static int curveValues[] = {
     
     nextBtn.hidden = false;
     
+    [self pulsateUIImageView:nextBtn.imageView];
     
     
     mWIPGameController = [[WIPGameController alloc]init];
@@ -872,98 +857,64 @@ static int curveValues[] = {
     NSString * frageString = @"";
     NSString * frageShortString = @"";
     NSString * person = @"";
-    double count = locationAktiv.tags.count;
+   int tagi = 0;
 
+  //  qu_unten_am,qu_unten_amVALIE,qu_unten_bei,qu_unten_beiVALIE,qu_unten_in,qu_unten_inVALIE,qu_unten_mit,qu_unten_mitVALIE,qu_unten_war,qu_unten_warVALIE;
     
-    frageString = [frageString stringByAppendingString:locationAktiv.person_name];
-    person= locationAktiv.person_name;
+  
+    qu_unten_warVALIE.text = locationAktiv.person_name;
     
     if ([locationAktiv.tags count]>0) {
+        qu_unten_mitVALIE.text = @"";
+        qu_unten_mit.hidden = false;
+        qu_unten_mitVALIE.hidden = false;
         
-        double i = 1;
+        int i = 0;
         for (Tags* tag in locationAktiv.tags)
         {
-            
-            NSLog(@"tag %@",tag.name);
-            NSLog(@"tagID %@",tag.id);
-            if (![person isEqualToString:tag.name]) {
+        i++;
+            if (![person isEqualToString:tag.name]&&tag.name!=nil) {
+            qu_unten_mitVALIE.text = [qu_unten_mitVALIE.text stringByAppendingString:tag.name];
+             }
+            else{tagi=1;}
                 
-                if (i==1) {
-                    frageString = [frageString stringByAppendingString:@", "];
-                }
-                
-            frageString = [frageString stringByAppendingString:tag.name];
-            
-                        
-            if (count!=i) {
-                frageString = [frageString stringByAppendingString:@", "];
-            }
-            
-            }
-            else if ([person isEqualToString:tag.name]&&count>1){
-                 frageString = [frageString stringByAppendingString:@", "];
-            }
-           
-            i++;
-            
+             if (i!=locationAktiv.tags.count && ![person isEqualToString:tag.name]) {
+                 qu_unten_mitVALIE.text = [qu_unten_mitVALIE.text stringByAppendingString:@" | "];
+             }    
         }
-    }
+            
+    }else if ((tagi==1&&locationAktiv.tags.count==1) || locationAktiv.tags.count==0){qu_unten_mit.hidden = true;qu_unten_mitVALIE.hidden = true;}
     
     if (locationAktiv.place_name!=nil) {
-        if (count>1) {
-             frageString = [frageString stringByAppendingString:@" waren bei "];
-        }else{
-            frageString = [frageString stringByAppendingString:@" war bei "];
+        qu_unten_mitVALIE.text = @"";
+        qu_unten_bei.hidden = false;
+        qu_unten_beiVALIE.hidden = false;
+        qu_unten_beiVALIE.text = locationAktiv.place_name;
+    }else{qu_unten_bei.hidden = true;qu_unten_beiVALIE.hidden = true;}
+    
+    if (locationAktiv.place_location_city!=nil||locationAktiv.place_location_street!=nil) {
+        qu_unten_inVALIE.text = @"";
+        qu_unten_in.hidden = false;
+        qu_unten_inVALIE.hidden = false;
+        qu_unten_inVALIE.text = locationAktiv.place_location_city;
+        if (locationAktiv.place_location_street!=nil) {
+            qu_unten_inVALIE.text = [qu_unten_inVALIE.text stringByAppendingString:@" ("];
+            qu_unten_inVALIE.text = [qu_unten_inVALIE.text stringByAppendingString:locationAktiv.place_location_street];
+            qu_unten_inVALIE.text = [qu_unten_inVALIE.text stringByAppendingString:@")"];
         }
-       
-        frageString = [frageString stringByAppendingString:locationAktiv.place_name];
-        frageShortString = locationAktiv.place_name;
-        zeigerLbl.text = locationAktiv.place_name;
-        
-    }
-    
-    
-    if (locationAktiv.place_location_city!=nil) {
-        frageString = [frageString stringByAppendingString:@" in "];
-        frageString = [frageString stringByAppendingString:locationAktiv.place_location_city];
-        
-        frageShortString = [frageShortString stringByAppendingString:@" in "];
-        frageShortString = [frageShortString stringByAppendingString:locationAktiv.place_location_city];
-        zeigerLbl.text = [zeigerLbl.text stringByAppendingString:@" "];
-        zeigerLbl.text = [zeigerLbl.text stringByAppendingString:locationAktiv.place_location_city];
-        
-    }
-    
-    if (locationAktiv.place_location_street!=nil) {
-        frageString = [frageString stringByAppendingString:@" ("];
-        frageString = [frageString stringByAppendingString:locationAktiv.place_location_street];
-        frageString = [frageString stringByAppendingString:@")"];
-        
-        frageShortString = [frageShortString stringByAppendingString:@" ("];
-        frageShortString = [frageShortString stringByAppendingString:locationAktiv.place_location_street];
-        frageShortString = [frageShortString stringByAppendingString:@")"];
-        
-    }
+    }else{qu_unten_in.hidden = true;qu_unten_inVALIE.hidden = true;}
     
     if (locationAktiv.created_time!=nil) {
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-      //  NSDate *date = [dateFormatter dateFromString:locationAktiv.created_time ];
-        
-        
-  
-      //  frageString = [frageString stringByAppendingString:@" am "];
-       // frageString = [frageString stringByAppendingString:[dateFormatter stringFromDate:date]];
-        
-    }
-    
+        qu_unten_amVALIE.text = @"";
+        qu_unten_am.hidden = false;
+        qu_unten_amVALIE.hidden = false;
+        qu_unten_amVALIE.text = locationAktiv.created_time;
+          }else{qu_unten_am.hidden = true;qu_unten_amVALIE.hidden = true;}
 
-    
     [self showQuestionToAll];
+   
     
-    locationLblBot.text = frageShortString;
-    locationLblTop.text = frageShortString;
+    
     spinngLblBot.text = frageString;
     spinngLblTop.text = frageString;
     
@@ -977,14 +928,12 @@ static int curveValues[] = {
     else{
          zeiger.transform = CGAffineTransformMakeRotation(M_PI / 180 * (360-angle));
     }
+ 
     
     
-
     
-    NSLog(@"AAAAAANGLE: %f",angle);
-    NSLog(@"GGGGGGLOBALHEADING: %f",globalHeading);
     
-
+    
     if(startPlayer<anzahlPlayer)
     {
         startPlayer++;
@@ -1263,7 +1212,7 @@ static int curveValues[] = {
     NSLog(@"tap %@",cellText );
     
     if (cellText!=nil) {
-         [self spielerNameSelected:cellText :cellDetailedText];
+         [self spielerNameSelected:cellText :cellDetailedText:nil];
     }
 
     
@@ -1293,20 +1242,7 @@ static int curveValues[] = {
         cell.textLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"name"];
         cell.detailTextLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"];
         cell.detailTextLabel.hidden =true;
-        
-        NSURL *imageURL = [NSURL URLWithString: [[friends objectAtIndex:indexPath.row] valueForKey:@"picture"]];
- 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // Update the UI
-               cell.imageView.image = [UIImage imageWithData:imageData];
-                
-            });
-        });
-        
-      // cell.tag = [[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"];
+        cell.imageView.image = [[friends objectAtIndex:indexPath.row] valueForKey:@"pictureBase64"];
         
     }
     
@@ -1401,6 +1337,7 @@ static int curveValues[] = {
 }
 
 
+
 - (IBAction)naechsteRunde:(id)sender {
     
     auswertungView.hidden = true;
@@ -1410,6 +1347,7 @@ static int curveValues[] = {
     spieler2Bubble.hidden = true;
     spieler3Bubble.hidden = true;
     spieler4Bubble.hidden = true;
+    [self stopPulsateUIImageView:nextBtn.imageView];
     [self stopPulsateUIImageView:glass1];
     [self stopPulsateUIImageView:glass2];
     [self stopPulsateUIImageView:glass3];
@@ -1435,4 +1373,50 @@ static int curveValues[] = {
     
     [self nextRound];
 }
+- (IBAction)showAuswertung:(id)sender {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad"
+                                                         bundle:nil];
+    UIViewController *viewController =
+    [storyboard instantiateViewControllerWithIdentifier:@"results"];
+    
+    [viewController setModalPresentationStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
+- (IBAction)takePicture:(id)sender {
+
+    UIImagePickerController * imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePicker.delegate = self;
+    imagePicker.allowsEditing = TRUE;
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    if (image) {
+
+    
+        NSString *spielerNameValue = spielerName.text;
+        
+        if (spielerNameValue.length==0) {
+            spielerNameValue = spielerName.placeholder;
+        }
+    
+    [self spielerNameSelected:spielerNameValue :nil:image];
+    
+     }
+    
+    [self dismissModalViewControllerAnimated:YES];
+}
 @end
+

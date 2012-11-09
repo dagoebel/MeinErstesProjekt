@@ -4,12 +4,14 @@
         <attribute name="friend_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="picture" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pictureBase64" optional="YES" attributeType="Transformable" syncable="YES"/>
         <relationship name="friendsmutualfriends" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FriendsMutualFriends" inverseName="friends" inverseEntity="FriendsMutualFriends" syncable="YES"/>
     </entity>
     <entity name="FriendsMutualFriends" representedClassName="FriendsMutualFriends" syncable="YES">
         <attribute name="fb_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fb_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pictureBase64" optional="YES" attributeType="Transformable" syncable="YES"/>
         <relationship name="friends" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Friends" inverseName="friendsmutualfriends" inverseEntity="Friends" syncable="YES"/>
     </entity>
     <entity name="Location" representedClassName="Location" syncable="YES">
@@ -24,6 +26,7 @@
         <attribute name="fb_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pictureBase64" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="points" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
     </entity>
     <entity name="Question" representedClassName="Question" syncable="YES">
@@ -48,10 +51,10 @@
         <relationship name="question" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Question" inverseName="tags" inverseEntity="Question" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Friends" positionX="160" positionY="192" width="128" height="105"/>
-        <element name="FriendsMutualFriends" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="Friends" positionX="160" positionY="192" width="128" height="120"/>
+        <element name="FriendsMutualFriends" positionX="160" positionY="192" width="128" height="120"/>
         <element name="Location" positionX="-11" positionY="531" width="128" height="90"/>
-        <element name="Player" positionX="135" positionY="321" width="128" height="150"/>
+        <element name="Player" positionX="135" positionY="321" width="128" height="165"/>
         <element name="Question" positionX="-630" positionY="269" width="128" height="255"/>
         <element name="Tags" positionX="-153" positionY="287" width="128" height="88"/>
     </elements>

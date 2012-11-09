@@ -444,6 +444,9 @@ int querycount = 1;
                 id picObj = [result objectForKey:@"picture"];
                 id dataObj = [picObj objectForKey:@"data"];
                 NSString *person_picture = [dataObj valueForKey:@"url"];
+                
+                NSString *person_pictureBase64 = nil;
+                
                 NSDictionary *newFriend = [NSDictionary dictionaryWithObjectsAndKeys:
                                            person_name, @"name",
                                            person_id, @"id",
@@ -460,6 +463,7 @@ int querycount = 1;
                     person_name= nil;
                     person_id= nil;
                     person_picture= nil;
+                    person_pictureBase64= nil;
                     
                     person_name = [friend valueForKey:@"name"];
                     person_id = [friend valueForKey:@"id"];
@@ -483,23 +487,28 @@ int querycount = 1;
                     friends.name=[newFriend valueForKey:@"name"];
                     friends.friend_id=[newFriend valueForKey:@"id"];
                     friends.picture=[newFriend valueForKey:@"picture"];
+      
+                    NSString *imageUrlString = @"http://graph.facebook.com/";
+                    imageUrlString = [imageUrlString stringByAppendingString:[newFriend valueForKey:@"id"]];
+                    imageUrlString = [imageUrlString stringByAppendingString:@"/picture?type=large"];
                     
-                    NSLog(@"%@", friends);
-                    [mainDelegate.managedObjectContext save:nil];
+                    NSURL *imageURL = [NSURL URLWithString: imageUrlString];
                     
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            // Update the UI
+                            
+                            UIImage* new = [UIImage imageWithData:imageData];
+                            friends.pictureBase64 =  new;
+                            NSLog(@"%@", friends);
+                            [mainDelegate.managedObjectContext save:nil];
+                            
+                        });
+                    });
+                
                 }
                 
                 

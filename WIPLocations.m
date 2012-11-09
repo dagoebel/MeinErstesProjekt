@@ -53,12 +53,19 @@
     
     for (id single_nicht_aktive_spieler in nicht_aktive_spieler) {
         fb_id_nicht_aktiver_spieler = [single_nicht_aktive_spieler valueForKey:@"fb_id"];
-        [IDalle_arr  addObject:fb_id_nicht_aktiver_spieler];
-        if (fb_id_nicht_aktiver_spieler!=fb_id_aktiver_spieler) {
-            [IDinaktiv_arr addObject:fb_id_nicht_aktiver_spieler];
-                        NSLog(@"fb_id_nicht_aktiver_spieler %@", fb_id_nicht_aktiver_spieler);
+        if(fb_id_nicht_aktiver_spieler)
+        {
+            [IDalle_arr  addObject:fb_id_nicht_aktiver_spieler];
+            if (fb_id_nicht_aktiver_spieler!=fb_id_aktiver_spieler) {
+                [IDinaktiv_arr addObject:fb_id_nicht_aktiver_spieler];
+                NSLog(@"fb_id_nicht_aktiver_spieler %@", fb_id_nicht_aktiver_spieler);
+            }
+ 
         }
-    }
+        else{
+            
+        }
+            }
     
     ///// GET MUTUAL FRIENDS //////////////
     
