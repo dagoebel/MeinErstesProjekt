@@ -113,9 +113,40 @@
 @property (weak, nonatomic) IBOutlet UILabel *qu_unten_war;
 @property (weak, nonatomic) IBOutlet UILabel *qu_unten_mit;
 @property (weak, nonatomic) IBOutlet UILabel *qu_unten_bei;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_bei2;
+@property (weak, nonatomic) IBOutlet UILabel *qu_unten_bei2VALIE;
+
+
+
+
+
+
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_warVALIE;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_amVALIE;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_mitVALIE;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_beiVALIE;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_inVALIE;
+
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_in;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_am;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_war;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_mit;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_bei;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_bei2;
+@property (weak, nonatomic) IBOutlet UILabel *qu_oben_bei2VALIE;
+
+
+
+
+
+
+
 
 @property (weak, nonatomic) IBOutlet UIButton *cameraBtn;
 
+
+@property (weak, nonatomic) IBOutlet UILabel *loadingF;
+@property (weak, nonatomic) IBOutlet UIView *loadingView;
 
 
 
@@ -127,6 +158,7 @@
 
 
 @property (weak, nonatomic) IBOutlet UIView *spinningLblBackr;
+@property (weak, nonatomic) IBOutlet UIView *spinningLblBackr2;
 
 @property (weak, nonatomic) IBOutlet UIImageView *player1Img;
 

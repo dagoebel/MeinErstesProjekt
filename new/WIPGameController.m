@@ -46,10 +46,6 @@ static double playerCount;
     int winner = 1;
     double diffAngle = 0.0;
     double bestDiffAngle = 0.0;
-
-    
-    
-    NSLog(@"locationAngle %f",locationAngle);
     
     NSMutableArray *spieler = [[NSMutableArray alloc] init];
     
@@ -69,8 +65,7 @@ static double playerCount;
         else{
             playerAngle = 180 / M_PI * (M_PI+playerAngle)+180;
         }
-        
-        NSLog(@"WAHRER FLASCHEN ANGLE %f",playerAngle);
+
         double playerID = [player.id doubleValue];
         double playerStart = 0;
         
@@ -139,20 +134,6 @@ static double playerCount;
         }
             
         
-        
-        NSLog(@"==========");
-             
-         NSLog(@"%f playerAngle %f",playerID, playerAngle);
-        NSLog(@"%f  diffAngle %f",playerID,  diffAngle);
-        
-        
-         NSLog(@"==========");
-        
-         NSLog(@"==========");
-         NSLog(@"==========");
-        
-         NSLog(@"%f bestDiffAngle %f",playerID, bestDiffAngle);
-        
         // Create three dictionaries
         dict = [NSDictionary dictionaryWithObjectsAndKeys:
                 // Key value pairs
@@ -178,8 +159,6 @@ static double playerCount;
     NSArray *sortedArrayOfDictionaries = [arrayOfDictionaries sortedArrayUsingDescriptors:descriptors];
     
     NSLog(@"sorted array of dictionaries: %@", sortedArrayOfDictionaries);
-    
-    NSLog(@"WINNER %i", winner);
     
     return sortedArrayOfDictionaries;
 
@@ -230,8 +209,7 @@ static double playerCount;
     
     NSArray *descriptors = [NSArray arrayWithObjects:distancesort, startplayersort, nil];
     NSArray *sortedArrayOfDictionaries = [arrayOfDictionaries sortedArrayUsingDescriptors:descriptors];
-    
-    NSLog(@"sorted array of dictionaries: %@", sortedArrayOfDictionaries);
+
        
    return sortedArrayOfDictionaries; 
 }
@@ -289,15 +267,13 @@ static double playerCount;
     if(playerCount>0)
     {
       [CoreDataHelper deleteAllObjectsForEntity:@"Player" andContext:mainDelegate.managedObjectContext];
-        NSLog(@"Bestehende Spieler gelöscht!");
+        NSLog(@"====================== ALTE SPIELER GELÖSCHT");
     }
-    
-    //
     
 }
 
 
-- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSString *)fb_id: (id) pictureBase64 
+- (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSString *)fb_id;
 {
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
     
@@ -316,14 +292,12 @@ static double playerCount;
         if (friends.count!=0) {
             
             friend = [friends objectAtIndex:0];
-            player.pictureBase64 = friend.pictureBase64;
             player.fb_id = fb_id;
         }
     }
     else if (fb_id==nil)
     {
         player.fb_id = 0;
-        player.pictureBase64 = pictureBase64;
     }
     
     player.name = playerName;

@@ -48,7 +48,7 @@ static double globalLocationHeading;
 @synthesize searchDisplayController;
 @synthesize progressBar;
 @synthesize naechsteRundeBtn;
-@synthesize spinngLblTop, spinngLblBot, spinningLblBackr;
+@synthesize spinngLblTop, spinngLblBot, spinningLblBackr, spinningLblBackr2;
 
 @synthesize spieler1Bubble, spieler2Bubble, spieler3Bubble,spieler4Bubble;
 @synthesize spieler1BubbleImg, spieler2BubbleImg, spieler3BubbleImg, spieler4BubbleImg;
@@ -58,6 +58,7 @@ static double globalLocationHeading;
 @synthesize player1AuswertungImg,player2AuswertungImg,player3AuswertungImg,player4AuswertungImg;
 @synthesize nextBtn,cameraBtn;
 
+@synthesize loadingF,loadingView;
 
 
 
@@ -65,8 +66,8 @@ static double globalLocationHeading;
 
 //////////////
 
-@synthesize  qu_unten_am,qu_unten_amVALIE,qu_unten_bei,qu_unten_beiVALIE,qu_unten_in,qu_unten_inVALIE,qu_unten_mit,qu_unten_mitVALIE,qu_unten_war,qu_unten_warVALIE;
-
+@synthesize  qu_unten_am,qu_unten_amVALIE,qu_unten_bei,qu_unten_beiVALIE,qu_unten_in,qu_unten_inVALIE,qu_unten_mit,qu_unten_mitVALIE,qu_unten_war,qu_unten_warVALIE, qu_unten_bei2, qu_unten_bei2VALIE;
+@synthesize qu_oben_am,qu_oben_amVALIE,qu_oben_bei,qu_oben_bei2,qu_oben_bei2VALIE,qu_oben_beiVALIE,qu_oben_in,qu_oben_inVALIE,qu_oben_mit,qu_oben_mitVALIE,qu_oben_war,qu_oben_warVALIE;
 
 
 
@@ -85,66 +86,48 @@ static int curveValues[] = {
 
 - (void)viewDidLoad
 {
-    
-    
     [super viewDidLoad];
     
-    spielAktiv = false;
-    spielerAktiv = 0;
-    locationAktiv = nil;
-
     
-    kompassScheibeHeight = kompassScheibeImg.frame.size.height;
-    kompassScheibeWidth = kompassScheibeImg.frame.size.width;
+    mWIPFacebook = [[WIPFacebook alloc] init];
+    
+    if([mWIPFacebook checkFBSession])
+    {
+        
+        NSLog(@"LOGGED IN");
+
+        spielAktiv = false;
+        spielerAktiv = 0;
+        locationAktiv = nil;
+        
+        loadingView.hidden = true;
+        
+
+        kompassScheibeHeight = kompassScheibeImg.frame.size.height;
+        kompassScheibeWidth = kompassScheibeImg.frame.size.width;
+        locationLblTop.transform = CGAffineTransformRotate(locationLblTop.transform,  M_PI);
+        spinningLblBackr2.transform = CGAffineTransformRotate(spinningLblBackr2.transform,  M_PI);
+        
+        /// START LOCATION SERVICES
+
+        CLController = [[WIPLocationController alloc] init];
+        CLController.delegate = self;
+        CLController.locMgr.desiredAccuracy = kCLLocationAccuracyBest;
+        CLController.locMgr.headingFilter = 0;
+        [CLController.locMgr startUpdatingLocation];
+        [CLController.locMgr startUpdatingHeading];
+    }
+    else{
+        
+        NSLog(@"NOT LOGGED IN OR NO CONNECTION");
+        [mWIPFacebook openFBSession];
+        [self initiateNewUser];
+    }
+    
+    
+    
    
     
-
-    locationLblTop.transform = CGAffineTransformRotate(locationLblTop.transform,  M_PI);
-
-    
-       /// START LOCATION SERVICES
-    
-    
-    CLController = [[WIPLocationController alloc] init];
-	CLController.delegate = self;
-    CLController.locMgr.desiredAccuracy = kCLLocationAccuracyBest;
-    CLController.locMgr.headingFilter = 0;
-	[CLController.locMgr startUpdatingLocation];
-    [CLController.locMgr startUpdatingHeading];
-    
-    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
-
-    if (!([CoreDataHelper countForEntity:@"Friends" andContext:mainDelegate.managedObjectContext]>0)) {
-        
-        mWIPFacebook = [[WIPFacebook alloc] init];
-        
-        [mWIPFacebook getFacebookFriends:tableView];
-        
-         NSLog(@"GfETTING FRIENDS");
-    }
-
-    
-    NSPredicate *predicate_asked = [NSPredicate predicateWithFormat:@"(asked == 1)"];
-    
-    NSMutableArray *questionArray = [CoreDataHelper searchObjectsForEntity:@"Question" withPredicate:predicate_asked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
-    
-    
-    if (questionArray.count>0) {
-        
-        for (Question *asked_question in questionArray) {
-            asked_question.asked = [[NSNumber alloc] initWithDouble:0];
-            [mainDelegate.managedObjectContext save:nil];
-        }
-        
-        NSLog(@"ASKED=1 ZURÜCKGESETZ %u", questionArray.count);
-        
-        
-    }
-
-
-
-
-
 }
 
 - (UIImage * ) mergeImage: (UIImage *) imageA
@@ -197,7 +180,7 @@ static int curveValues[] = {
     globalHeading = heading.trueHeading;
 
        if (spielAktiv) {
-           [UIView animateWithDuration:1.0 delay:0.0 options:0
+           [UIView animateWithDuration:0.0 delay:0.0 options:0
                             animations:^{
                                 kompassScheibe.transform = CGAffineTransformMakeRotation(M_PI / 180 * (-[heading trueHeading]));
                                                                
@@ -211,9 +194,81 @@ static int curveValues[] = {
 }
 
 
-- (IBAction)backToMenu:(id)sender {
+- (void)initiateNewUser{
+	NSLog(@"INITIATE NEW USER");
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Location" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Player" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Tags" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Question" andContext:mainDelegate.managedObjectContext];
+    
+    mWIPFacebook = [[WIPFacebook alloc] init];
+    
+    [mWIPFacebook openFBSession];
+        
+    [mWIPFacebook getFacebookFriends:^(int result){
+        
+        loadingF.text = @"Ermittle Freundesfreunde...";
+        
+        [mWIPFacebook getFacebookMutualFriends:^(int result){
+            
+            
+
+            if (result==100) {
+                
+                loadingF.text = @"Ermittle CheckIns...";
+                
+                [mWIPFacebook queryLocations:nil :^(int result){
+
+                                        
+                    if (result==-1) {
+                        
+                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+                        
+                        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"WIPViewController"];
+                        
+                        [vc setModalPresentationStyle:UIModalPresentationFullScreen];
+                        
+                        [self presentViewController:vc
+                                           animated:YES completion:nil];
+
+                    }
+                    
+                    
+                }];
+
+            }
+            
+                       
+        }];
+
+        
+    }];
+
     
 
+    
+
+}
+
+- (void)logoutUser{
+	NSLog(@"LOGOUT USER");
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Location" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Player" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Tags" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"Question" andContext:mainDelegate.managedObjectContext];
+    
+    mWIPFacebook = [[WIPFacebook alloc] init];
+    
+    [mWIPFacebook closeFBSession];
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
     
     UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"WIPViewController"];
@@ -222,21 +277,45 @@ static int curveValues[] = {
     
     [self presentViewController:vc
                        animated:YES completion:nil];
+
+        
+}
+
+
+
+- (IBAction)backToMenu:(id)sender {
     
+     [self initiateNewUser];
+
 
 }
 
 - (IBAction) selectPlayerSetup:(id)sender {
     UIButton *button = (UIButton *)sender;
 
-    if(spielAktiv){
+    if(spielAktiv&&tableView.hidden&&nextBtn.hidden){
         
         [self nextPlayer:button.tag];
         
     }
     
-    else{
+    else if (!spielAktiv&&tableView.hidden){
+        
+        
+        WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+        
+        double playerCount = [CoreDataHelper countForEntity:@"Player" andContext:mainDelegate.managedObjectContext];
+        
+        if(playerCount>0)
+        {
+            [CoreDataHelper deleteAllObjectsForEntity:@"Player" andContext:mainDelegate.managedObjectContext];
+            NSLog(@"====================== SPIELER GELÖSCHT");
+        }
+        
+        [[self tableView] reloadData];
+
     
+        
     anzahlPlayer = button.tag;
         
     spieler1Lbl.transform = CGAffineTransformRotate(spieler1Lbl.transform,  M_PI *.75);
@@ -297,7 +376,7 @@ static int curveValues[] = {
                              [self.spieler1Btn setTitle:@"" forState:UIControlStateNormal];
                              [self.spieler2Btn setTitle:@"" forState:UIControlStateNormal];
                          }];
-        //spieler2Btn.userInteractionEnabled = FALSE;
+
         spieler3Btn.userInteractionEnabled = FALSE;
         spieler4Btn.userInteractionEnabled = FALSE;
 
@@ -336,8 +415,7 @@ static int curveValues[] = {
                              [self.spieler3Btn setTitle:@"" forState:UIControlStateNormal];
                              
                          }];
-        //spieler2Btn.userInteractionEnabled = FALSE;
-        //spieler3Btn.userInteractionEnabled = FALSE;
+
         spieler4Btn.userInteractionEnabled = FALSE;
         
     }
@@ -387,16 +465,14 @@ static int curveValues[] = {
     mWIPGameController = [[WIPGameController alloc]init];
     
    // spielerName.hidden = FALSE;
+    cameraBtn.hidden = false;
     menuLabel.text = @"Spieler 1";
     spielerName.placeholder =  @"Spieler 1";
     
     [self pulsateUIImageView:self.glass1];
 
-    
-    [mWIPGameController deletePlayer];
-  
     currentPlayer = 1;
-    //[spielerName becomeFirstResponder];
+
     tableView.hidden = false;
         
         }
@@ -404,12 +480,21 @@ static int curveValues[] = {
 
 
 
-- (void)spielerNameSelected:(NSString*)spielerNameValue: (NSString*)spielerFbId: (UIImage*) pictureBase64 {
+- (void)spielerNameSelected:(NSString*)spielerNameValue: (NSString*)spielerFbId{
     
     UIImageView * glass = nil;
     UIImageView * playerBubble = nil;
+    
+    
+    NSURL* file = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"bu" ofType:@"mp3"]];
+    
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:file error:nil];
+    [audioPlayer prepareToPlay];
+    
+    [audioPlayer play];
+
  
-    [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer] :spielerFbId :pictureBase64];
+    [mWIPGameController insertPlayer:spielerNameValue withId:[NSNumber numberWithDouble:currentPlayer] :spielerFbId];
     
     
     spielerName.placeholder = [NSString stringWithFormat:@"Spieler %.0f", currentPlayer+1];
@@ -460,79 +545,40 @@ static int curveValues[] = {
     }
     
     
-    if(spielerFbId!=nil)
-    {
-    /////// LOAD IMAGE
-    
-    NSString *imageUrlString = @"http://graph.facebook.com/";
-    imageUrlString = [imageUrlString stringByAppendingString:spielerFbId];
-    imageUrlString = [imageUrlString stringByAppendingString:@"/picture?type=large"];
-    
-    NSURL *imageURL = [NSURL URLWithString: imageUrlString];
     
     
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // Update the UI
-            
-            UIImage* new = [UIImage imageWithData:imageData];
-            
-            glass.image = new;
-            playerBubble.image = glass.image;
-            glass.layer.cornerRadius  = 75.0;
-            glass.layer.masksToBounds = YES;
-            
-            
-            playerBubble.layer.cornerRadius  = 15.0;
-            playerBubble.layer.masksToBounds = YES;
-
-        });
-    });
-        
+    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    
+    NSFileManager *m    = [NSFileManager defaultManager];
+    NSString *imagePath = nil;
+    if (spielerFbId!=nil) {
+        imagePath = [NSString stringWithFormat:@"%@/%@.png",documentsDirectory,spielerFbId];
     }
-    else if (pictureBase64!=nil)
-    {
-                
-        UIImage* new = pictureBase64;
-
-        glass.image =  pictureBase64;
-
-        playerBubble.image = new;
-        glass.layer.cornerRadius  = 75.0;
-        glass.layer.masksToBounds = YES;
-        
-        
-        playerBubble.layer.cornerRadius  = 15.0;
-        playerBubble.layer.masksToBounds = YES;
+    else {
+        imagePath = [NSString stringWithFormat:@"%@/%@.png",documentsDirectory,spielerNameValue];
     }
+
+    if ([m fileExistsAtPath:imagePath]){
+        glass.image  =  [[UIImage alloc] initWithContentsOfFile:imagePath];
+        playerBubble.image = [[UIImage alloc] initWithContentsOfFile:imagePath];
+    }
+    else{
+        glass.image  =  [UIImage imageNamed:@"Unbenannt-1.png"];
+        playerBubble.image = [UIImage imageNamed:@"Unbenannt-1.png"];
+    }
+        
     
+    glass.layer.cornerRadius  = 75.0;
+    glass.layer.masksToBounds = YES;
+    playerBubble.layer.cornerRadius  = 35.0;
+    playerBubble.layer.masksToBounds = YES;
 
 }
 
 - (void)startGame {
     
-
-    
-    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
-    
-    
-    if (!([CoreDataHelper countForEntity:@"Question" andContext:mainDelegate.managedObjectContext]>0)) {
-        mWIPFacebook = [[WIPFacebook alloc] init];
-        [mWIPFacebook sendRequestToFacebook:nil];
-        
-     //   progressBar.hidden=FALSE;
-     //   progressBar.progress=0.5;
-        
-        NSLog(@"GENERATING QUESTIONS, SPIEL KANN NICHT BEGINNEN!");
-
-    }
-    else{
-        
-
-        
+     
     mWIPGameController = [[WIPGameController alloc]init];
     [mWIPGameController newGame:anzahlPlayer];
     
@@ -546,7 +592,7 @@ static int curveValues[] = {
     
     
     menuLabel.hidden = TRUE;
-    spielerName.hidden = TRUE;
+   // spielerName.hidden = TRUE;
     cameraBtn.hidden = TRUE;
         
         spielAktiv = true;
@@ -554,7 +600,6 @@ static int curveValues[] = {
         
         [self nextRound];
         NSLog(@"globalHeading %f", globalHeading);
-    }
         
 }
 
@@ -571,21 +616,23 @@ static int curveValues[] = {
     
     imageWheel.hidden = TRUE;
     spinningLblBackr.hidden = FALSE;
-    spinngLblTop.transform  = CGAffineTransformMakeRotation(M_PI);
+    spinningLblBackr2.hidden = FALSE;
+
   
      
 
     [UIView animateWithDuration:10 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         spinngLblTop.transform  = CGAffineTransformScale(spinngLblTop.transform , 1.2, 1.1);
-                        spinngLblBot.transform  = CGAffineTransformScale(spinngLblBot.transform , 1.2, 1.1);
+                        spinningLblBackr.transform  = CGAffineTransformScale(spinningLblBackr.transform , 1.05, 1.05);
+                       spinningLblBackr2.transform  = CGAffineTransformScale(spinningLblBackr2.transform , 1.05, 1.05);
                          
                      }completion:^(BOOL finished) {
                          if (finished)
     {
         spinningLblBackr.hidden = TRUE;
-        spinngLblTop.transform  = CGAffineTransformScale(spinngLblTop.transform , 1/1.2, 1/1.1);
-        spinngLblBot.transform  = CGAffineTransformScale(spinngLblBot.transform , 1/1.2, 1/1.1);
+        spinningLblBackr2.hidden = TRUE;
+        spinningLblBackr2.transform  = CGAffineTransformScale(spinningLblBackr2.transform , 1/1.05, 1/1.05);
+        spinningLblBackr.transform  = CGAffineTransformScale(spinningLblBackr.transform , 1/1.05, 1/1.05);
         [self showBottleToAll];
 
     }
@@ -599,9 +646,12 @@ static int curveValues[] = {
 
 - (void)showAuswertungToAll{
     
-     auswertungView.hidden = false;
+    auswertungView.hidden = false;
     
     zeiger.hidden  = false;
+    
+     locationLblTop.text = @"";
+     locationLblBot.text = @"";
 
     
     NSURL* fileWin = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"win" ofType:@"mp3"]];
@@ -860,56 +910,101 @@ static int curveValues[] = {
    int tagi = 0;
 
   //  qu_unten_am,qu_unten_amVALIE,qu_unten_bei,qu_unten_beiVALIE,qu_unten_in,qu_unten_inVALIE,qu_unten_mit,qu_unten_mitVALIE,qu_unten_war,qu_unten_warVALIE;
-    
+    person = locationAktiv.person_name;
   
-    qu_unten_warVALIE.text = locationAktiv.person_name;
+    qu_unten_warVALIE.text = person;
+    qu_oben_warVALIE.text = person;
     
     if ([locationAktiv.tags count]>0) {
         qu_unten_mitVALIE.text = @"";
         qu_unten_mit.hidden = false;
         qu_unten_mitVALIE.hidden = false;
+        qu_oben_mitVALIE.text = @"";
+        qu_oben_mit.hidden = false;
+        qu_oben_mitVALIE.hidden = false;
         
         int i = 0;
         for (Tags* tag in locationAktiv.tags)
         {
         i++;
+        
             if (![person isEqualToString:tag.name]&&tag.name!=nil) {
             qu_unten_mitVALIE.text = [qu_unten_mitVALIE.text stringByAppendingString:tag.name];
+            qu_oben_mitVALIE.text = [qu_oben_mitVALIE.text stringByAppendingString:tag.name];
              }
             else{tagi=1;}
                 
              if (i!=locationAktiv.tags.count && ![person isEqualToString:tag.name]) {
                  qu_unten_mitVALIE.text = [qu_unten_mitVALIE.text stringByAppendingString:@" | "];
-             }    
+                 qu_oben_mitVALIE.text = [qu_oben_mitVALIE.text stringByAppendingString:@" | "];
+             }
         }
             
-    }else if ((tagi==1&&locationAktiv.tags.count==1) || locationAktiv.tags.count==0){qu_unten_mit.hidden = true;qu_unten_mitVALIE.hidden = true;}
-    
+    }else if ((tagi==1&&locationAktiv.tags.count==1) || locationAktiv.tags.count==0){qu_unten_mit.hidden = true;qu_unten_mitVALIE.hidden = true;qu_oben_mit.hidden = true;qu_oben_mitVALIE.hidden = true;}
+
     if (locationAktiv.place_name!=nil) {
-        qu_unten_mitVALIE.text = @"";
+        qu_unten_beiVALIE.text = @"";
         qu_unten_bei.hidden = false;
         qu_unten_beiVALIE.hidden = false;
         qu_unten_beiVALIE.text = locationAktiv.place_name;
-    }else{qu_unten_bei.hidden = true;qu_unten_beiVALIE.hidden = true;}
+        qu_oben_beiVALIE.text = @"";
+        qu_oben_bei.hidden = false;
+        qu_oben_beiVALIE.hidden = false;
+        qu_oben_beiVALIE.text = locationAktiv.place_name;
+
+        locationLblTop.text = locationAktiv.place_name;
+        locationLblBot.text = locationAktiv.place_name;
+    }else{qu_unten_bei.hidden = true;qu_unten_beiVALIE.hidden = true;qu_oben_bei.hidden = true;qu_oben_beiVALIE.hidden = true;}
     
-    if (locationAktiv.place_location_city!=nil||locationAktiv.place_location_street!=nil) {
+    if (locationAktiv.place_location_city!=nil) {
         qu_unten_inVALIE.text = @"";
         qu_unten_in.hidden = false;
         qu_unten_inVALIE.hidden = false;
         qu_unten_inVALIE.text = locationAktiv.place_location_city;
-        if (locationAktiv.place_location_street!=nil) {
-            qu_unten_inVALIE.text = [qu_unten_inVALIE.text stringByAppendingString:@" ("];
-            qu_unten_inVALIE.text = [qu_unten_inVALIE.text stringByAppendingString:locationAktiv.place_location_street];
-            qu_unten_inVALIE.text = [qu_unten_inVALIE.text stringByAppendingString:@")"];
-        }
-    }else{qu_unten_in.hidden = true;qu_unten_inVALIE.hidden = true;}
+        qu_oben_inVALIE.text = @"";
+        qu_oben_in.hidden = false;
+        qu_oben_inVALIE.hidden = false;
+        qu_oben_inVALIE.text = locationAktiv.place_location_city;
+
+        locationLblTop.text = [locationLblTop.text stringByAppendingString:@" - "];
+        locationLblBot.text = [locationLblBot.text stringByAppendingString:@" - "];
+        locationLblTop.text = [locationLblTop.text stringByAppendingString:locationAktiv.place_location_city];
+        locationLblBot.text = [locationLblBot.text stringByAppendingString:locationAktiv.place_location_city];
+    }else{qu_unten_in.hidden = true;qu_unten_inVALIE.hidden = true;qu_oben_in.hidden = true;qu_oben_inVALIE.hidden = true;}
+    
+    if (locationAktiv.place_location_street!=nil) {
+        qu_unten_bei2VALIE.text = @"";
+        qu_unten_bei2.hidden = false;
+        qu_unten_bei2VALIE.hidden = false;
+        qu_unten_bei2VALIE.text = locationAktiv.place_location_street;
+        qu_oben_bei2VALIE.text = @"";
+        qu_oben_bei2.hidden = false;
+        qu_oben_bei2VALIE.hidden = false;
+        qu_oben_bei2VALIE.text = locationAktiv.place_location_street;
+    }else{qu_unten_bei2.hidden = true;qu_unten_bei2VALIE.hidden = true;qu_oben_bei2.hidden = true;qu_oben_bei2VALIE.hidden = true;}
     
     if (locationAktiv.created_time!=nil) {
+   
         qu_unten_amVALIE.text = @"";
         qu_unten_am.hidden = false;
         qu_unten_amVALIE.hidden = false;
-        qu_unten_amVALIE.text = locationAktiv.created_time;
-          }else{qu_unten_am.hidden = true;qu_unten_amVALIE.hidden = true;}
+        qu_oben_amVALIE.text = @"";
+        qu_oben_am.hidden = false;
+        qu_oben_amVALIE.hidden = false;
+
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        //2010-12-01T21:35:43+0000
+        [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZ"];
+        NSDate *date = [df dateFromString:locationAktiv.created_time];
+        [df setDateFormat:@"eeee, dd.MMMM.yyyy HH:mm"];
+        NSString *dateStr = [df stringFromDate:date];
+  
+             qu_unten_amVALIE.text = dateStr;
+        qu_oben_amVALIE.text = dateStr;
+
+        
+        
+          }else{qu_unten_am.hidden = true;qu_unten_amVALIE.hidden = true;qu_oben_am.hidden = true;qu_oben_amVALIE.hidden = true;}
 
     [self showQuestionToAll];
    
@@ -1205,14 +1300,10 @@ static int curveValues[] = {
     UITableViewCell *cell = [tableView1 cellForRowAtIndexPath:indexPath];
     NSString *cellText = cell.textLabel.text;
     NSString *cellDetailedText = cell.detailTextLabel.text;
-    
-   // cell.userInteractionEnabled = FALSE;
 
-    NSLog(@"tap %@",cellDetailedText );
-    NSLog(@"tap %@",cellText );
-    
+
     if (cellText!=nil) {
-         [self spielerNameSelected:cellText :cellDetailedText:nil];
+        [self spielerNameSelected:cellText :cellDetailedText];
     }
 
     
@@ -1242,8 +1333,17 @@ static int curveValues[] = {
         cell.textLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"name"];
         cell.detailTextLabel.text = [[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"];
         cell.detailTextLabel.hidden =true;
-        cell.imageView.image = [[friends objectAtIndex:indexPath.row] valueForKey:@"pictureBase64"];
+                
+    
+        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+
+        NSFileManager *m    = [NSFileManager defaultManager];
+        NSString *imagePath = [NSString stringWithFormat:@"%@/%@.png",documentsDirectory,[[friends objectAtIndex:indexPath.row] valueForKey:@"friend_id"]];
         
+        if ([m fileExistsAtPath:imagePath])
+            cell.imageView.image =  [[UIImage alloc] initWithContentsOfFile:imagePath];
+        else
+            cell.imageView.image = nil;  
     }
     
     return cell;
@@ -1411,12 +1511,26 @@ static int curveValues[] = {
         if (spielerNameValue.length==0) {
             spielerNameValue = spielerName.placeholder;
         }
-    
-    [self spielerNameSelected:spielerNameValue :nil:image];
+        
+        
+        UIImage* new = image;
+        NSData *imageData = UIImagePNGRepresentation(new);
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        documentsDirectory = [documentsDirectory stringByAppendingPathComponent:spielerNameValue];
+        documentsDirectory = [documentsDirectory stringByAppendingString:@".png"];
+        
+        [imageData writeToFile:documentsDirectory atomically:YES];
+
+    [self spielerNameSelected:spielerNameValue :nil];
+
     
      }
     
     [self dismissModalViewControllerAnimated:YES];
+}
+- (IBAction)doLogout:(id)sender {
+    [self logoutUser];
 }
 @end
 

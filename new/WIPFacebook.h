@@ -15,17 +15,25 @@
 
 
 @interface WIPFacebook : NSObject
+{
+    void (^_completionHandler)(int someParameter);
+    void (^_completionHandlerMutual)(int someParameter);
+    void (^_completionHandlerLocations)(int someParameter);
+}
+
 
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-
+- (BOOL)openFBSession;
+- (void)closeFBSession;
 - (BOOL) checkFBSession;
 - (void)sendRequestToFacebook:(NSString*) query;
-- (void)getFacebookFriends:(UITableView*) tableView;
-- (void)getFacebookMutualFriends;
+- (void)getFacebookFriends:(void(^)(int))handler;
+- (void)getFacebookMutualFriends:(void(^)(int))handler;
+- (void)queryLocations: (NSString*) query:(void(^)(int))completionhandler;
 
 
 @end

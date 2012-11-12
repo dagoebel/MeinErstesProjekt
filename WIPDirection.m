@@ -19,8 +19,8 @@
 
 - (double) performDirectionCalculation: (Question*) pLocation withMyPosition:(CLLocationCoordinate2D)pMyPosition{
     
-    NSLog(@"PERFORM DIRECTION CALCULATION FOR: %@ %@ %@", pLocation.place_name, pLocation.place_location_latitude, pLocation.place_location_latitude);
-    NSLog(@"IN REGARDS TO MY POSITION: %f %f",  pMyPosition.latitude,  pMyPosition.longitude);
+    NSLog(@"====================== BERECHNE RICHTUNG FÜR FRAGE %@ %@ %@", pLocation.place_name, pLocation.place_location_latitude, pLocation.place_location_latitude);
+    NSLog(@"====================== FÜR MEINE POSITION: %f %f",  pMyPosition.latitude,  pMyPosition.longitude);
    
     float fLat = degreesToRadians(pMyPosition.latitude);
     float fLng = degreesToRadians(pMyPosition.longitude);

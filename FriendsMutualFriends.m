@@ -2,7 +2,7 @@
 //  FriendsMutualFriends.m
 //  new
 //
-//  Created by Daniel Goebel on 09.11.12.
+//  Created by Daniel Goebel on 10.11.12.
 //  Copyright (c) 2012 Daniel. All rights reserved.
 //
 
@@ -15,7 +15,6 @@
 @dynamic fb_id;
 @dynamic fb_url;
 @dynamic name;
-@dynamic pictureBase64;
 @dynamic friends;
 
 @end

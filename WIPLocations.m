@@ -36,7 +36,6 @@
 
     /// GET MITSPIELER
     
-    
     NSPredicate *query_aktiver_spieler = [NSPredicate predicateWithFormat:@"id == %@", id_aktiver_spieler];
     
     aktiver_spieler = [CoreDataHelper searchObjectsForEntity:@"Player" withPredicate:query_aktiver_spieler andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
@@ -100,9 +99,7 @@
             if(anzahl==4&&single_mutualfriend.fb_id!=nil)
                 [player4  addObject:single_mutualfriend.fb_id ];
 
-            
-            
-            NSLog(@"MUTUALFRIENDS %@", single_mutualfriend.fb_id );
+    
         }
         anzahl++;
         
@@ -243,13 +240,13 @@
     
     NSMutableArray *questionArray = [CoreDataHelper searchObjectsForEntity:@"Question" withPredicate:predicate_asked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
     
-    NSLog(@"COUNT: ASKED=0%u", questionArray.count);
+    NSLog(@"COUNT: ASKED=0 %u", questionArray.count);
 
     predicate_asked = [NSPredicate predicateWithFormat:@"(asked == 1)"];
     
     questionArray = [CoreDataHelper searchObjectsForEntity:@"Question" withPredicate:predicate_asked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
     
-    NSLog(@"COUNT: ASKED=1%u", questionArray.count);
+    NSLog(@"COUNT: ASKED=1 %u", questionArray.count);
 
 
     //// PERSON SELBER UND MITSPIELER IN DEN TAGS!

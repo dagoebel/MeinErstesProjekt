@@ -150,8 +150,10 @@
 		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortKey ascending:sortAscending];
 		NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
 		[request setSortDescriptors:sortDescriptors];
-        [request setReturnsObjectsAsFaults:NO];
 	}
+    
+    [request setReturnsObjectsAsFaults:NO];
+    [request setRelationshipKeyPathsForPrefetching: [NSArray arrayWithObject:@"tags"]];
     
 	// Execute the fetch request
 	NSError *error = nil;
@@ -166,9 +168,6 @@
     
     if (count>0) {
         randomMutableFetchResults = [mutableFetchResults objectAtIndex: arc4random() % count];
-        
-        NSLog(@"GEWÄHLTE FRAGE OHNE ASKED%@", randomMutableFetchResults.asked);
-
         
         randomMutableFetchResults.asked = [[NSNumber alloc] initWithDouble:1];
         [managedObjectContext save:nil];

@@ -52,7 +52,7 @@
         rotationAngle = rotationAngle - 2*M_PI;
     }
 
-    NSLog(@"FLASCHE ANGLE %f", rotationAngle);
+    //NSLog(@"FLASCHE ANGLE %f", rotationAngle);
     return rotationAngle;
     
 }
@@ -65,7 +65,7 @@
     CABasicAnimation *animRotate = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     [animRotate setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
     
-    NSLog(@"globalHeading %f",globalHeading);
+    //NSLog(@"globalHeading %f",globalHeading);
     
     if(globalHeading>180)
     {

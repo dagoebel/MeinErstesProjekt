@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "WIPGameController.h"
+#import "WIPFacebook.h"
 
 @interface WIPResultViewController : UIViewController{
      WIPGameController *mWIPGameController;
+     WIPFacebook *mWIPFacebook;
 }
 @property (weak, nonatomic) IBOutlet UILabel *result1;
 @property (weak, nonatomic) IBOutlet UILabel *result2;

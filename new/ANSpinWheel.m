@@ -93,7 +93,6 @@ static bool preventSpin;
     initialAngle = angle;
     initialPoint = [[touches anyObject] locationInView:self];
     float dist = [self calculateDistanceFromCenter:initialPoint];
-    NSLog(@"Distance: %f", dist);
     if (dist < 10 || dist > 280) {
         preventSpin = YES;
         return;
@@ -119,11 +118,9 @@ static bool preventSpin;
 }
     
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent*)event {
-    NSLog(@"TouchEnde");
     
     if(!preventSpin)
     {
-            NSLog(@"TouchEnde2");
         self.angularVelocity = [self calculateFinalAngularVelocity:[NSDate date]];
         [self clearTouchData];
     }
