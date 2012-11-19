@@ -21,6 +21,10 @@
 
 - (double) performDirectionCalculation: (Question*) location withMyPosition:(CLLocationCoordinate2D) myPosition;
 
+- (double) performDistanceCalculation: (Question*) pLocation withMyPosition:(CLLocationCoordinate2D)pMyPosition;
+    
+
+
 @end
 
 

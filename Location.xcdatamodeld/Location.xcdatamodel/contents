@@ -42,6 +42,10 @@
         <attribute name="place_name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tags" inverseName="question" inverseEntity="Tags" syncable="YES"/>
     </entity>
+    <entity name="QuestionAsked" representedClassName="QuestionAsked" syncable="YES">
+        <attribute name="angle" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="distance" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
     <entity name="Tags" representedClassName="Tags" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -54,5 +58,6 @@
         <element name="Player" positionX="135" positionY="321" width="128" height="150"/>
         <element name="Question" positionX="-630" positionY="269" width="128" height="255"/>
         <element name="Tags" positionX="-153" positionY="287" width="128" height="88"/>
+        <element name="QuestionAsked" positionX="160" positionY="192" width="128" height="75"/>
     </elements>
 </model>

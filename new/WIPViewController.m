@@ -13,6 +13,7 @@
 #import "CoreDataHelper.h"
 #import <AVFoundation/AVFoundation.h>
 #import "WIPResultViewController.h"
+#import "QuestionAsked.h"
 
 @interface WIPViewController ()
 
@@ -182,6 +183,26 @@ static int curveValues[] = {
     }
 }
 
+- (void)initiateNewGame{
+    NSLog(@"INITIATE NEW GAME - RESET PLAYER, QUESTIONASKED AND ASKED==1");
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+
+    [CoreDataHelper deleteAllObjectsForEntity:@"Player" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"QuestionAsked" andContext:mainDelegate.managedObjectContext];
+    
+    NSMutableArray *questionsAsked = [[NSMutableArray alloc] init];
+    
+    NSPredicate *asked = [NSPredicate predicateWithFormat: @"asked == 1"];
+    
+    questionsAsked = [CoreDataHelper searchObjectsForEntity:@"Question" withPredicate:asked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+
+    for (Question *question in questionsAsked) {
+        question.asked = [NSNumber numberWithInt:0];
+        [mainDelegate.managedObjectContext save:nil];
+    }
+                 
+}
 
 - (void)initiateNewUser{
 	NSLog(@"INITIATE NEW USER");
@@ -195,6 +216,7 @@ static int curveValues[] = {
     [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
     [CoreDataHelper deleteAllObjectsForEntity:@"Tags" andContext:mainDelegate.managedObjectContext];
     [CoreDataHelper deleteAllObjectsForEntity:@"Question" andContext:mainDelegate.managedObjectContext];
+    [CoreDataHelper deleteAllObjectsForEntity:@"QuestionAsked" andContext:mainDelegate.managedObjectContext];
     
     mWIPFacebook = [[WIPFacebook alloc] init];
     
@@ -298,21 +320,9 @@ static int curveValues[] = {
     
     else if (!spielAktiv&&tableView.hidden){
         
-        
-        WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
-        
-        double playerCount = [CoreDataHelper countForEntity:@"Player" andContext:mainDelegate.managedObjectContext];
-        
-        if(playerCount>0)
-        {
-            [CoreDataHelper deleteAllObjectsForEntity:@"Player" andContext:mainDelegate.managedObjectContext];
-            NSLog(@"====================== SPIELER GELÖSCHT");
-        }
-        
+        [self initiateNewGame];
         [[self tableView] reloadData];
 
-    
-        
     anzahlPlayer = button.tag;
         
     spieler1Lbl.transform = CGAffineTransformRotate(spieler1Lbl.transform,  M_PI *.75);
@@ -503,7 +513,10 @@ static int curveValues[] = {
         glass = glass1;
         playerBubble = spieler1BubbleImg;
         spieler1Lbl.text = @"";
-        [self.spieler1Btn setTitle:@"" forState:UIControlStateNormal];
+        [self.spieler1Btn setTitle:@"0" forState:UIControlStateNormal];
+        
+
+        
         [self pulsateUIImageView:self.glass2];
     }
     else if (currentPlayer==3) {
@@ -511,7 +524,7 @@ static int curveValues[] = {
         glass = glass2;
         playerBubble = spieler2BubbleImg;
         spieler2Lbl.text = @"";
-        [self.spieler2Btn setTitle:@"" forState:UIControlStateNormal];
+        [self.spieler2Btn setTitle:@"0" forState:UIControlStateNormal];
         [self pulsateUIImageView:self.glass3];    }
     
     else if (currentPlayer==4) {
@@ -519,7 +532,7 @@ static int curveValues[] = {
         glass = glass3;
         playerBubble = spieler3BubbleImg;
         spieler3Lbl.text = @"";
-        [self.spieler3Btn setTitle:@"" forState:UIControlStateNormal];
+        [self.spieler3Btn setTitle:@"0" forState:UIControlStateNormal];
         [self pulsateUIImageView:self.glass4];    }
     
     
@@ -528,7 +541,7 @@ static int curveValues[] = {
         glass = glass4;
         playerBubble = spieler4BubbleImg;
         spieler4Lbl.text = @"";
-        [self.spieler4Btn setTitle:@"" forState:UIControlStateNormal];
+        [self.spieler4Btn setTitle:@"0" forState:UIControlStateNormal];
     }
     
 
@@ -560,6 +573,7 @@ static int curveValues[] = {
     if ([m fileExistsAtPath:imagePath]){
         glass.image  =  [[UIImage alloc] initWithContentsOfFile:imagePath];
         playerBubble.image = [[UIImage alloc] initWithContentsOfFile:imagePath];
+       
     }
     else{
         glass.image  =  [UIImage imageNamed:@"Unbenannt-1.png"];
@@ -569,8 +583,9 @@ static int curveValues[] = {
     
     glass.layer.cornerRadius  = 75.0;
     glass.layer.masksToBounds = YES;
-    playerBubble.layer.cornerRadius  = 35.0;
+    playerBubble.layer.cornerRadius  = 50.0;
     playerBubble.layer.masksToBounds = YES;
+    glass.image = [self imageWithColor:glass.image withAColor:[UIColor whiteColor]];
 
 }
 
@@ -585,7 +600,7 @@ static int curveValues[] = {
     [imageWheel setImage:[UIImage imageNamed:@"jj1.png"]];
     [imageWheel startAnimating:self];
     [imageWheel setDrag:1];
-        
+    
     [kompassScheibeImg addSubview:imageWheel];
     
     
@@ -594,7 +609,7 @@ static int curveValues[] = {
     cameraBtn.hidden = TRUE;
         
         spielAktiv = true;
-        startPlayer = 0;
+        startPlayer = 1;
         
         [self nextRound];
         NSLog(@"globalHeading %f", globalHeading);
@@ -648,8 +663,8 @@ static int curveValues[] = {
     
     zeiger.hidden  = false;
     
-     locationLblTop.text = @"";
-     locationLblBot.text = @"";
+     //locationLblTop.text = @"";
+     //locationLblBot.text = @"";
 
     
     NSURL* fileWin = [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"win" ofType:@"mp3"]];
@@ -658,7 +673,7 @@ static int curveValues[] = {
    
 
     CABasicAnimation *animScale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    [animScale setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [animScale setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     [animScale setFromValue:[NSNumber numberWithFloat:1]];
     [animScale setToValue:[NSNumber numberWithFloat:.000000001]];
     
@@ -671,8 +686,8 @@ static int curveValues[] = {
     [imageWheel.layer addAnimation:animScale forKey:@"grow"];
     
     CABasicAnimation *animRotate = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    [animRotate setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-    [animRotate setToValue:[NSNumber numberWithFloat:3*M_PI]];
+    [animRotate setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    [animRotate setToValue:[NSNumber numberWithFloat:6*M_PI]];
     
     [animRotate setAutoreverses:NO];
     [animRotate setDuration:2];
@@ -702,15 +717,15 @@ static int curveValues[] = {
     [animRotate1 setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
     
     if (globalLocationHeading>=90){
-        [animRotate1 setToValue:[NSNumber numberWithFloat:-12*M_PI+(M_PI / 180 * (globalLocationHeading-90))]];
+        [animRotate1 setToValue:[NSNumber numberWithFloat:10*M_PI+(M_PI / 180 * (globalLocationHeading-90))]];
     }
     else{
-        [animRotate1 setToValue:[NSNumber numberWithFloat:-12*M_PI+(M_PI / 180 * (360-globalLocationHeading))]];
+        [animRotate1 setToValue:[NSNumber numberWithFloat:10*M_PI+(M_PI / 180 * (360-globalLocationHeading))]];
     }
     
     
     [animRotate1 setAutoreverses:NO];
-    [animRotate1 setDuration:8];
+    [animRotate1 setDuration:6];
     animRotate1.repeatCount = NO;
     animRotate1.fillMode = kCAFillModeForwards;
     animRotate1.cumulative=true;
@@ -722,7 +737,7 @@ static int curveValues[] = {
     spieler3Bubble.hidden = false;
     spieler4Bubble.hidden = false;
 
-    [NSTimer scheduledTimerWithTimeInterval: 8.0 target: self selector:@selector(onTick:) userInfo: nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval: 6.0 target: self selector:@selector(onTick:) userInfo: nil repeats:NO];
     
     [audioPlayerWin prepareToPlay];
     
@@ -738,7 +753,7 @@ static int curveValues[] = {
     
     nextBtn.hidden = false;
     
-    [self pulsateUIImageView:nextBtn.imageView];
+    [self pulsateSimpleUIImageView:nextBtn.imageView];
     
     
     mWIPGameController = [[WIPGameController alloc]init];
@@ -778,6 +793,7 @@ static int curveValues[] = {
         distance = [listeneintrag valueForKey:@"distance"];
         playerid = [[listeneintrag valueForKey:@"id"] doubleValue];
         double dis = [distance doubleValue];
+
    
         
         
@@ -791,6 +807,14 @@ static int curveValues[] = {
             player1Auswertung.text = [NSString stringWithFormat:@"- %.0f°",dis];
             player1Auswertung.hidden = false;
             player1AuswertungImg.hidden = false;
+             player1AuswertungImg.image = img;
+            double points = [spieler1Btn.titleLabel.text doubleValue];
+            
+            points = points + (-(i-anzahlPlayer));
+            
+            NSString *title = [NSString stringWithFormat:@"%.0f",points];
+            
+            [spieler1Btn setTitle:title forState:UIControlStateNormal];
         }
         
         if (playerid==2) {
@@ -803,6 +827,14 @@ static int curveValues[] = {
             player2Auswertung.text = [NSString stringWithFormat:@"- %.0f°",dis];
             player2Auswertung.hidden = false;
             player2AuswertungImg.hidden = false;
+            player2AuswertungImg.image = img;
+            double points = [spieler2Btn.titleLabel.text doubleValue];
+            
+            points = points + (-(i-anzahlPlayer));
+            
+            NSString *title = [NSString stringWithFormat:@"%.0f",points];
+            
+            [spieler2Btn setTitle:title forState:UIControlStateNormal];
         }
         
         if (playerid==3) {
@@ -815,6 +847,14 @@ static int curveValues[] = {
             player3Auswertung.text = [NSString stringWithFormat:@"- %.0f°",dis];
             player3Auswertung.hidden = false;
             player3AuswertungImg.hidden = false;
+             player3AuswertungImg.image = img;
+            double points = [spieler3Btn.titleLabel.text doubleValue];
+            
+            points = points + (-(i-anzahlPlayer));
+            
+            NSString *title = [NSString stringWithFormat:@"%.0f",points];
+            
+            [spieler3Btn setTitle:title forState:UIControlStateNormal];
 
         }
         
@@ -827,32 +867,21 @@ static int curveValues[] = {
             player4Auswertung.text = [NSString stringWithFormat:@"- %.0f°",dis];
             player4Auswertung.hidden = false;
             player4AuswertungImg.hidden = false;
+            player4AuswertungImg.image = img;
+            double points = [spieler4Btn.titleLabel.text doubleValue];
+            
+            points = points + (-(i-anzahlPlayer));
+            
+            NSString *title = [NSString stringWithFormat:@"%.0f",points];
+            
+            [spieler4Btn setTitle:title forState:UIControlStateNormal];
         }
         
-      
-                
-        if (playerid==1) {
-            player1AuswertungImg.image = img;
-                   }
-        if (playerid==2) {
-            player2AuswertungImg.image = img;
-                   }
-        if (playerid==3) {{
-            player3AuswertungImg.image = img;
-                    }
-        if (playerid==4) {
-            player4AuswertungImg.image = img;
-                   }
-        
-        
-        
-        
+              
        
-        
-    }
      
     
-   } 
+   }
     
 }
 
@@ -887,6 +916,65 @@ static int curveValues[] = {
 
 }
 
+- (void)selectLocation{
+    
+    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
+    
+    locationAktiv = [mWIPLocations selectLocation:startPlayer];
+    
+    float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:globalPosition];
+    NSLog(@"angle %f",angle);
+    float distance = [mWIPDirection performDistanceCalculation:locationAktiv withMyPosition:globalPosition];
+    NSLog(@"distance %f",distance);
+    
+    
+    float angleLow = angle - 5;
+    float angleHigh = angle + 5;
+    float distanceLow = distance * 0.9;
+    float distanceHigh = distance * 1.1;
+    
+    
+    NSMutableArray *questionsAsked = [[NSMutableArray alloc] init];
+    
+    
+    
+    NSArray *rangeAngle = [NSArray arrayWithObjects: [NSExpression expressionForConstantValue:[NSNumber numberWithFloat:angleLow]], [NSExpression expressionForConstantValue:[NSNumber numberWithFloat:angleHigh]], nil];
+    NSArray *rangeDistance = [NSArray arrayWithObjects: [NSExpression expressionForConstantValue:[NSNumber numberWithFloat:distanceLow]], [NSExpression expressionForConstantValue:[NSNumber numberWithFloat:distanceHigh]], nil];
+    
+    
+    NSPredicate *query_questionsAsked = [NSPredicate predicateWithFormat: @"distance BETWEEN %@ AND angle BETWEEN %@", rangeDistance, rangeAngle];
+    
+    questionsAsked = [CoreDataHelper searchObjectsForEntity:@"QuestionAsked" withPredicate:query_questionsAsked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+    
+    NSLog(@"questionsAsked.count %d",questionsAsked.count);
+    
+    
+    if(questionsAsked.count==0){
+        QuestionAsked *questionAsked = [NSEntityDescription insertNewObjectForEntityForName:@"QuestionAsked" inManagedObjectContext:mainDelegate.managedObjectContext];
+        
+        
+        questionAsked.distance = [NSNumber numberWithFloat:distance];
+        questionAsked.angle = [NSNumber numberWithFloat:angle];
+        
+        [mainDelegate.managedObjectContext save:nil];
+        
+        NSLog(@"GEWÄHLTE FRAGE %@", locationAktiv.place_name);
+        NSLog(@"GEWÄHLTE FRAGE DISTANCE %@ ANGLE %@", questionAsked.distance, questionAsked.angle);
+        
+        
+    }
+    else{
+        
+         NSLog(@"ORT LIEGT ZU NAH  %@", locationAktiv.place_name);
+   
+        NSLog(@"ORT LIEGT ZU NAH DISTANCE %f ANGLE %f", distance, angle);
+        
+        [self selectLocation];
+
+    }
+    
+    
+}
 
 
 
@@ -899,8 +987,7 @@ static int curveValues[] = {
     mWIPDirection  = [[WIPDirection alloc]init];
     mWIPLocations  = [[WIPLocations alloc]init];
     
-    
-    locationAktiv = [mWIPLocations selectLocation:startPlayer];
+    [self selectLocation];
     
     NSString * frageString = @"";
     NSString * frageShortString = @"";
@@ -933,8 +1020,8 @@ static int curveValues[] = {
             else{tagi=1;}
                 
              if (i!=locationAktiv.tags.count && ![person isEqualToString:tag.name]) {
-                 qu_unten_mitVALIE.text = [qu_unten_mitVALIE.text stringByAppendingString:@" | "];
-                 qu_oben_mitVALIE.text = [qu_oben_mitVALIE.text stringByAppendingString:@" | "];
+                 qu_unten_mitVALIE.text = [qu_unten_mitVALIE.text stringByAppendingString:@", "];
+                 qu_oben_mitVALIE.text = [qu_oben_mitVALIE.text stringByAppendingString:@", "];
              }
         }
             
@@ -1011,8 +1098,9 @@ static int curveValues[] = {
     spinngLblBot.text = frageString;
     spinngLblTop.text = frageString;
     
- 
     float angle = [mWIPDirection performDirectionCalculation:locationAktiv withMyPosition:globalPosition];
+ 
+
     globalLocationHeading = angle;
     zeiger.tag = angle;
     if (angle>=90){
@@ -1200,14 +1288,34 @@ static int curveValues[] = {
 }
 
     
- 
+- (void)pulsateSimpleUIImageView:(UIImageView*) view
+{
+    CABasicAnimation *animScale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    [animScale setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    [animScale setFromValue:[NSNumber numberWithFloat:1]];
+    [animScale setToValue:[NSNumber numberWithFloat:1.3]];
     
+    [animScale setAutoreverses:YES];
+    [animScale setDuration:0.3];
+    animScale.repeatCount = HUGE_VALF;
+    animScale.fillMode = kCAFillModeForwards;
+    [view.layer addAnimation:animScale forKey:@"grow"];
+    
+    
+    CABasicAnimation* spinAnimation = [CABasicAnimation
+                                       animationWithKeyPath:@"transform.rotation"];
+    spinAnimation.toValue = [NSNumber numberWithFloat:2*M_PI];
+    spinAnimation.repeatCount = HUGE_VALF;
+    [spinAnimation setDuration:5];
+    [view.layer addAnimation:spinAnimation forKey:@"spinAnimation"];
+    
+}
 
 
 - (void)pulsateUIImageView:(UIImageView*) view
 {
     
-    CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"opacity"];
+   /* CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"opacity"];
     [anim setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [anim setFromValue:[NSNumber numberWithFloat:0.5]];
     [anim setToValue:[NSNumber numberWithFloat:1]];
@@ -1215,7 +1323,7 @@ static int curveValues[] = {
     [anim setDuration:0.3];
     anim.repeatCount = HUGE_VALF;
     [view.layer addAnimation:anim forKey:@"flash"];
-    
+    */
     CABasicAnimation *animScale = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     [animScale setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     [animScale setFromValue:[NSNumber numberWithFloat:1]];
@@ -1237,11 +1345,13 @@ static int curveValues[] = {
 
 
 
-- (UIImage *)imageWithColor:(UIImageView*) view withAColor: (UIColor *)color
+- (UIImage *)imageWithColor:(UIImage*) image withAColor: (UIColor *)color
 {
     // load the image
     // NSString *name = view.image;
-    UIImage *img = view.image;
+    UIImage *img = image;
+    
+    
     
     // begin a new image context, to draw our colored image onto
     UIGraphicsBeginImageContext(img.size);
@@ -1257,7 +1367,10 @@ static int curveValues[] = {
     CGContextScaleCTM(context, 1.0, -1.0);
     
     // set the blend mode to color burn, and the original image
-    CGContextSetBlendMode(context, kCGBlendModeColorBurn);
+    CGContextSetBlendMode(context,  kCGBlendModeNormal);
+    
+    CGContextSetAlpha(context, .8);
+    
     CGRect rect = CGRectMake(0, 0, img.size.width, img.size.height);
     CGContextDrawImage(context, rect, img.CGImage);
     

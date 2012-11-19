@@ -171,8 +171,7 @@
         
         randomMutableFetchResults.asked = [[NSNumber alloc] initWithDouble:1];
         [managedObjectContext save:nil];
-        
-        NSLog(@"GEWÄHLTE FRAGE %@", randomMutableFetchResults);
+    
         
         return randomMutableFetchResults;
     }

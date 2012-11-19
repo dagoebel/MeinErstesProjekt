@@ -575,7 +575,7 @@ int querycount = 1;
 
 
 
-- (void)saveFriends:(NSDictionary*) newFriend {
+- (void)saveMySelf:(NSDictionary*) newFriend {
     
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
     
@@ -584,6 +584,28 @@ int querycount = 1;
     friends.name=[newFriend valueForKey:@"name"];
     friends.friend_id=[newFriend valueForKey:@"id"];
     friends.picture=[newFriend valueForKey:@"picture"];
+    
+    
+    NSString *imageUrlString = @"http://graph.facebook.com/";
+    imageUrlString = [imageUrlString stringByAppendingString:[newFriend valueForKey:@"id"]];
+    imageUrlString = [imageUrlString stringByAppendingString:@"/picture?type=large"];
+    
+    NSURL *imageURL = [NSURL URLWithString: imageUrlString];
+    
+    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+
+    UIImage* new = [UIImage imageWithData:imageData];
+    NSData *imageDataPng = UIImagePNGRepresentation(new);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    documentsDirectory = [documentsDirectory stringByAppendingPathComponent:[newFriend valueForKey:@"id"]];
+    documentsDirectory = [documentsDirectory stringByAppendingString:@".png"];
+    
+    
+    
+    [imageDataPng writeToFile:documentsDirectory atomically:YES];
+    NSLog(@"====================== ME INKL. BILD ABGESPEICHERT %@",[newFriend valueForKey:@"id"]);
+
     
     [mainDelegate.managedObjectContext save:nil];
     
@@ -605,8 +627,6 @@ int querycount = 1;
         
         FBRequestHandler handler =
         ^(FBRequestConnection *connection, id result, NSError *error) {
-            
-            NSLog(@"ads");
                         if (self.requestConnection &&
                 connection != self.requestConnection) {
                 return;
@@ -635,19 +655,26 @@ int querycount = 1;
                 [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
                 [CoreDataHelper deleteAllObjectsForEntity:@"FriendsMutualFriends" andContext:mainDelegate.managedObjectContext];
                 
+                
+                // EXTRACT ME
+                
                 NSString *person_name= [result valueForKey:@"name"];
                 NSString *person_id= [result objectForKey:@"id"];
                 id picObj = [result objectForKey:@"picture"];
                 id dataObj = [picObj objectForKey:@"data"];
+                
+                ////////
+
+                
                 NSString *person_picture = [dataObj valueForKey:@"url"];
                 
-                NSDictionary *newFriend = [NSDictionary dictionaryWithObjectsAndKeys:
+                NSDictionary *me = [NSDictionary dictionaryWithObjectsAndKeys:
                                            person_name, @"name",
                                            person_id, @"id",
                                            person_picture, @"picture",
                                            nil];
                 
-                [self saveFriends:newFriend];
+                [self saveMySelf:me];
                 
                 double friendscount = 0;
                 double friendsi = 0;
@@ -673,10 +700,7 @@ int querycount = 1;
                                                person_id, @"id",
                                                person_picture, @"picture",
                                                nil];
-                    
-                    
-                    WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
-                    
+             
                     Friends *friends= [NSEntityDescription insertNewObjectForEntityForName:@"Friends" inManagedObjectContext:mainDelegate.managedObjectContext];
                     
                     friends.name=[newFriend valueForKey:@"name"];

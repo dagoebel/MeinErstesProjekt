@@ -191,7 +191,6 @@
 - (IBAction)selectPlayer:(id)sender;
 - (void)startGame;
 - (IBAction)selectPlayerSetup:(id)sender;
-- (UIImage *)imageWithColor:(UIColor *)color;
 - (IBAction)importLocations:(id)sender;
 - (IBAction)selectLocation:(id)sender;
 - (IBAction)calculateLocation:(id)sender;

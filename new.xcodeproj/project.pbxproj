@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA03826D165A4BDD008D4598 /* QuestionAsked.m in Sources */ = {isa = PBXBuildFile; fileRef = AA03826C165A4BDD008D4598 /* QuestionAsked.m */; };
+		AA038270165A8734008D4598 /* arrownew.png in Resources */ = {isa = PBXBuildFile; fileRef = AA03826F165A8734008D4598 /* arrownew.png */; };
+		AA038272165A9376008D4598 /* badge4.png in Resources */ = {isa = PBXBuildFile; fileRef = AA038271165A9376008D4598 /* badge4.png */; };
 		AA0EBFAB162984F70058ED8D /* jaegermeister.png in Resources */ = {isa = PBXBuildFile; fileRef = AA0EBFAA162984F70058ED8D /* jaegermeister.png */; };
 		AA23FB30164D775F00FE36D9 /* instr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA23FB2F164D775F00FE36D9 /* instr.png */; };
 		AA23FB39164E4D8900FE36D9 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = AA23FB38164E4D8900FE36D9 /* Question.m */; };
@@ -79,7 +82,6 @@
 		AAAB8DA3162AE1E3006AD9AA /* FPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB8DA2162AE1E3006AD9AA /* FPViewController.m */; };
 		AAB84FC81626F99B0025FDFD /* WIPGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB84FC71626F99B0025FDFD /* WIPGameController.m */; };
 		AAD346B91649585C00627D1A /* badge1.png in Resources */ = {isa = PBXBuildFile; fileRef = AAD346B71649585C00627D1A /* badge1.png */; };
-		AAD346BA1649585C00627D1A /* badge4.png in Resources */ = {isa = PBXBuildFile; fileRef = AAD346B81649585C00627D1A /* badge4.png */; };
 		AAF320981615E63A00D7E0BD /* wooden_top.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = AAF320971615E63A00D7E0BD /* wooden_top.jpeg */; };
 		AAF320A41618AEEB00D7E0BD /* WIPDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF320A31618AEEB00D7E0BD /* WIPDirection.m */; };
 		AAF320AE1618DB6200D7E0BD /* WIPLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF320AD1618DB6200D7E0BD /* WIPLocationController.m */; };
@@ -107,6 +109,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA03826B165A4BDD008D4598 /* QuestionAsked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionAsked.h; sourceTree = "<group>"; };
+		AA03826C165A4BDD008D4598 /* QuestionAsked.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionAsked.m; sourceTree = "<group>"; };
+		AA03826F165A8734008D4598 /* arrownew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrownew.png; sourceTree = "<group>"; };
+		AA038271165A9376008D4598 /* badge4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badge4.png; sourceTree = "<group>"; };
 		AA0EBFAA162984F70058ED8D /* jaegermeister.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jaegermeister.png; sourceTree = "<group>"; };
 		AA23FB2F164D775F00FE36D9 /* instr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = instr.png; sourceTree = "<group>"; };
 		AA23FB37164E4D8900FE36D9 /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
@@ -197,7 +203,6 @@
 		AAB84FC61626F99B0025FDFD /* WIPGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WIPGameController.h; sourceTree = "<group>"; };
 		AAB84FC71626F99B0025FDFD /* WIPGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WIPGameController.m; sourceTree = "<group>"; };
 		AAD346B71649585C00627D1A /* badge1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badge1.png; sourceTree = "<group>"; };
-		AAD346B81649585C00627D1A /* badge4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badge4.png; sourceTree = "<group>"; };
 		AAF320971615E63A00D7E0BD /* wooden_top.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = wooden_top.jpeg; path = new/wooden_top.jpeg; sourceTree = "<group>"; };
 		AAF320A21618AEEB00D7E0BD /* WIPDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WIPDirection.h; path = ../WIPDirection.h; sourceTree = "<group>"; };
 		AAF320A31618AEEB00D7E0BD /* WIPDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WIPDirection.m; path = ../WIPDirection.m; sourceTree = "<group>"; };
@@ -384,13 +389,14 @@
 				AA82BEFD16481388004217CE /* Unbenannt-5.png */,
 				AA82BF0516481D01004217CE /* Track[Back].png */,
 				AAF68D621646CBE300C0EC57 /* questio.mp3 */,
+				AA03826F165A8734008D4598 /* arrownew.png */,
 				AA82BF0316481C31004217CE /* Closed.png */,
+				AA038271165A9376008D4598 /* badge4.png */,
 				AAF68D5F1646C70000C0EC57 /* jaeger_backfrage.png */,
 				AA255C3B16497F5900328421 /* next.png */,
 				AA82BEFF16481C0B004217CE /* Forward.png */,
 				AAF320B01619B90100D7E0BD /* compass.png */,
 				AAD346B71649585C00627D1A /* badge1.png */,
-				AAD346B81649585C00627D1A /* badge4.png */,
 				AA23FB2F164D775F00FE36D9 /* instr.png */,
 				AA82BF0116481C1B004217CE /* Chart.png */,
 				AA82BEFB16480296004217CE /* zettel.png */,
@@ -426,6 +432,8 @@
 				AA23FB3B164E4D8B00FE36D9 /* Tags.m */,
 				AA23FB37164E4D8900FE36D9 /* Question.h */,
 				AA23FB38164E4D8900FE36D9 /* Question.m */,
+				AA03826B165A4BDD008D4598 /* QuestionAsked.h */,
+				AA03826C165A4BDD008D4598 /* QuestionAsked.m */,
 			);
 			name = "Core Date";
 			sourceTree = "<group>";
@@ -543,9 +551,10 @@
 				AA82BF0416481C31004217CE /* Closed.png in Resources */,
 				AA82BF0616481D01004217CE /* Track[Back].png in Resources */,
 				AAD346B91649585C00627D1A /* badge1.png in Resources */,
-				AAD346BA1649585C00627D1A /* badge4.png in Resources */,
 				AA255C3C16497F5900328421 /* next.png in Resources */,
 				AA23FB30164D775F00FE36D9 /* instr.png in Resources */,
+				AA038270165A8734008D4598 /* arrownew.png in Resources */,
+				AA038272165A9376008D4598 /* badge4.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +612,7 @@
 				AA23FB42164E4D8B00FE36D9 /* FriendsMutualFriends.m in Sources */,
 				AA23FB45164E4D8B00FE36D9 /* Player.m in Sources */,
 				AA23FB48164E4D8B00FE36D9 /* Location.m in Sources */,
+				AA03826D165A4BDD008D4598 /* QuestionAsked.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

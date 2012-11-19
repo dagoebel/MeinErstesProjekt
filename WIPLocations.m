@@ -235,7 +235,35 @@
         
     }
     
-    //// PERSON SELBER UND MITSPIELER IN DEN TAGS!
+    
+    
+    
+    /////////////////// FILTER FÜR ZU NAH GELEGENE ORTE
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ///////////////////////////////////////////////////
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     NSPredicate *predicate_asked = [NSPredicate predicateWithFormat:@"(asked == 0)"];
     
     NSMutableArray *questionArray = [CoreDataHelper searchObjectsForEntity:@"Question" withPredicate:predicate_asked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
@@ -247,14 +275,16 @@
     questionArray = [CoreDataHelper searchObjectsForEntity:@"Question" withPredicate:predicate_asked andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
     
     NSLog(@"COUNT: ASKED=1 %u", questionArray.count);
+    
+    NSLog(@"COUNT: QuestionAsked %u", [CoreDataHelper countForEntity:@"QuestionAsked" andContext:mainDelegate.managedObjectContext]);
 
 
-    //// PERSON SELBER UND MITSPIELER IN DEN TAGS!
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(asked == 0) AND (place_location_latitude != nil) AND (place_location_longitude != nil) AND (person_id == %@) AND (ANY tags.id in %@)", fb_id_aktiver_spieler, IDinaktiv_arr];
     
     Question *question = [CoreDataHelper searchRandomObjectsForEntity:@"Question" withPredicate:predicate andSortKey:nil andSortAscending:false andContext:mainDelegate.managedObjectContext];
+  
     
-
     ////// MIND 1. MITSPIELR MITSPIELER PERSON UND TAGS
     if(question==nil)
     {
