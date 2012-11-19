@@ -88,11 +88,7 @@ static int curveValues[] = {
 {
     [super viewDidLoad];
     
-    
-    mWIPFacebook = [[WIPFacebook alloc] init];
-    
-    if([mWIPFacebook checkFBSession])
-    {
+
         
         NSLog(@"LOGGED IN");
 
@@ -116,15 +112,8 @@ static int curveValues[] = {
         CLController.locMgr.headingFilter = 0;
         [CLController.locMgr startUpdatingLocation];
         [CLController.locMgr startUpdatingHeading];
-    }
-    else{
-        
-        NSLog(@"NOT LOGGED IN OR NO CONNECTION");
-        [mWIPFacebook openFBSession];
-        [self initiateNewUser];
-    }
-    
-    
+
+ 
     
    
     
@@ -196,6 +185,8 @@ static int curveValues[] = {
 
 - (void)initiateNewUser{
 	NSLog(@"INITIATE NEW USER");
+    
+    loadingView.hidden = false;
     
     WIPAppDelegate *mainDelegate = (WIPAppDelegate *)[[UIApplication sharedApplication]delegate];
     [CoreDataHelper deleteAllObjectsForEntity:@"Friends" andContext:mainDelegate.managedObjectContext];
@@ -285,8 +276,14 @@ static int curveValues[] = {
 
 - (IBAction)backToMenu:(id)sender {
     
-     [self initiateNewUser];
-
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPad" bundle:nil];
+    
+    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"WIPViewController"];
+    
+    [vc setModalPresentationStyle:UIModalPresentationFullScreen];
+    
+    [self presentViewController:vc
+                       animated:YES completion:nil];
 
 }
 
@@ -343,7 +340,7 @@ static int curveValues[] = {
                              
                          }completion:^(BOOL finished) {
                              spieler1Lbl.hidden = FALSE;
-                             [self.spieler1Btn setTitle:@"" forState:UIControlStateNormal];
+                             
                          }];
                     
         spieler2Btn.userInteractionEnabled = FALSE;
@@ -373,8 +370,7 @@ static int curveValues[] = {
                          }completion:^(BOOL finished) {
                              spieler1Lbl.hidden = FALSE;
                              spieler2Lbl.hidden = FALSE;
-                             [self.spieler1Btn setTitle:@"" forState:UIControlStateNormal];
-                             [self.spieler2Btn setTitle:@"" forState:UIControlStateNormal];
+
                          }];
 
         spieler3Btn.userInteractionEnabled = FALSE;
@@ -410,9 +406,7 @@ static int curveValues[] = {
                              spieler1Lbl.hidden = FALSE;
                              spieler2Lbl.hidden = FALSE;
                              spieler3Lbl.hidden = FALSE;
-                             [self.spieler1Btn setTitle:@"" forState:UIControlStateNormal];
-                             [self.spieler2Btn setTitle:@"" forState:UIControlStateNormal];
-                             [self.spieler3Btn setTitle:@"" forState:UIControlStateNormal];
+
                              
                          }];
 
@@ -449,10 +443,7 @@ static int curveValues[] = {
                              spieler2Lbl.hidden = FALSE;
                              spieler3Lbl.hidden = FALSE;
                              spieler4Lbl.hidden = FALSE;
-                             [self.spieler1Btn setTitle:@"" forState:UIControlStateNormal];
-                             [self.spieler2Btn setTitle:@"" forState:UIControlStateNormal];
-                             [self.spieler3Btn setTitle:@"" forState:UIControlStateNormal];
-                             [self.spieler4Btn setTitle:@"" forState:UIControlStateNormal];
+        
                              
                          }];
     }
@@ -468,6 +459,9 @@ static int curveValues[] = {
     cameraBtn.hidden = false;
     menuLabel.text = @"Spieler 1";
     spielerName.placeholder =  @"Spieler 1";
+        
+        locationLblTop.text = @"Wähle deine Mitspieler!";
+        locationLblBot.text = @"Wähle deine Mitspieler!";
     
     [self pulsateUIImageView:self.glass1];
 
@@ -509,6 +503,7 @@ static int curveValues[] = {
         glass = glass1;
         playerBubble = spieler1BubbleImg;
         spieler1Lbl.text = @"";
+        [self.spieler1Btn setTitle:@"" forState:UIControlStateNormal];
         [self pulsateUIImageView:self.glass2];
     }
     else if (currentPlayer==3) {
@@ -516,6 +511,7 @@ static int curveValues[] = {
         glass = glass2;
         playerBubble = spieler2BubbleImg;
         spieler2Lbl.text = @"";
+        [self.spieler2Btn setTitle:@"" forState:UIControlStateNormal];
         [self pulsateUIImageView:self.glass3];    }
     
     else if (currentPlayer==4) {
@@ -523,6 +519,7 @@ static int curveValues[] = {
         glass = glass3;
         playerBubble = spieler3BubbleImg;
         spieler3Lbl.text = @"";
+        [self.spieler3Btn setTitle:@"" forState:UIControlStateNormal];
         [self pulsateUIImageView:self.glass4];    }
     
     
@@ -531,6 +528,7 @@ static int curveValues[] = {
         glass = glass4;
         playerBubble = spieler4BubbleImg;
         spieler4Lbl.text = @"";
+        [self.spieler4Btn setTitle:@"" forState:UIControlStateNormal];
     }
     
 
@@ -623,16 +621,16 @@ static int curveValues[] = {
 
     [UIView animateWithDuration:10 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                        spinningLblBackr.transform  = CGAffineTransformScale(spinningLblBackr.transform , 1.05, 1.05);
-                       spinningLblBackr2.transform  = CGAffineTransformScale(spinningLblBackr2.transform , 1.05, 1.05);
+                        spinningLblBackr.transform  = CGAffineTransformScale(spinningLblBackr.transform , 1.01, 1.01);
+                       spinningLblBackr2.transform  = CGAffineTransformScale(spinningLblBackr2.transform , 1.01, 1.01);
                          
                      }completion:^(BOOL finished) {
                          if (finished)
     {
         spinningLblBackr.hidden = TRUE;
         spinningLblBackr2.hidden = TRUE;
-        spinningLblBackr2.transform  = CGAffineTransformScale(spinningLblBackr2.transform , 1/1.05, 1/1.05);
-        spinningLblBackr.transform  = CGAffineTransformScale(spinningLblBackr.transform , 1/1.05, 1/1.05);
+        spinningLblBackr2.transform  = CGAffineTransformScale(spinningLblBackr2.transform , 1/1.01, 1/1.01);
+        spinningLblBackr.transform  = CGAffineTransformScale(spinningLblBackr.transform , 1/1.01, 1/1.01);
         [self showBottleToAll];
 
     }
@@ -1530,7 +1528,10 @@ static int curveValues[] = {
     [self dismissModalViewControllerAnimated:YES];
 }
 - (IBAction)doLogout:(id)sender {
-    [self logoutUser];
+    
+    
+    [mWIPFacebook openFBSession];
+    [self initiateNewUser];
 }
 @end
 
