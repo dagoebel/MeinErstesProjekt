@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="d6g-Q3-cxB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="d6g-Q3-cxB">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
         <!--Result View Controller-->
@@ -115,7 +115,7 @@
                                 <rect key="frame" x="0.0" y="118" width="768" height="768"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView autoresizesSubviews="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" image="scheibeHQ.png" id="ztA-Yk-7td">
+                                    <imageView autoresizesSubviews="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" image="scheibeHQNeutral.png" id="ztA-Yk-7td">
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="768"/>
                                     </imageView>
                                     <view hidden="YES" autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="1aZ-o2-Ucy">
@@ -866,7 +866,7 @@
         <image name="jaeger_back1.png" width="1536" height="2048"/>
         <image name="jaeger_backfrage.png" width="1536" height="2048"/>
         <image name="next.png" width="425" height="429"/>
-        <image name="scheibeHQ.png" width="1506" height="1506"/>
+        <image name="scheibeHQNeutral.png" width="1506" height="1506"/>
     </resources>
     <classes>
         <class className="WIPResultViewController" superclassName="UIViewController">
@@ -889,7 +889,6 @@
             <relationships>
                 <relationship kind="action" name="backToMenu:"/>
                 <relationship kind="action" name="calculateLocation:"/>
-                <relationship kind="action" name="doLogout:"/>
                 <relationship kind="action" name="fakeDegree:"/>
                 <relationship kind="action" name="flascheFaerben:"/>
                 <relationship kind="action" name="gastgeberTapped:"/>
@@ -904,7 +903,6 @@
                 <relationship kind="action" name="showFriendPicker:"/>
                 <relationship kind="action" name="singleBottleTap:"/>
                 <relationship kind="action" name="spielerNameEntered:"/>
-                <relationship kind="action" name="takePicture:"/>
                 <relationship kind="outlet" name="TableViewFriends" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="auswertungLbl1" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="auswertungLbl2" candidateClass="UILabel"/>

@@ -58,6 +58,7 @@ static double playerCount;
     for(Player *player in spieler)
     {
         double playerAngle = [player.angle doubleValue];
+        double globalHeading = [player.angleGlobalHeading doubleValue];
         
         if (playerAngle>=0) {
             playerAngle = 180 / M_PI * playerAngle;
@@ -65,6 +66,15 @@ static double playerCount;
         else{
             playerAngle = 180 / M_PI * (M_PI+playerAngle)+180;
         }
+        
+        playerAngle = playerAngle + globalHeading;
+        
+        playerAngle = fmod(playerAngle, 360);
+        
+        
+        NSLog(@"flascheAngle %f",playerAngle);
+        NSLog(@"headingAngle %f",globalHeading);
+         NSLog(@"locationAngle %f",locationAngle);
 
         double playerID = [player.id doubleValue];
         double playerStart = 0;
@@ -80,17 +90,6 @@ static double playerCount;
         
         playerName = player.name;
   
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -214,7 +213,7 @@ static double playerCount;
    return sortedArrayOfDictionaries; 
 }
 
-- (void) saveAngle:(int)playerID:(double)angle{
+- (void) saveAngle:(int)playerID:(double)angle:(double) globalHeading{
     
       NSMutableArray *spieler = [[NSMutableArray alloc] init];
 
@@ -227,6 +226,8 @@ static double playerCount;
     Player *player = [spieler objectAtIndex:0];
     
     player.angle = [NSNumber numberWithDouble:angle];
+    
+    player.angleGlobalHeading = [NSNumber numberWithDouble:globalHeading];
     
     double angle_total = [player.angle_total doubleValue];
     

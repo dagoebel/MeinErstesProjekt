@@ -21,6 +21,6 @@
 
 - (void) resetAngle: (double) globalHeading;
 
-- (double)getAngle:(double) globalHeading;
+- (double)getAngle;
 
 @end

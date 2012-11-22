@@ -73,20 +73,20 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "375027788.059571"
+         timestampString = "375282956.047318"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "965"
-         endingLineNumber = "965"
+         startingLineNumber = "968"
+         endingLineNumber = "968"
          landmarkName = "-selectLocation"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "375027788.059571"
+         timestampString = "375282956.047318"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "881"
@@ -99,12 +99,116 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "new/WIPViewController.m"
-         timestampString = "375027788.059571"
+         timestampString = "375282956.047318"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "970"
-         endingLineNumber = "970"
+         startingLineNumber = "973"
+         endingLineNumber = "973"
          landmarkName = "-selectLocation"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/WIPViewController.m"
+         timestampString = "375284359.527914"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1162"
+         endingLineNumber = "1162"
+         landmarkName = "-nextPlayer:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/WIPGameController.m"
+         timestampString = "375269600.149921"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "75"
+         endingLineNumber = "75"
+         landmarkName = "-calculateWinner::"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/WIPViewController.m"
+         timestampString = "375285178.686219"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1192"
+         endingLineNumber = "1192"
+         landmarkName = "-nextPlayer:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/WIPViewController.m"
+         timestampString = "375284566.145741"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1184"
+         endingLineNumber = "1184"
+         landmarkName = "-nextPlayer:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/WIPViewController.m"
+         timestampString = "375284915.963315"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1186"
+         endingLineNumber = "1186"
+         landmarkName = "-nextPlayer:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/WIPViewController.m"
+         timestampString = "375285986.845764"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1190"
+         endingLineNumber = "1190"
+         landmarkName = "-nextPlayer:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/WIPViewController.m"
+         timestampString = "375286184.262243"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1183"
+         endingLineNumber = "1183"
+         landmarkName = "-nextPlayer:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "new/WIPViewController.m"
+         timestampString = "375286737.095765"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1159"
+         endingLineNumber = "1159"
+         landmarkName = "-nextPlayer:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

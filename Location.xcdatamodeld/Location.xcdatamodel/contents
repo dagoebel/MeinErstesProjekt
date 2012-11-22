@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Friends" representedClassName="Friends" syncable="YES">
         <attribute name="friend_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -20,6 +20,7 @@
     <entity name="Player" representedClassName="Player" syncable="YES">
         <attribute name="angle" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="angle_total" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="angleGlobalHeading" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="fb_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="fb_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -55,9 +56,9 @@
         <element name="Friends" positionX="160" positionY="192" width="128" height="105"/>
         <element name="FriendsMutualFriends" positionX="160" positionY="192" width="128" height="105"/>
         <element name="Location" positionX="-11" positionY="531" width="128" height="90"/>
-        <element name="Player" positionX="135" positionY="321" width="128" height="150"/>
+        <element name="Player" positionX="135" positionY="321" width="128" height="165"/>
         <element name="Question" positionX="-630" positionY="269" width="128" height="255"/>
-        <element name="Tags" positionX="-153" positionY="287" width="128" height="88"/>
         <element name="QuestionAsked" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="Tags" positionX="-153" positionY="287" width="128" height="88"/>
     </elements>
 </model>

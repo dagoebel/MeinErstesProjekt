@@ -31,7 +31,7 @@
 - (void) deletePlayer;
 - (void)insertPlayer:(NSString *)playerName withId:(NSNumber *) playerId: (NSString *)fb_id;
 
-- (void) saveAngle:(int)playerID:(double)angle;
+- (void) saveAngle:(int)playerID:(double)angle: (double) globalHeading;
 - (void) savePoints:(int)playerID:(double)points;
 
     

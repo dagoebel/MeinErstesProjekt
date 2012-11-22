@@ -22,7 +22,7 @@
 
 
 static double kompassScheibeHeight, kompassScheibeWidth;
-static double globalHeading;
+static double globalHeading, bottleHeading;
 static double anzahlPlayer, currentPlayer, startPlayer, countPlayer;
 static bool spielAktiv;
 static double spielerAktiv;
@@ -597,7 +597,7 @@ static int curveValues[] = {
     
     
     imageWheel = [[ANImageWheel alloc] initWithFrame:CGRectMake(0, 0, kompassScheibeHeight, kompassScheibeWidth)];
-    [imageWheel setImage:[UIImage imageNamed:@"jj1.png"]];
+    [imageWheel setImage:[UIImage imageNamed:@"bottlenormal.png"]];
     [imageWheel startAnimating:self];
     [imageWheel setDrag:1];
     
@@ -913,6 +913,9 @@ static int curveValues[] = {
     animRotate.cumulative=true;
     animRotate.removedOnCompletion = FALSE;
     [imageWheel.layer addAnimation:animRotate forKey:@"rotate"];
+    
+    bottleHeading = M_PI / 180 * globalHeading;
+
 
 }
 
@@ -1151,14 +1154,48 @@ static int curveValues[] = {
     
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:file error:nil];
     [audioPlayer prepareToPlay];
-
     
+    double playerAngle = [imageWheel getAngle];
+    
+    
+    
+    double indicatorAngle;
+    double trueHeading;
+    
+    if (playerAngle>=0) {
+       
+            trueHeading = 180 / (M_PI) * playerAngle;
+            trueHeading = fmod(trueHeading, 360);
+        
+    }
+    else{
+        trueHeading = (180 / (M_PI) * (-playerAngle));
+        trueHeading = fmod(trueHeading, 360);
+    
+    }
+    
+    if(playerAngle<0)
+    {
+        playerAngle = M_PI + M_PI + playerAngle;
+    }
+    
+    
+    indicatorAngle = bottleHeading + playerAngle - M_PI/2;
+    
+    indicatorAngle = fmod(indicatorAngle, (2*M_PI));
+
+
+    if (indicatorAngle>=M_PI) {
+        indicatorAngle = indicatorAngle - M_PI;
+        indicatorAngle = -M_PI + indicatorAngle;
+    }
+
     mWIPGameController = [[WIPGameController alloc]init];
 
     if (spielerNr == 1) {
         if (currentPlayer == 1) {
-            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle:globalHeading]];
-            spieler1Bubble.transform = CGAffineTransformMakeRotation([imageWheel getAngle:globalHeading]-(M_PI/2));
+            [mWIPGameController saveAngle:currentPlayer :playerAngle: globalHeading];
+            spieler1Bubble.transform = CGAffineTransformMakeRotation(indicatorAngle);
             if (anzahlPlayer>countPlayer) {
                 currentPlayer = 2;
                 countPlayer++;
@@ -1180,8 +1217,8 @@ static int curveValues[] = {
     }
     if (spielerNr == 2) {
         if (currentPlayer == 2) {
-            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle:globalHeading]];
-            spieler2Bubble.transform = CGAffineTransformMakeRotation([imageWheel getAngle:globalHeading]-(M_PI/2));
+            [mWIPGameController saveAngle:currentPlayer :playerAngle: globalHeading];
+            spieler2Bubble.transform = CGAffineTransformMakeRotation(indicatorAngle);
             if (anzahlPlayer>countPlayer&&anzahlPlayer!=2) {
                 currentPlayer = 3;
                 countPlayer++;
@@ -1215,8 +1252,8 @@ static int curveValues[] = {
     }
     if (spielerNr == 3) {
         if (currentPlayer == 3) {
-            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle:globalHeading]];
-            spieler3Bubble.transform = CGAffineTransformMakeRotation([imageWheel getAngle:globalHeading]-(M_PI/2));
+            [mWIPGameController saveAngle:currentPlayer :playerAngle: globalHeading];
+            spieler3Bubble.transform = CGAffineTransformMakeRotation(indicatorAngle);
             if (anzahlPlayer>countPlayer&&anzahlPlayer!=3) {
                 currentPlayer = 4;
                 countPlayer++;
@@ -1251,8 +1288,8 @@ static int curveValues[] = {
     }
     if (spielerNr == 4) {
         if (currentPlayer == 4) {
-            [mWIPGameController saveAngle:currentPlayer :[imageWheel getAngle:globalHeading]];
-            spieler4Bubble.transform = CGAffineTransformMakeRotation([imageWheel getAngle:globalHeading]-(M_PI/2));
+            [mWIPGameController saveAngle:currentPlayer :playerAngle: globalHeading];
+            spieler4Bubble.transform = CGAffineTransformMakeRotation(indicatorAngle);
             if (anzahlPlayer>countPlayer) {
                 currentPlayer = 1;
                 countPlayer++;
